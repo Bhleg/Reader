@@ -26,6 +26,9 @@ namespace Reader
     public partial class MainWindow : Window
     {
         int CurrentPage = 1;
+        
+        Reader.Window1
+       
 
         public MainWindow()
         {
@@ -73,16 +76,17 @@ namespace Reader
         }
         
 
-        void SinglePageViewer(int PageNumber)
+        void SinglePageViewer(int CurrentPage)
         {
-            
+
             // Code à exécuter quand la méthode est appelée.
             //BitmapImage b = new BitmapImage();
             // b.BeginInit();
             //b.UriSource = new Uri(Page);
             //b.EndInit();
             ///InitializeComponent();
-           // MainReader.Source = b;
+            // MainReader.Source = b;
+            MainReader.Source = Pages[CurrentPage];
         }
 
         private void Open_File_Event(object sender, MouseButtonEventArgs e)
@@ -91,13 +95,13 @@ namespace Reader
             // SinglePageViewer("C:\\002.png");
             CbzLoader("c:\\test.cbz");
             CurrentPage = 1;
-            LoadPage(CurrentPage);
+            SinglePageViewer(CurrentPage);
 
            
         }
 
 
-        void LoadPage(int CurrentPage)
+        void DoublePageViewer(int CurrentPage)
         {
             MainReader.Source = Pages[CurrentPage];
         }
@@ -110,13 +114,18 @@ namespace Reader
             }
 
             CurrentPage--;
-            LoadPage(CurrentPage);
+            SinglePageViewer(CurrentPage);
         }
 
         private void NextPage(object sender, MouseButtonEventArgs e)
         {
             CurrentPage++;
-            LoadPage(CurrentPage);
+            SinglePageViewer(CurrentPage);
+        }
+
+        private void FilePickerT(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 
