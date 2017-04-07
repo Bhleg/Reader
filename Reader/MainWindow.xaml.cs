@@ -25,16 +25,18 @@ namespace Reader
     /// </summary>
     public partial class MainWindow : Window
     {
+        int CurrentPage = 1;
+
         public MainWindow()
         {
-            
+           
 
         }
 
         Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
 
 
-            void CbzLoader(string CbzPath)
+        void CbzLoader(string CbzPath)
         {
 
             int i = 1;
@@ -71,7 +73,7 @@ namespace Reader
         }
         
 
-            void SinglePageViewer(int PageNumber)
+        void SinglePageViewer(int PageNumber)
         {
             
             // Code à exécuter quand la méthode est appelée.
@@ -85,11 +87,36 @@ namespace Reader
 
         private void Open_File_Event(object sender, MouseButtonEventArgs e)
         {
+            
             // SinglePageViewer("C:\\002.png");
             CbzLoader("c:\\test.cbz");
-            MainReader.Source = Pages[1];
-            MessageBox.Show("souris");
+            CurrentPage = 1;
+            LoadPage(CurrentPage);
+
            
+        }
+
+
+        void LoadPage(int CurrentPage)
+        {
+            MainReader.Source = Pages[CurrentPage];
+        }
+
+        private void PreviousPage(object sender, MouseButtonEventArgs e)
+        {
+            if(CurrentPage == 1)
+            {
+                MessageBox.Show("First Page !");
+            }
+
+            CurrentPage--;
+            LoadPage(CurrentPage);
+        }
+
+        private void NextPage(object sender, MouseButtonEventArgs e)
+        {
+            CurrentPage++;
+            LoadPage(CurrentPage);
         }
     }
 

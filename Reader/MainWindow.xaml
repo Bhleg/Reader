@@ -12,6 +12,14 @@
             <Label Content="Label" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
         <Image x:Name="MainReader" HorizontalAlignment="Left" Height="332" Margin="10,0,0,0" VerticalAlignment="Top" Width="497"/>
+        <Grid HorizontalAlignment="Left" Margin="0,83,0,84" VerticalAlignment="Center" MouseLeftButtonDown="PreviousPage" Height="175" Width="82">
+            <Rectangle x:Name="Previous_Page" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="175" Stroke="Black" VerticalAlignment="Center" Width="82" Opacity="0.8" />
+            <Label x:Name="LabelPreviousPage" Content="Previous Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="435,83,0,84" VerticalAlignment="Center" MouseLeftButtonDown="NextPage" Height="175" Width="82">
+            <Rectangle x:Name="Previous_Page1" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="175" Stroke="Black" VerticalAlignment="Center" Width="82" Opacity="0.8" />
+            <Label x:Name="LabelPreviousPage1" Content="Previous Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        </Grid>
 
     </Grid>
 </Window>
