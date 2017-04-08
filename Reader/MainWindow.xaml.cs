@@ -25,14 +25,17 @@ namespace Reader
     /// </summary>
     public partial class MainWindow : Window
     {
-        int CurrentPage = 1;
         
-        Reader.Window1
-       
+        int CurrentPage = 1;
+
+
+
 
         public MainWindow()
         {
-           
+
+            
+
 
         }
 
@@ -49,14 +52,14 @@ namespace Reader
 
                 foreach (ZipEntry e1 in zip)
                 {
-                    
+
                     CrcCalculatorStream reader = e1.OpenReader();
                     MemoryStream memstream = new MemoryStream();
                     reader.CopyTo(memstream);
                     byte[] bytes = memstream.ToArray();
                     memstream.Seek(0, SeekOrigin.Begin);
 
-                    
+
 
                     BitmapImage b = new BitmapImage();
                     b.BeginInit();
@@ -70,11 +73,11 @@ namespace Reader
                     i++;
 
                     //MainReader.Source = b;
-       
+
                 }
             }
         }
-        
+
 
         void SinglePageViewer(int CurrentPage)
         {
@@ -91,13 +94,13 @@ namespace Reader
 
         private void Open_File_Event(object sender, MouseButtonEventArgs e)
         {
-            
+
             // SinglePageViewer("C:\\002.png");
             CbzLoader("c:\\test.cbz");
             CurrentPage = 1;
             SinglePageViewer(CurrentPage);
 
-           
+
         }
 
 
@@ -108,7 +111,7 @@ namespace Reader
 
         private void PreviousPage(object sender, MouseButtonEventArgs e)
         {
-            if(CurrentPage == 1)
+            if (CurrentPage == 1)
             {
                 MessageBox.Show("First Page !");
             }
@@ -123,12 +126,74 @@ namespace Reader
             SinglePageViewer(CurrentPage);
         }
 
-        private void FilePickerT(object sender, MouseButtonEventArgs e)
+        private void FilePickerT_Event(object sender, MouseButtonEventArgs e)
         {
+            
+
+            FilePickerT.Visibility = Visibility.Visible;
+            //FilePickerWindow n = new FilePickerWindow();
+            Picker();
 
         }
+
+
+        public void Picker()
+        {
+            InitializeComponent();
+            string DirectoryPath = "C:\\";
+            List<Item> Items = new List<Item>();
+            FilePickerT.ItemsSource = Items;
+            
+            GetContent(DirectoryPath);
+
+
+            void GetContent(string Path)
+            {
+                // Process the list of files found in the directory.
+                string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar")).ToArray();
+                foreach (string FilePath in FileEntries)
+                {
+
+                    string FileName = System.IO.Path.GetFileName(FilePath);
+                    Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File" });
+                    //ProcessFile(fileName);
+                }
+
+                string[] DirectoryEntries = Directory.GetDirectories(Path);
+                foreach (string DirectoriePath in DirectoryEntries)
+                {
+                    string DirectorieName = System.IO.Path.GetDirectoryName(DirectoriePath);
+                    Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder" });
+                }
+
+            }
+
+
+
+        }
+
+
+
+        class Item
+        {
+            public string Name { get; set; }
+
+            public string Path { get; set; }
+
+            public string Type { get; set; }
+        }
+
+
+
+
+
     }
-
     
-}
+       
 
+        
+    
+        
+
+       
+}

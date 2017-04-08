@@ -1,25 +1,38 @@
-﻿<Window x:Class="Reader.MainWindow"
+﻿<Window x:Name="MainWindow1" x:Class="Reader.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None">
+        Title="MainWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="533" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="765.965">
     <Grid x:Name="Image">
-        <Grid HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" MouseLeftButtonDown="FilePickerT">
-            <Rectangle x:Name="FilePicker" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="68" Margin="0" Stroke="Black" VerticalAlignment="Center" Width="142" Opacity="0.8" />
-            <Label Content="Label" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="275*"/>
+            <ColumnDefinition Width="104*"/>
+        </Grid.ColumnDefinitions>
+        <Grid HorizontalAlignment="Center" Margin="318,0,96,0" VerticalAlignment="Top" MouseLeftButtonDown="FilePickerT_Event" Height="68" Width="136">
+            <Rectangle x:Name="OpenFile" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="68" Margin="0" Stroke="Black" VerticalAlignment="Center" Width="142" Opacity="0.8" />
+            <Label Content="Open File" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
-        <Image x:Name="MainReader" HorizontalAlignment="Left" Height="332" Margin="10,0,0,0" VerticalAlignment="Top" Width="497"/>
-        <Grid HorizontalAlignment="Left" Margin="0,83,0,84" VerticalAlignment="Center" MouseLeftButtonDown="PreviousPage" Height="175" Width="82">
+        <Image x:Name="MainReader" HorizontalAlignment="Left" Height="332" Margin="-333,470,0,-277" VerticalAlignment="Top" Width="497"/>
+        <Grid HorizontalAlignment="Left" Margin="0,174,0,175" VerticalAlignment="Center" MouseLeftButtonDown="PreviousPage" Height="176" Width="82">
             <Rectangle x:Name="Previous_Page" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="175" Stroke="Black" VerticalAlignment="Center" Width="82" Opacity="0.8" />
             <Label x:Name="LabelPreviousPage" Content="Previous Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
-        <Grid HorizontalAlignment="Left" Margin="435,83,0,84" VerticalAlignment="Center" MouseLeftButtonDown="NextPage" Height="175" Width="82">
+        <Grid HorizontalAlignment="Right" Margin="0,174,0,175" VerticalAlignment="Center" MouseLeftButtonDown="NextPage" Height="176" Width="82" Grid.Column="1">
             <Rectangle x:Name="Previous_Page1" Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="175" Stroke="Black" VerticalAlignment="Center" Width="82" Opacity="0.8" />
             <Label x:Name="LabelPreviousPage1" Content="Previous Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
+        <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+            
+            </DataGrid.Columns>
+        </DataGrid>
+
 
     </Grid>
+    
 </Window>
