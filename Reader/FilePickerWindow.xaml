@@ -1,0 +1,24 @@
+﻿<Window x:Name="FilePickerWindow" x:Class="Reader.File_Picker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Reader"
+        mc:Ignorable="d"
+        Title="File_Picker" Height="318" Width="488" WindowStyle="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ButtonClick_Event">Open</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

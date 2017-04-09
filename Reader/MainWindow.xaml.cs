@@ -17,6 +17,10 @@ using System.Windows.Shapes;
 using Ionic.Zip;
 using System.IO;
 using Ionic.Crc;
+using SharpCompress;
+using SharpCompress.Archives.Rar;
+using SharpCompress.Readers;
+using SharpCompress.Archives;
 
 namespace Reader
 {
@@ -26,174 +30,205 @@ namespace Reader
     public partial class MainWindow : Window
     {
         
-        int CurrentPage = 1;
-
-
-
-
-        public MainWindow()
-        {
-
-            
-
-
-        }
-
+        int CurrentPage = 0;
+        string ViewerType = "Double";
         Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
 
 
-        void CbzLoader(string CbzPath)
+        public void FileLoader(string FilePath)
         {
-
+            Pages.Clear();
             int i = 1;
 
-            using (ZipFile zip = ZipFile.Read(CbzPath))
+            var archive = ArchiveFactory.Open(FilePath);
+            foreach (var entry in archive.Entries)
             {
-
-                foreach (ZipEntry e1 in zip)
+                if (!entry.IsDirectory)
                 {
-
-                    CrcCalculatorStream reader = e1.OpenReader();
-                    MemoryStream memstream = new MemoryStream();
-                    reader.CopyTo(memstream);
-                    byte[] bytes = memstream.ToArray();
-                    memstream.Seek(0, SeekOrigin.Begin);
+                        MemoryStream memstream = new MemoryStream();
+                        entry.WriteTo(memstream);
+                        byte[] bytes = memstream.ToArray();
+                        memstream.Seek(0, SeekOrigin.Begin);
 
 
+                        InitializeComponent();
+                        BitmapImage b = new BitmapImage();
+                        b.BeginInit();
 
-                    BitmapImage b = new BitmapImage();
-                    b.BeginInit();
-                    b.StreamSource = memstream;
-                    b.CacheOption = BitmapCacheOption.OnLoad;
-                    b.EndInit();
-                    InitializeComponent();
+                        b.StreamSource = memstream;
+                        b.CacheOption = BitmapCacheOption.OnLoad;
+                        b.EndInit();
 
-                    Pages.Add(i, b);
+                        Pages.Add(i, b);
 
-                    i++;
-
-                    //MainReader.Source = b;
-
+                        i++;
+                    
                 }
             }
+          Viewer(ViewerType, "Load");
         }
 
-
-        void SinglePageViewer(int CurrentPage)
+        
+        void Viewer(string ViewerType,string Action, int Page = 0)
         {
+              
+            if (ViewerType=="Single")
+            {
+                SinglePageViewer(Action);
+            }
+            else if (ViewerType=="Double")
+            {
+                DoublePageViewer(Action);
+            }
 
-            // Code à exécuter quand la méthode est appelée.
-            //BitmapImage b = new BitmapImage();
-            // b.BeginInit();
-            //b.UriSource = new Uri(Page);
-            //b.EndInit();
-            ///InitializeComponent();
-            // MainReader.Source = b;
-            MainReader.Source = Pages[CurrentPage];
+            void SinglePageViewer(string z,int i = 0)
+            {
+                i = CurrentPage;
+                if (z == "Load")
+                {
+                    i = 1;
+                }
+                else if (z == "Next")
+                {
+                    i = i + 1;
+                }
+                else if (z == "Previous")
+                {
+                    if (i == 1)
+                    {
+                        MessageBox.Show("First Page !");
+                    }
+                    else
+                    {
+                        i = i - 1;
+                    }
+                }
+                BitmapImage a = new BitmapImage();
+                a = Pages[i];
+                CurrentPage = i;
+                MainReader.Source = a;
+            }
+
+            void DoublePageViewer(string z,int i = 0)
+            {
+                i = CurrentPage;
+                if (z == "Load")
+                {
+                    i = 1;
+
+                }
+                else if (z == "Next")
+                {
+                    
+                    i = i + 2;
+                    
+
+                }
+                else if (z == "Previous")
+                {
+                    if (i == 1)
+                    {
+                        MessageBox.Show("First Page !");
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+
+                int ai = i;
+                BitmapImage a = new BitmapImage();
+                a = Pages[ai];
+                //MainReader.Source = a;
+
+                int bi = i;
+                bi++;
+                BitmapImage b = new BitmapImage();
+                b = Pages[bi];
+                //MainReader.Source = b;
+
+                int astride = a.PixelWidth * a.Format.BitsPerPixel;
+                int bstride = b.PixelWidth * b.Format.BitsPerPixel;
+
+                // Create data array to hold source pixel data
+
+                byte[] adata = new byte[astride * a.PixelHeight];
+                byte[] bdata = new byte[bstride * b.PixelHeight];
+
+                // Copy source image pixels to the data array
+                a.CopyPixels(adata, astride, 0);
+                //b.CopyPixels(bdata, bstride, 0);
+                b.CopyPixels(bdata, bstride, 0);
+
+
+
+                double abWidth = a.Width + b.Width;
+                int abPixelWidth = a.PixelWidth + b.PixelWidth;
+                int abPixelHeight = a.PixelHeight;
+
+                //int abHeight = Convert.ToInt32(a.Height > b.Height ? a.Height : b.Height);
+                int abHeight = Convert.ToInt32(a.Height);
+
+
+
+                //Create the WriteableBitmap that will hold the two Page stitched together
+               // WriteableBitmap ab = new WriteableBitmap(abPixelWidth, abPixelHeight, a.DpiX, a.DpiY, a.Format, a.Palette);
+                WriteableBitmap ab = new WriteableBitmap(abPixelWidth, abPixelHeight, a.DpiX, a.DpiY, a.Format, BitmapPalettes.WebPaletteTransparent);
+
+                // Write the pixel data to the WriteableBitmap.
+                ab.WritePixels(
+                  new Int32Rect(0, 0, a.PixelWidth, a.PixelHeight),
+                  adata, astride, 0);
+                ab.WritePixels(
+                  new Int32Rect(a.PixelWidth, 0, b.PixelWidth, b.PixelHeight),
+                  bdata, bstride, 0);
+                CurrentPage = i;
+                MainReader.Source = ab;
+                
+
+
+
+
+            }
+
         }
 
-        private void Open_File_Event(object sender, MouseButtonEventArgs e)
-        {
-
-            // SinglePageViewer("C:\\002.png");
-            CbzLoader("c:\\test.cbz");
-            CurrentPage = 1;
-            SinglePageViewer(CurrentPage);
-
-
-        }
-
-
-        void DoublePageViewer(int CurrentPage)
-        {
-            MainReader.Source = Pages[CurrentPage];
-        }
-
-        private void PreviousPage(object sender, MouseButtonEventArgs e)
+        private void PreviousPage_Event(object sender, MouseButtonEventArgs e)
         {
             if (CurrentPage == 1)
             {
                 MessageBox.Show("First Page !");
             }
+            else
+            {
+                //CurrentPage--;
+                Viewer(ViewerType, "Previous");
+            }
 
-            CurrentPage--;
-            SinglePageViewer(CurrentPage);
+            
         }
 
-        private void NextPage(object sender, MouseButtonEventArgs e)
+        private void NextPage_Event(object sender, MouseButtonEventArgs e)
         {
-            CurrentPage++;
-            SinglePageViewer(CurrentPage);
+            Viewer(ViewerType, "Next",CurrentPage);
+
         }
 
         private void FilePickerT_Event(object sender, MouseButtonEventArgs e)
         {
-            
-
-            FilePickerT.Visibility = Visibility.Visible;
-            //FilePickerWindow n = new FilePickerWindow();
-            Picker();
-
+            File_Picker FilePickerWindow = new File_Picker();
+            FilePickerWindow.Show();
         }
-
-
-        public void Picker()
-        {
-            InitializeComponent();
-            string DirectoryPath = "C:\\";
-            List<Item> Items = new List<Item>();
-            FilePickerT.ItemsSource = Items;
-            
-            GetContent(DirectoryPath);
-
-
-            void GetContent(string Path)
-            {
-                // Process the list of files found in the directory.
-                string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar")).ToArray();
-                foreach (string FilePath in FileEntries)
-                {
-
-                    string FileName = System.IO.Path.GetFileName(FilePath);
-                    Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File" });
-                    //ProcessFile(fileName);
-                }
-
-                string[] DirectoryEntries = Directory.GetDirectories(Path);
-                foreach (string DirectoriePath in DirectoryEntries)
-                {
-                    string DirectorieName = System.IO.Path.GetDirectoryName(DirectoriePath);
-                    Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder" });
-                }
-
-            }
-
-
-
-        }
-
-
-
-        class Item
-        {
-            public string Name { get; set; }
-
-            public string Path { get; set; }
-
-            public string Type { get; set; }
-        }
-
-
-
 
 
     }
     
-       
 
-        
-    
-        
 
-       
+
+
+
+
+
+
 }
