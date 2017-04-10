@@ -1,25 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO.Compression;
-using System.Threading.Tasks;
-using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Ionic.Zip;
 using System.IO;
-using Ionic.Crc;
-using SharpCompress;
-using SharpCompress.Archives.Rar;
-using SharpCompress.Readers;
 using SharpCompress.Archives;
 
 namespace Reader
@@ -83,6 +67,8 @@ namespace Reader
 
             void SinglePageViewer(string z,int i = 0)
             {
+                DoubePage.Visibility = Visibility.Collapsed;
+                SinglePage.Visibility = Visibility.Visible;
                 i = CurrentPage;
                 if (z == "Load")
                 {
@@ -106,11 +92,13 @@ namespace Reader
                 BitmapImage a = new BitmapImage();
                 a = Pages[i];
                 CurrentPage = i;
-                MainReader.Source = a;
+                SinglePage.Source = a;
             }
 
             void DoublePageViewer(string z,int i = 0)
             {
+                SinglePage.Visibility = Visibility.Collapsed;
+                DoubePage.Visibility = Visibility.Visible;
                 i = CurrentPage;
                 if (z == "Load")
                 {
@@ -139,14 +127,21 @@ namespace Reader
                 int ai = i;
                 BitmapImage a = new BitmapImage();
                 a = Pages[ai];
-                //MainReader.Source = a;
+                LeftPage.Source = a;
 
                 int bi = i;
                 bi++;
                 BitmapImage b = new BitmapImage();
                 b = Pages[bi];
-                //MainReader.Source = b;
+                RightPage.Source = b;
+                CurrentPage = i;
 
+                /*
+                 * //The Idea here was to extract the pixel of two page (BitmapImage a and b) and then write the pixel in a single writeablebitemap (ab)
+                 * but it caused problem because I didnt found a way to merge the two bitmap palette of a and b wich sometime caused wrong color on the final writeablebitmap>
+                 * 
+                 * 
+                 * 
                 int astride = a.PixelWidth * a.Format.BitsPerPixel;
                 int bstride = b.PixelWidth * b.Format.BitsPerPixel;
 
@@ -182,9 +177,10 @@ namespace Reader
                 ab.WritePixels(
                   new Int32Rect(a.PixelWidth, 0, b.PixelWidth, b.PixelHeight),
                   bdata, bstride, 0);
-                CurrentPage = i;
-                MainReader.Source = ab;
-                
+                */
+
+                //MainReader.Source = ab;
+
 
 
 

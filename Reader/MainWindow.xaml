@@ -5,9 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="649" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1288.996">
+        Title="MainWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Height="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998" ResizeMode="NoResize">
     <Grid x:Name="Image">
-        <Image x:Name="MainReader" VerticalAlignment="Center" Margin="0,0,0,-4" HorizontalAlignment="Center"/>
+        <Image x:Name="SinglePage" VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <Grid x:Name="DoubePage" RenderTransformOrigin="0.497,0.492">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftColumn"/>
+                <ColumnDefinition x:Name="RightColumn"/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="LeftPage" VerticalAlignment="Center" Margin="0,320,5,320" HorizontalAlignment="Right" Height="0" Width="0"/>
+            <Image x:Name="RightPage" VerticalAlignment="Center" Margin="0,320" HorizontalAlignment="Left" Grid.Column="1" Height="0" Width="0"/>
+
+
+        </Grid>
         <Grid HorizontalAlignment="Left" Margin="0,80,0,81" VerticalAlignment="Center" MouseLeftButtonDown="PreviousPage_Event" Height="480" Width="82">
             <Rectangle x:Name="PreviousPage" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="480" Stroke="Black" VerticalAlignment="Center" Width="82" Opacity="0.8" />
             <Label x:Name="LabelPreviousPage" Content="Previous Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
@@ -16,8 +26,8 @@
             <Rectangle x:Name="NextPage" Fill="#FFF4F4F5" HorizontalAlignment="Right" Stroke="Black" VerticalAlignment="Center" Opacity="0.8" Height="480" Width="82" />
             <Label x:Name="LabelNextPage" Content="Next Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
-        <Grid HorizontalAlignment="Center" Margin="292,0,316,0" VerticalAlignment="Top" MouseLeftButtonDown="FilePickerT_Event" Height="70" Width="150">
-            <Rectangle x:Name="OpenFile" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="68" Margin="0" Stroke="Black" VerticalAlignment="Center" Width="142" Opacity="0.8" />
+        <Grid HorizontalAlignment="Center" Margin="560,0" VerticalAlignment="Top" MouseLeftButtonDown="FilePickerT_Event" Height="70" Width="160">
+            <Rectangle x:Name="OpenFile" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="68" Margin="0,1" Stroke="Black" VerticalAlignment="Center" Width="160" Opacity="0.8" />
             <Label Content="Open File" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         </Grid>
 
