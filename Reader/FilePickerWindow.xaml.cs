@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Reader
 {
@@ -12,27 +13,25 @@ namespace Reader
     /// </summary>
     public partial class File_Picker : Window
     {
+        string CurrentPath = "";
+        string DefaultPath = "C:\\";
         List<Item> Items = new List<Item>();
         public File_Picker()
         {
             InitializeComponent();
             //List<Item> Items = new List<Item>();
-            string DirectoryPath = "C:\\";
             FilePickerT.ItemsSource = Items;
-            GetContent(DirectoryPath);
+            GetContent(DefaultPath);
+            
         }
 
+
+        //The Function wich is used to get the content of a folder(Path) and fill the Items list with the content of the folder(Path)
         void GetContent(string Path)
         {
             //List<Item> Items = new List<Item>();
             Items.Clear();
-            // Create the List entrie that allow to go up in the driectory path
-            string GoUpPath = System.IO.Path.GetDirectoryName(Path);
-           if (GoUpPath == null)
-           {
-               GoUpPath = Path;
-           }
-            Items.Add(new Item() { Name = "Go up", Path = GoUpPath, Type = "Special" });
+
 
             // Process the list of files found in the directory.
             string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar")).ToArray();
@@ -52,8 +51,22 @@ namespace Reader
                 string DirectorieName = System.IO.Path.GetFileName(DirectoriePath);
                 Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder" });
             }
+            CurrentPath = Path;
 
         }
+
+
+        void CreateLibrary()
+        {
+            BookmarkPanel.Children.Add(new Button { Content = "Button" });
+        }
+
+        void GenerateLibrary()
+        {
+            BookmarkPanel.Children.Add(new Button { Content = "Button" });
+        }
+        
+        //Item class which is used for each entry inside the datagris Filepicker
         class Item
         {
             public string Name { get; set; }
@@ -62,6 +75,12 @@ namespace Reader
 
             public string Type { get; set; }
         }
+
+
+
+        ////////////////////////////EVENT//////////////////////////////  
+       
+        //Event For the Buttons inside the File Picker datagrid
         private void ButtonClick_Event(object sender, EventArgs e)
         {
             Item i = (Item)FilePickerT.SelectedItem;
@@ -87,6 +106,30 @@ namespace Reader
             
         }
 
+        //Event for the GoUP Button inside the File Picker Window
+        private void GoUp_Event(object sender, EventArgs e)
+        {
+
+            
+            string GoUpPath = System.IO.Path.GetDirectoryName(CurrentPath);
+
+            if (GoUpPath == null)
+            {
+                GoUpPath = CurrentPath;
+                
+            }
+            else
+            {
+                
+                GetContent(GoUpPath);
+                FilePickerT.ItemsSource = Items;
+                FilePickerT.Items.Refresh();
+            
+            }
+
+
+
+        }
     }
 }
     

@@ -5,14 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="File_Picker" Height="600" Width="649" WindowStyle="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize">
+        Title="File_Picker" Height="600" Width="649" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize">
     <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition Width="481*"/>
+            <ColumnDefinition Width="125*"/>
+            <ColumnDefinition Width="524*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Margin="2,0,3,0"/>
-        <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" Grid.Column="1" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20">
+        <Grid Grid.Column="0" Grid.Row="1" Margin="2,0,3,0" Grid.RowSpan="2">
+            <StackPanel x:Name="BookmarkPanel" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <TextBlock Margin="10" FontSize="20">Bookmark</TextBlock>
+                <Button Margin="10">Black</Button>
+                <Button Margin="10">With milk</Button>
+                <Button Margin="10">Latte machiato</Button>
+                <Button Margin="10">Chappuchino</Button>
+            </StackPanel>
+        </Grid>
+        <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="1" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -25,5 +37,6 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="Go Up" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="60" Width="78" Click="GoUp_Event"/>
     </Grid>
 </Window>

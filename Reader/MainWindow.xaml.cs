@@ -15,7 +15,8 @@ namespace Reader
     {
         
         int CurrentPage = 0;
-        string ViewerType = "Double";
+        //string ViewerType = "Double";
+        string ViewerType = Properties.Settings.Default.DefaultViewer;
         Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
 
 
