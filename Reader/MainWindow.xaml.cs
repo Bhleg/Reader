@@ -20,17 +20,18 @@ namespace Reader
         string ViewerType = Properties.Settings.Default.DefaultViewer;
         Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
 
-
+        //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
         public void FileLoader(string FilePath)
         {
             Pages.Clear();
             int i = 0;
-
             var archive = ArchiveFactory.Open(FilePath);
             foreach (var entry in archive.Entries)
             {
-                if (!entry.IsDirectory)
+                //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
+                if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")) )
                 {
+                   
                         i++;
                         MemoryStream memstream = new MemoryStream();
                         entry.WriteTo(memstream);

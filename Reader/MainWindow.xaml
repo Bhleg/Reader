@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998" ResizeMode="NoResize">
+        Title="MainWindow" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998" ResizeMode="NoResize" WindowState="Maximized">
     <Grid x:Name="Image">
 
         <Image x:Name="SinglePage" VerticalAlignment="Center" Margin="640,320,80,320" HorizontalAlignment="Center" Visibility="Collapsed"/>
