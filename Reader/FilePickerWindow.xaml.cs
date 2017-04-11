@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Reader
 {
@@ -13,6 +14,7 @@ namespace Reader
     /// </summary>
     public partial class File_Picker : Window
     {
+        
         string CurrentPath = "";
         string DefaultPath = "C:\\";
         List<Item> Items = new List<Item>();
@@ -22,7 +24,9 @@ namespace Reader
             //List<Item> Items = new List<Item>();
             FilePickerT.ItemsSource = Items;
             GetContent(DefaultPath);
-            
+
+
+
         }
 
 
@@ -56,9 +60,22 @@ namespace Reader
         }
 
 
-        void CreateLibrary()
+        public void CreateLibrary()
         {
-            BookmarkPanel.Children.Add(new Button { Content = "Button" });
+            InitializeComponent();
+            string DirectorieName = System.IO.Path.GetFileName(CurrentPath);
+            Button bn = new Button();
+            bn.Name = "btn" + DirectorieName;
+            bn.Content = DirectorieName;
+            bn.Tag = CurrentPath;
+          
+            bn.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(MyClick2);
+    
+
+
+
+            BookmarkPanel.Children.Add(new Button { Content = DirectorieName });
+            
         }
 
         void GenerateLibrary()
@@ -130,6 +147,19 @@ namespace Reader
 
 
         }
+
+        //Event for the CreateLibrary Button inside the File Picker Window
+        private void CreateLibrary_Event(object sender, EventArgs e)
+        {
+            CreateLibrary();
+        }
+
+        protected void MyClick2(object sender, EventArgs e)
+        {
+            Button bn = sender as Button;
+            MessageBox.Show("hello");
+        }
+
     }
 }
     
