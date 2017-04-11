@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -18,12 +20,16 @@ namespace Reader
         string CurrentPath = "";
         string DefaultPath = "C:\\";
         List<Item> Items = new List<Item>();
+        ObservableCollection<Library> LybraryCollection = new ObservableCollection<Library>();
+
         public File_Picker()
         {
             InitializeComponent();
             //List<Item> Items = new List<Item>();
+            LibraryGrid.ItemsSource = LybraryCollection;
             FilePickerT.ItemsSource = Items;
             GetContent(DefaultPath);
+            GenerateLibrary();
 
 
 
@@ -60,27 +66,32 @@ namespace Reader
         }
 
 
-        public void CreateLibrary()
+        private void CreateLibrary()
         {
-            InitializeComponent();
+            Properties.Settings.Default.Library.Add(CurrentPath);
+            Properties.Settings.Default.Save(); // Saves settings in application configuration file
             string DirectorieName = System.IO.Path.GetFileName(CurrentPath);
-            Button bn = new Button();
-            bn.Name = "btn" + DirectorieName;
-            bn.Content = DirectorieName;
-            bn.Tag = CurrentPath;
-          
-            bn.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(MyClick2);
-    
-
-
-
-            BookmarkPanel.Children.Add(new Button { Content = DirectorieName });
+            string Command = "GetContent(" + CurrentPath + ")";
             
+            LybraryCollection.Add(new Library() { Name = DirectorieName, Path = CurrentPath});
+
+            
+
+
+
         }
 
         void GenerateLibrary()
         {
-            BookmarkPanel.Children.Add(new Button { Content = "Button" });
+            // BookmarkPanel.Children.Add(new Button { Content = "Button" });
+            foreach (string item in Properties.Settings.Default.Library)
+            {
+                string DirectorieName = System.IO.Path.GetFileName(item);
+                string Command = "GetContent(" + item + ")";
+
+                LybraryCollection.Add(new Library() { Name = DirectorieName, Path = item });
+            }
+            
         }
         
         //Item class which is used for each entry inside the datagris Filepicker
@@ -91,6 +102,20 @@ namespace Reader
             public string Path { get; set; }
 
             public string Type { get; set; }
+        }
+
+
+        //Library class which is used for each Library entry at the left of the datagrid Filepicker
+        [SettingsSerializeAs(SettingsSerializeAs.Xml)]
+        class Library
+        {
+            public string Name { get; set; }
+
+            public string Path { get; set; }
+
+            //public string Command { get; set; }
+
+
         }
 
 
@@ -149,17 +174,54 @@ namespace Reader
         }
 
         //Event for the CreateLibrary Button inside the File Picker Window
-        private void CreateLibrary_Event(object sender, EventArgs e)
+        protected void CreateLibrary_Event(object sender, EventArgs e)
         {
+            //Button bn = sender as Button;
+            //GetContent(bn.Tag.ToString());
             CreateLibrary();
+            //FilePickerT.ItemsSource = Items;
+            //FilePickerT.Items.Refresh();
         }
 
-        protected void MyClick2(object sender, EventArgs e)
+        //Event for the DeleteLibrary Button inside the File Picker Window
+        protected void PickerSettings_Event(object sender, EventArgs e)
+        {
+            if (PickerSetting.Visibility == Visibility.Visible)
+            {
+                PickerSetting.Visibility = Visibility.Collapsed;
+            }
+            else if (PickerSetting.Visibility == Visibility.Collapsed)
+            {
+                PickerSetting.Visibility = Visibility.Visible;
+            }
+            
+
+           // Button bn = sender as Button;
+           // GetContent(bn.Tag.ToString());
+           // FilePickerT.ItemsSource = Items;
+           // FilePickerT.Items.Refresh();
+        }
+
+        //Event for the Library's Button inside the File Picker Window
+        protected void GoToLibrary_Event(object sender, EventArgs e)
         {
             Button bn = sender as Button;
-            MessageBox.Show("hello");
+            GetContent(bn.Tag.ToString());
+            FilePickerT.ItemsSource = Items;
+            FilePickerT.Items.Refresh();
         }
 
+        //Event for the DeleteLibrary Button inside the File Picker Window
+        protected void DeleteLibrary_Event(object sender, EventArgs e)
+        {
+            MessageBox.Show("DELETED!");
+
+
+            // Button bn = sender as Button;
+            // GetContent(bn.Tag.ToString());
+            // FilePickerT.ItemsSource = Items;
+            // FilePickerT.Items.Refresh();
+        }
     }
 }
     

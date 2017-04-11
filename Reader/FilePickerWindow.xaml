@@ -6,38 +6,48 @@
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
         Title="File_Picker" Height="600" Width="649" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize">
-    <Grid ShowGridLines="True">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="9*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="125*"/>
-            <ColumnDefinition Width="524*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Grid.Row="1" Margin="2,0,3,0" Grid.RowSpan="2">
-            <StackPanel x:Name="BookmarkPanel" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <TextBlock Margin="10" FontSize="20">Bookmark</TextBlock>
-                <Button Margin="10" Click="MyClick2">Black</Button>
-                <Button Margin="10">With milk</Button>
-                <Button Margin="10">Latte machiato</Button>
-                <Button Margin="10">Chappuchino</Button>
-            </StackPanel>
+    <Grid ShowGridLines="False">
+        <Grid x:Name="Main">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="563*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="1" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" Background="{x:Null}" d:IsHidden="True">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="ButtonClick_Event" Content="Open"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="GoUp_Button" Content="Go Up" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="57" Width="60" Click="GoUp_Event" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" d:IsHidden="True"/>
+            <Button x:Name="CreateLibrary_Button" Content="Create Library" Grid.Column="1" HorizontalAlignment="Right" Height="57" VerticalAlignment="Top" Width="60"  Click="CreateLibrary_Event" Margin="0,0,5,0" d:IsHidden="True"/>
+            <DataGrid x:Name="LibraryGrid" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="1" HeadersVisibility="None" SelectionMode="Single" RowHeight="50" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" d:IsHidden="True">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Name}" Tag="{Binding Path}" Click="GoToLibrary_Event"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button x:Name="PickerSettings_Button" Content="Settings" Grid.Column="1" HorizontalAlignment="Right" Height="57" Margin="0,0,65,0" VerticalAlignment="Top" Width="60"  Click="PickerSettings_Event"/>
+
         </Grid>
-        <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="1" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Click="ButtonClick_Event" Content="Open"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button x:Name="GoUp_Button" Content="Go Up" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="57" Width="60" Click="GoUp_Event"/>
-        <Button x:Name="CreateLibrary_Button" Content="Button" Grid.Column="1" HorizontalAlignment="Right" Height="57" Margin="246,0,0,0" VerticalAlignment="Top" Width="60" HorizontalContentAlignment="Center" Click="CreateLibrary_Event"/>
+    <Grid><
+
     </Grid>
+
 </Window>
