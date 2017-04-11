@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998" ResizeMode="NoResize">
     <Grid x:Name="Image">
-        <Image x:Name="SinglePage" VerticalAlignment="Center" Margin="0,0,0,0" HorizontalAlignment="Center" Visibility="Collapsed"/>
-        <Grid x:Name="DoubePage">
+
+        <Image x:Name="SinglePage" VerticalAlignment="Center" Margin="640,320,80,320" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <Grid x:Name="DoubePage" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="LeftColumn"/>
                 <ColumnDefinition x:Name="RightColumn"/>
@@ -18,21 +19,28 @@
 
 
         </Grid>
-        <Grid HorizontalAlignment="Left" Margin="0,80,0,81" VerticalAlignment="Center" MouseLeftButtonDown="PreviousPage_Event" Height="480" Width="82">
-            <Rectangle x:Name="PreviousPage" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="480" Stroke="Black" VerticalAlignment="Center" Width="82" Opacity="0.8" />
-            <Label x:Name="LabelPreviousPage" Content="Previous Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        </Grid>
-        <Grid HorizontalAlignment="Right" MouseLeftButtonDown="NextPage_Event" Width="82">
-            <Rectangle x:Name="NextPage" Fill="#FFF4F4F5" HorizontalAlignment="Right" Stroke="Black" VerticalAlignment="Center" Opacity="0.8" Height="480" Width="82" />
-            <Label x:Name="LabelNextPage" Content="Next Page" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        </Grid>
-        <Grid HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" MouseLeftButtonDown="FilePickerT_Event" Height="70" Width="160">
-            <Rectangle x:Name="OpenFile" Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="68" Margin="0,1" Stroke="Black" VerticalAlignment="Center" Width="160" Opacity="0.8" />
-            <Label Content="Open File" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        </Grid>
+        <Grid x:Name="MainMenu" MouseLeftButtonDown="PreviousPage_Event" Opacity="0.75">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Open" Grid.Column="2" Grid.Row="0" Click="FilePickerT_Event" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="80"/>
+            <Button Content="Previous" Grid.Column="0" Click="PreviousPage_Event" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="80" Height="480" Grid.RowSpan="3"/>
+            <Button Content="Next" Grid.Column="4" Click="NextPage_Event" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="80" Height="480" Grid.RowSpan="3"/>
+            <Button Content="Main Menu" Grid.Column="2" Click="MainMenu_Event" HorizontalAlignment="Left" Height="160" Grid.Row="2" VerticalAlignment="Top" Width="160"/>
 
 
 
+        </Grid>
     </Grid>
-
 </Window>

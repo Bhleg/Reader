@@ -186,20 +186,22 @@ namespace Reader
         //Event for the DeleteLibrary Button inside the File Picker Window
         protected void PickerSettings_Event(object sender, EventArgs e)
         {
-            if (PickerSetting.Visibility == Visibility.Visible)
+            if (Settings.Visibility == Visibility.Visible)
             {
-                PickerSetting.Visibility = Visibility.Collapsed;
+                Settings.Visibility = Visibility.Collapsed;
             }
-            else if (PickerSetting.Visibility == Visibility.Collapsed)
+            else if (Settings.Visibility == Visibility.Collapsed)
             {
-                PickerSetting.Visibility = Visibility.Visible;
+                Settings.Visibility = Visibility.Visible;
             }
-            
 
-           // Button bn = sender as Button;
-           // GetContent(bn.Tag.ToString());
-           // FilePickerT.ItemsSource = Items;
-           // FilePickerT.Items.Refresh();
+            DeleteLibraryGrid.ItemsSource = LybraryCollection;
+
+
+            // Button bn = sender as Button;
+            // GetContent(bn.Tag.ToString());
+            // FilePickerT.ItemsSource = Items;
+            // FilePickerT.Items.Refresh();
         }
 
         //Event for the Library's Button inside the File Picker Window
@@ -214,7 +216,13 @@ namespace Reader
         //Event for the DeleteLibrary Button inside the File Picker Window
         protected void DeleteLibrary_Event(object sender, EventArgs e)
         {
-            MessageBox.Show("DELETED!");
+            Button bn = sender as Button;
+            Properties.Settings.Default.Library.Remove(bn.Tag.ToString());
+            Properties.Settings.Default.Save(); // Saves settings in application configuration file
+            DeleteLibraryGrid.Items.Refresh();
+            LybraryCollection.Clear();
+            GenerateLibrary();
+            //MessageBox.Show("DELETED!");
 
 
             // Button bn = sender as Button;

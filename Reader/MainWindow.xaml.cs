@@ -15,7 +15,8 @@ namespace Reader
     {
         
         int CurrentPage = 0;
-        //string ViewerType = "Double";
+        int TotalPages = 0;
+        //string ViewerType = "Simple";
         string ViewerType = Properties.Settings.Default.DefaultViewer;
         Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
 
@@ -23,13 +24,14 @@ namespace Reader
         public void FileLoader(string FilePath)
         {
             Pages.Clear();
-            int i = 1;
+            int i = 0;
 
             var archive = ArchiveFactory.Open(FilePath);
             foreach (var entry in archive.Entries)
             {
                 if (!entry.IsDirectory)
                 {
+                        i++;
                         MemoryStream memstream = new MemoryStream();
                         entry.WriteTo(memstream);
                         byte[] bytes = memstream.ToArray();
@@ -46,11 +48,13 @@ namespace Reader
 
                         Pages.Add(i, b);
 
-                        i++;
+                        
                     
                 }
             }
+            TotalPages = i;
           Viewer(ViewerType, "Load");
+            
         }
 
         
@@ -77,7 +81,15 @@ namespace Reader
                 }
                 else if (z == "Next")
                 {
-                    i = i + 1;
+                    if (i <= TotalPages--)
+                    {
+                        i = i + 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Last Page !");
+                    }
+                    
                 }
                 else if (z == "Previous")
                 {
@@ -98,6 +110,7 @@ namespace Reader
 
             void DoublePageViewer(string z,int i = 0)
             {
+                
                 SinglePage.Visibility = Visibility.Collapsed;
                 DoubePage.Visibility = Visibility.Visible;
                 i = CurrentPage;
@@ -108,8 +121,15 @@ namespace Reader
                 }
                 else if (z == "Next")
                 {
-                    
+                    if (i == TotalPages)
+                    {
+                        MessageBox.Show("Last Page !");
+                        return;
+
+                    }
                     i = i + 2;
+                 
+                    
                     
 
                 }
@@ -118,23 +138,36 @@ namespace Reader
                     if (i == 1)
                     {
                         MessageBox.Show("First Page !");
+                        
                     }
                     else
                     {
-                        i--;
+                        return;
                     }
                 }
+
 
                 int ai = i;
                 BitmapImage a = new BitmapImage();
                 a = Pages[ai];
+                
                 LeftPage.Source = a;
+
 
                 int bi = i;
                 bi++;
-                BitmapImage b = new BitmapImage();
-                b = Pages[bi];
-                RightPage.Source = b;
+                if (bi <= TotalPages)
+                {
+                    BitmapImage b = new BitmapImage();
+                    b = Pages[bi];
+                    RightPage.Source = b;
+                    
+                }
+                else
+                {
+                    RightPage.Source = null;
+                }
+
                 CurrentPage = i;
 
                 /*
@@ -190,7 +223,7 @@ namespace Reader
 
         }
 
-        private void PreviousPage_Event(object sender, MouseButtonEventArgs e)
+        private void PreviousPage_Event(object sender, EventArgs e)
         {
             if (CurrentPage == 1)
             {
@@ -205,16 +238,30 @@ namespace Reader
             
         }
 
-        private void NextPage_Event(object sender, MouseButtonEventArgs e)
+        private void NextPage_Event(object sender, EventArgs e)
         {
             Viewer(ViewerType, "Next",CurrentPage);
 
         }
 
-        private void FilePickerT_Event(object sender, MouseButtonEventArgs e)
+        private void FilePickerT_Event(object sender, EventArgs e)
         {
             File_Picker FilePickerWindow = new File_Picker();
             FilePickerWindow.Show();
+        }
+
+        private void MainMenu_Event(object sender, EventArgs e)
+        {
+            
+           if (MainMenu.Opacity == 0.75)
+            {
+                MainMenu.Opacity = 0;
+            }
+            else if (MainMenu.Opacity == 0)
+            {
+                MainMenu.Opacity = 0.75;
+            }
+
         }
 
 
