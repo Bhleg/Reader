@@ -18,7 +18,7 @@ namespace Reader
     {
         
         string CurrentPath = "";
-        string DefaultPath = "C:\\";
+        string DefaultPath = Environment.ExpandEnvironmentVariables("%HOMEPATH%");
         List<Item> Items = new List<Item>();
         ObservableCollection<Library> LybraryCollection = new ObservableCollection<Library>();
 

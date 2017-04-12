@@ -153,47 +153,81 @@ namespace Reader
                 LeftPage.Source = null;
                 RightPage.Source = null;
 
+                LeftPage.Visibility = Visibility.Visible;
+                RightPage.Visibility = Visibility.Visible;
+                DoublePageDetect.Visibility = Visibility.Collapsed;
+
                 int ai = i;
 
                 var amemoryStream = new MemoryStream(Pages[ai]);
                 amemoryStream.Seek(0, SeekOrigin.Begin);
+
+              
+
                 BitmapImage a = new BitmapImage();
                 a.BeginInit();
                 a.StreamSource= amemoryStream ;
                 a.CacheOption = BitmapCacheOption.OnLoad;
                 a.EndInit();
-               // a.Freeze();
-                LeftPage.Source = a;
-                a = null;
-                amemoryStream = null;
 
+                //Double Page Detection
+                if (a.Width > a.Height)
+                {
+                    LeftPage.Visibility = Visibility.Collapsed;
+                    RightPage.Visibility = Visibility.Collapsed;
+                    DoublePageDetect.Visibility = Visibility.Visible;
+                    DoublePageDetect.Source = a;
 
+                    a = null;
+                    amemoryStream = null;
 
+                    CurrentPage = i;
+                    return;
+
+                }
 
                 int bi = i;
                 bi++;
                 if (bi <= TotalPages)
                 {
-
-
                     var bmemoryStream = new MemoryStream(Pages[bi]);
                     BitmapImage b = new BitmapImage();
                     b.BeginInit();
                     b.StreamSource = bmemoryStream;
                     b.CacheOption = BitmapCacheOption.OnLoad;
-
                     b.EndInit();
-                    //b.Freeze();
+
+                    if (b.Width > b.Height)
+                    {
+                        LeftPage.Visibility = Visibility.Collapsed;
+                        RightPage.Visibility = Visibility.Collapsed;
+                        DoublePageDetect.Visibility = Visibility.Visible;
+                        DoublePageDetect.Source = b;
+                        b = null;
+                        bmemoryStream = null;
+                        CurrentPage = i;
+                        return;
+                       
+                    }
+                   
                     RightPage.Source = b;
+
                     b = null;
                     bmemoryStream = null;
-
                 }
                 else
                 {
                     RightPage.Source = null;
                 }
 
+
+
+
+
+                LeftPage.Source = a;
+                a = null;
+                amemoryStream = null;
+              
                 CurrentPage = i;
 
             }
