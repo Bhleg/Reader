@@ -29,15 +29,20 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="6*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="5*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Content="Open" Grid.Column="2" Grid.Row="0" Click="FilePickerT_Event"/>
             <Button Content="Previous" Grid.Column="0" Click="PreviousPage_Event" Grid.Row="1" Grid.RowSpan="3"/>
             <Button Content="Next" Grid.Column="4" Click="NextPage_Event" Grid.Row="1" Grid.RowSpan="3"/>
             <Button Content="Main Menu" Grid.Column="2" Click="MainMenu_Event" Grid.Row="2"/>
+            <StackPanel x:Name="StackMenu" Grid.Column="2" Height="240" Grid.Row="3" Grid.RowSpan="2">
+
+
+                <Button Margin="0" Click="Quit_Event" Padding="0" HorizontalContentAlignment="Center" MinHeight="30" FontSize="20">Quit</Button>
+            </StackPanel>
 
 
 

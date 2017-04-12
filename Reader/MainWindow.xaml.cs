@@ -111,8 +111,7 @@ namespace Reader
 
             void DoublePageViewer(string z,int i = 0)
             {
-                LeftPage.Source = null;
-                RightPage.Source = null;
+
                 SinglePage.Visibility = Visibility.Collapsed;
                 DoubePage.Visibility = Visibility.Visible;
                 i = CurrentPage;
@@ -125,7 +124,7 @@ namespace Reader
                 {
                     if (i+1 == TotalPages)
                     {
-                        MessageBox.Show("Last Page !");
+                        
                         return;
 
                     }
@@ -139,7 +138,7 @@ namespace Reader
                 {
                     if (i <= 2)
                     {
-                        MessageBox.Show("First Page !");
+                        
                         return;
                         
                     }
@@ -149,8 +148,10 @@ namespace Reader
                     }
                 }
 
-                
-                
+
+
+                LeftPage.Source = null;
+                RightPage.Source = null;
 
                 int ai = i;
 
@@ -218,10 +219,12 @@ namespace Reader
            if (MainMenu.Opacity == 0.75)
             {
                 MainMenu.Opacity = 0;
+                StackMenu.Visibility = Visibility.Collapsed;
             }
             else if (MainMenu.Opacity == 0)
             {
                 MainMenu.Opacity = 0.75;
+                StackMenu.Visibility = Visibility.Visible;
             }
 
         }
@@ -231,6 +234,11 @@ namespace Reader
 
                 Viewer(ViewerType, "Previous");
 
+        }
+
+        private void Quit_Event(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
     

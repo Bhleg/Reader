@@ -43,24 +43,26 @@ namespace Reader
             Items.Clear();
 
 
-            // Process the list of files found in the directory.
-            string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar")).ToArray();
-            foreach (string FilePath in FileEntries)
-            {
-
-                string FileName = System.IO.Path.GetFileName(FilePath);
-                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File" });
-                //ProcessFile(fileName);
-            }
-
 
             // Process the list of directory found in the directory.
             string[] DirectoryEntries = Directory.GetDirectories(Path);
             foreach (string DirectoriePath in DirectoryEntries)
             {
                 string DirectorieName = System.IO.Path.GetFileName(DirectoriePath);
-                Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder" });
+                Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder" , Icon = "/Icons/Folder.png"});
+                }
+
+            // Process the list of files found in the directory.
+            string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar")).ToArray();
+            foreach (string FilePath in FileEntries)
+            {
+
+                string FileName = System.IO.Path.GetFileName(FilePath);
+                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = "/Icons/Message.png" });
+                
             }
+
+
             CurrentPath = Path;
 
         }
@@ -102,6 +104,8 @@ namespace Reader
             public string Path { get; set; }
 
             public string Type { get; set; }
+
+            public string Icon { get; set; }
         }
 
 

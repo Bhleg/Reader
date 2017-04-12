@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="File_Picker" Height="600" Width="649" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize">
+        Title="File_Picker" HorizontalContentAlignment="Center" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" WindowStyle="None" VerticalAlignment="Top" VerticalContentAlignment="Stretch" WindowState="Maximized">
     <Grid ShowGridLines="False" d:IsHidden="True">
 
         <Grid>
@@ -18,16 +18,21 @@
                     <ColumnDefinition Width="80*"/>
                     <ColumnDefinition Width="563*"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="1" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20">
+                <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="1" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled">
+
+                    <DataGrid.ItemContainerStyle>
+                        <Style TargetType="DataGridRow">
+                            <EventSetter Event="MouseDoubleClick" Handler="ButtonClick_Event"/>
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Image" Width="SizeToCells" IsReadOnly="True" CanUserResize="False">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Click="ButtonClick_Event" Content="Open"/>
+                                    <Image Source="{Binding Icon}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
