@@ -133,7 +133,7 @@ namespace Reader
                 MainWindow m = (MainWindow)Application.Current.MainWindow;
                 string Path = FilePickerT.SelectedValue.ToString();
                 //m.CbzLoader(Path);
-                m.FileLoader(Path);
+                m.FileLoader(Path) ;
                 //m.CbzLoader(FilePickerT.SelectedValue.ToString());
                 FilePickerWindow.Hide();
             }

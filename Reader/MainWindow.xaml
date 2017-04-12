@@ -34,10 +34,10 @@
                 <ColumnDefinition Width="6*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Open" Grid.Column="2" Grid.Row="0" Click="FilePickerT_Event" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="80"/>
-            <Button Content="Previous" Grid.Column="0" Click="PreviousPage_Event" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="80" Height="480" Grid.RowSpan="3"/>
-            <Button Content="Next" Grid.Column="4" Click="NextPage_Event" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="80" Height="480" Grid.RowSpan="3"/>
-            <Button Content="Main Menu" Grid.Column="2" Click="MainMenu_Event" HorizontalAlignment="Left" Height="160" Grid.Row="2" VerticalAlignment="Top" Width="160"/>
+            <Button Content="Open" Grid.Column="2" Grid.Row="0" Click="FilePickerT_Event"/>
+            <Button Content="Previous" Grid.Column="0" Click="PreviousPage_Event" Grid.Row="1" Grid.RowSpan="3"/>
+            <Button Content="Next" Grid.Column="4" Click="NextPage_Event" Grid.Row="1" Grid.RowSpan="3"/>
+            <Button Content="Main Menu" Grid.Column="2" Click="MainMenu_Event" Grid.Row="2"/>
 
 
 
