@@ -16,8 +16,8 @@ namespace Reader
         
         int CurrentPage = 0;
         int TotalPages = 0;
-        //string ViewerType = "Simple";
-        string ViewerType = Properties.Settings.Default.DefaultViewer;
+        string ViewerType = "Double";
+        //string ViewerType = Properties.Settings.Default.DefaultViewer;
         // Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
         Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
 
@@ -82,7 +82,7 @@ namespace Reader
                 }
                 else if (z == "Next")
                 {
-                    if (i <= TotalPages--)
+                    if (i+1 <= TotalPages)
                     {
                         i = i + 1;
                     }
@@ -103,10 +103,17 @@ namespace Reader
                         i = i - 1;
                     }
                 }
+
+                var memoryStream = new MemoryStream(Pages[i]);
+                memoryStream.Seek(0, SeekOrigin.Begin);
                 BitmapImage a = new BitmapImage();
-              //  a = Pages[i];
-                CurrentPage = i;
+                a.BeginInit();
+                a.StreamSource = memoryStream;
+                a.CacheOption = BitmapCacheOption.OnLoad;
+                a.EndInit();
                 SinglePage.Source = a;
+                CurrentPage = i;
+                
             }
 
             void DoublePageViewer(string z,int i = 0)
@@ -157,13 +164,14 @@ namespace Reader
                 RightPage.Visibility = Visibility.Visible;
                 DoublePageDetect.Visibility = Visibility.Collapsed;
 
+
+
                 int ai = i;
+
+
 
                 var amemoryStream = new MemoryStream(Pages[ai]);
                 amemoryStream.Seek(0, SeekOrigin.Begin);
-
-              
-
                 BitmapImage a = new BitmapImage();
                 a.BeginInit();
                 a.StreamSource= amemoryStream ;
@@ -231,6 +239,8 @@ namespace Reader
                 CurrentPage = i;
 
             }
+
+          
 
         }
 

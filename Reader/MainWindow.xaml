@@ -8,7 +8,7 @@
         Title="MainWindow" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998" ResizeMode="NoResize" WindowState="Maximized">
     <Grid x:Name="Image">
 
-        <Image x:Name="SinglePage" VerticalAlignment="Center" Margin="640,320,80,320" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <Image x:Name="SinglePage" Visibility="Collapsed"/>
         <Grid x:Name="DoubePage" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="LeftColumn"/>
