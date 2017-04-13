@@ -86,10 +86,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="FilePickerWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -98,9 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FilePickerWindow.xaml.cs">
-      <DependentUpon>FilePickerWindow.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="FilePicker.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -154,6 +148,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\Message.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Book.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Library.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
