@@ -25,6 +25,7 @@ namespace Reader
         public void FileLoader(string FilePath)
         {
             Pages.Clear();
+            CurrentPage = 0;
             int i = 0;
             var archive = ArchiveFactory.Open(FilePath) ;
             foreach (var entry in archive.Entries)
@@ -54,7 +55,7 @@ namespace Reader
             TotalPages = i;
 
            // archive = null;
-           Viewer(ViewerType, "Load");
+           Viewer(ViewerType, "Start");
             
         }
 
@@ -119,10 +120,10 @@ namespace Reader
             void DoublePageViewer(string z,int i = 0)
             {
 
-                SinglePage.Visibility = Visibility.Collapsed;
-                DoubePage.Visibility = Visibility.Visible;
                 i = CurrentPage;
-                if (z == "Load")
+                
+
+                if (z == "Start")
                 {
                     i = 1;
 
@@ -135,10 +136,8 @@ namespace Reader
                         return;
 
                     }
-                    i = i + 2;
-                 
-                    
-                    
+                    i = i + 1;
+                    //MessageBox.Show(i.ToString());
 
                 }
                 else if (z == "Previous")
@@ -156,87 +155,77 @@ namespace Reader
                 }
 
 
-
                 LeftPage.Source = null;
                 RightPage.Source = null;
+                SinglePage.Source = null;
 
-                LeftPage.Visibility = Visibility.Visible;
-                RightPage.Visibility = Visibility.Visible;
-                DoublePageDetect.Visibility = Visibility.Collapsed;
+                int ia = i;
+                int ib = i + 1;
 
-
-
-                int ai = i;
-
+                BitmapImage a = CreatePage(ia);
+                BitmapImage b = CreatePage(ib);
 
 
-                var amemoryStream = new MemoryStream(Pages[ai]);
-                amemoryStream.Seek(0, SeekOrigin.Begin);
-                BitmapImage a = new BitmapImage();
-                a.BeginInit();
-                a.StreamSource= amemoryStream ;
-                a.CacheOption = BitmapCacheOption.OnLoad;
-                a.EndInit();
+                if (a.Width < a.Height && b.Width < b.Height)
+                {
+                    SetLeftPage(a);
+                    SetRightPage(b);
+                    i = i + 1;
+                }
+                else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height))
+                {
+                    SetSinglePage(a);
+                    
+                }
+                
+                CurrentPage = i;
+                //MessageBox.Show("i = " + i + "\n" + CurrentPage.ToString() + " sur " + TotalPages.ToString() + " Pages");
 
-                //Double Page Detection
-                if (a.Width > a.Height)
+
+
+
+                BitmapImage CreatePage(int p)
+                {
+                    var memoryStream = new MemoryStream(Pages[p]);
+                    BitmapImage Image = new BitmapImage();
+                    Image.BeginInit();
+                    Image.StreamSource = memoryStream;
+                    Image.CacheOption = BitmapCacheOption.OnLoad;
+                    Image.EndInit();
+                    return Image;
+                }
+
+                void SetLeftPage(BitmapImage Image)
+                {
+                    LeftPage.Visibility = Visibility.Visible;
+                    RightPage.Visibility = Visibility.Visible;
+                    SinglePage.Visibility = Visibility.Collapsed;
+                    LeftPage.Source = Image;
+
+                }
+
+                void SetRightPage(BitmapImage Image)
+                {
+                    LeftPage.Visibility = Visibility.Visible;
+                    RightPage.Visibility = Visibility.Visible;
+                    SinglePage.Visibility = Visibility.Collapsed;
+
+
+                    RightPage.Source = Image;
+
+
+                }
+
+                void SetSinglePage(BitmapImage Image)
                 {
                     LeftPage.Visibility = Visibility.Collapsed;
                     RightPage.Visibility = Visibility.Collapsed;
-                    DoublePageDetect.Visibility = Visibility.Visible;
-                    DoublePageDetect.Source = a;
+                    SinglePage.Visibility = Visibility.Visible;
 
-                    a = null;
-                    amemoryStream = null;
-
-                    CurrentPage = i;
-                    return;
+                    SinglePage.Source = Image;
 
                 }
 
-                int bi = i;
-                bi++;
-                if (bi <= TotalPages)
-                {
-                    var bmemoryStream = new MemoryStream(Pages[bi]);
-                    BitmapImage b = new BitmapImage();
-                    b.BeginInit();
-                    b.StreamSource = bmemoryStream;
-                    b.CacheOption = BitmapCacheOption.OnLoad;
-                    b.EndInit();
-
-                    if (b.Width > b.Height)
-                    {
-                        LeftPage.Visibility = Visibility.Collapsed;
-                        RightPage.Visibility = Visibility.Collapsed;
-                        DoublePageDetect.Visibility = Visibility.Visible;
-                        DoublePageDetect.Source = b;
-                        b = null;
-                        bmemoryStream = null;
-                        CurrentPage = i;
-                        return;
-                       
-                    }
-                   
-                    RightPage.Source = b;
-
-                    b = null;
-                    bmemoryStream = null;
-                }
-                else
-                {
-                    RightPage.Source = null;
-                }
-
-
-
-
-
-                LeftPage.Source = a;
-                a = null;
-                amemoryStream = null;
-              
-                CurrentPage = i;
 
             }
 
