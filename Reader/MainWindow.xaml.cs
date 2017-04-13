@@ -6,13 +6,14 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using SharpCompress.Archives;
 using System.Windows.Controls;
+using MahApps.Metro.Controls;
 
 namespace Reader
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         
         public MainWindow ()
@@ -20,6 +21,7 @@ namespace Reader
             InitializeComponent();
             MenuPanel();
             File_Picker();
+            MenuPanel();
         }
         int CurrentPage = 0;
         int TotalPages = 0;
@@ -76,7 +78,7 @@ namespace Reader
             Menu.Add(new MenuPanelItem() { Name = "setting", Command = "Setting", Icon = "/Icons/Settings.png" });
             GenerateLibrary();
             
-            MenuItem.ItemsSource = Menu;
+            MenuGrid.ItemsSource = Menu;
             //MenuIcon.ItemsSource = Menu;
             InitializeComponent();
 

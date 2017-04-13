@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
@@ -14,7 +15,7 @@ namespace Reader
     /// <summary>
     /// Interaction logic for File_Picker.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         
         string CurrentPath = "";
@@ -117,10 +118,10 @@ namespace Reader
             if (result == "File")
             {
                 //MainWindow m = Application.ReferenceEquals MainWindow();
-                MainWindow m = (MainWindow)Application.Current.MainWindow;
+                //MainWindow m = (MainWindow)Application.Current.MainWindow;
                 string Path = FilePickerT.SelectedValue.ToString();
                 //m.CbzLoader(Path);
-                m.FileLoader(Path);
+                FileLoader(Path);
                 //m.CbzLoader(FilePickerT.SelectedValue.ToString());
                 //FilePickerWindow.Hide();
             }
