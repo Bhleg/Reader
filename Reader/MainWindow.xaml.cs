@@ -21,7 +21,7 @@ namespace Reader
             InitializeComponent();
             MenuPanel();
             File_Picker();
-            MenuPanel();
+            
         }
         int CurrentPage = 0;
         int TotalPages = 0;
@@ -72,13 +72,13 @@ namespace Reader
 
         public void MenuPanel()
         {
-            
-            Menu.Add(new MenuPanelItem() { Name = "Explorer", Command = "Explorer", Icon = "/Icons/Folder.png" });
-            Menu.Add(new MenuPanelItem() { Name = "Reader",  Command = "Reader", Icon = "/Icons/Book.png" });
-            Menu.Add(new MenuPanelItem() { Name = "setting", Command = "Setting", Icon = "/Icons/Settings.png" });
+            MenuGrid.ItemsSource = Menu;
+            Menu.Add(new MenuPanelItem() { Name = "Explorer", Command = "Explorer", Icon = "\uE188" });
+            Menu.Add(new MenuPanelItem() { Name = "Reader",  Command = "Reader", Icon = Char.ConvertFromUtf32(0x1f4d6) });
+            Menu.Add(new MenuPanelItem() { Name = "Setting", Command = "Setting", Icon = "\uE115" });
             GenerateLibrary();
             
-            MenuGrid.ItemsSource = Menu;
+            
             //MenuIcon.ItemsSource = Menu;
             InitializeComponent();
 
@@ -94,7 +94,7 @@ namespace Reader
                 string DirectorieName = System.IO.Path.GetFileName(item);
                 //string Command = "GetContent(" + item + ")";
 
-                Menu.Add(new MenuPanelItem() { Name = DirectorieName, Command = item, Type = "Library", Icon = "/Icons/Library.png" });
+                Menu.Add(new MenuPanelItem() { Name = DirectorieName, Command = item, Type = "Library", Icon = "\uE1D3" });
             }
 
         }
@@ -371,6 +371,8 @@ namespace Reader
                 FilePickerT.Items.Refresh();
             }
         }
+
+        
     }
     
 

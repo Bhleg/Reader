@@ -111,11 +111,16 @@ namespace Reader
 
         ////////////////////////////EVENT//////////////////////////////  
 
-        private void ButtonClick_Event(object sender, MouseButtonEventArgs e)
+        private void FilePickerT_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Item i = (Item)FilePickerT.SelectedItem;
-            String result = (i.Type).ToString();
-            if (result == "File")
+            Item File = (Item)FilePickerT.SelectedItem;
+            string z = File.Type;
+
+
+
+            //String trrrr = z.Type;
+            // MessageBox.Show(trrrr);
+            if (z == "File")
             {
                 //MainWindow m = Application.ReferenceEquals MainWindow();
                 //MainWindow m = (MainWindow)Application.Current.MainWindow;
@@ -132,8 +137,10 @@ namespace Reader
                 FilePickerT.Items.Refresh();
             }
 
-
         }
+
+
+
 
         //Event for the GoUP Button inside the File Picker Window
         private void GoUp_Event(object sender, EventArgs e)

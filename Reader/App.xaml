@@ -14,11 +14,13 @@
                     <ResourceDictionary Source="pack://application:,,,
              /MahApps.Metro;component/Styles/Colors.xaml" />
                     <ResourceDictionary Source="pack://application:,,,
-             /MahApps.Metro;component/Styles/Accents/crimson.xaml" />
+             /MahApps.Metro;component/Styles/Accents/Emerald.xaml" />
                     <ResourceDictionary Source="pack://application:,,,
-             /MahApps.Metro;component/Styles/Accents/baselight.xaml" />
+             /MahApps.Metro;component/Styles/Accents/basedark.xaml" />
                 </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
+
+
+        </ResourceDictionary>
         
     </Application.Resources>
 </Application>
