@@ -8,6 +8,48 @@
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
         Title="MainWindow" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998" ResizeMode="NoResize" WindowState="Maximized">
+    <controls:MetroWindow.Resources>
+        <Style x:Key="QuitBtn" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{DynamicResource GrayBrush10}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Upper"/>
+            <Setter Property="controls:ControlsHelper.CornerRadius" Value="3"/>
+            <Setter Property="FontFamily" Value="{DynamicResource DefaultFont}"/>
+            <Setter Property="FontSize" Value="{DynamicResource UpperCaseContentFontSize}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="Padding" Value="5,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="{Binding (controls:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <Border x:Name="DisabledVisualElement" Background="{DynamicResource ControlsDisabledBrush}" CornerRadius="{Binding (controls:ControlsHelper.CornerRadius), Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" IsHitTestVisible="False" Opacity="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <controls:ContentControlEx x:Name="PART_ContentPresenter" ContentCharacterCasing="{Binding (controls:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1,0,1,1" Padding="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Height="25" VerticalAlignment="Bottom"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource GrayBrush8}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="Border" Value="{DynamicResource GrayBrush7}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
+                                <Setter Property="BorderThickness" TargetName="Border" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="DisabledVisualElement" Value="0.7"/>
+                                <Setter Property="Opacity" TargetName="PART_ContentPresenter" Value="0.3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </controls:MetroWindow.Resources>
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -108,7 +150,7 @@
         </Grid>
         <DataGrid x:Name="MenuGrid" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" HeadersVisibility="None" Grid.IsSharedSizeScope="True" CanUserResizeRows="False" ScrollViewer.CanContentScroll="False" BorderThickness="0">
             <DataGrid.Effect>
-                <DropShadowEffect BlurRadius="3" Opacity="0.75"/>
+                <DropShadowEffect BlurRadius="10" Opacity="0.5"/>
             </DataGrid.Effect>
 
             <DataGrid.Foreground>
@@ -118,9 +160,27 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" BorderThickness="0" FocusVisualStyle="{x:Null}" Style="{x:Null}" Foreground="{x:Null}">
-                                
-                                
+                            <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" Padding="0" BorderThickness="0" FocusVisualStyle="{x:Null}" Foreground="{x:Null}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Background" Value="Green"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border Background="{TemplateBinding Background}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{x:Null}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+
                                 <Grid Height="40">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40"/>
@@ -139,6 +199,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="Button" Margin="0" Width="75" HorizontalContentAlignment="Center" Click="Quit_Event" VerticalAlignment="Bottom" Style="{DynamicResource QuitBtn}"/>
 
 
     </Grid>

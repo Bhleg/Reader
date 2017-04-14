@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using SharpCompress.Archives;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,6 +61,44 @@ namespace Reader
 
 
             CurrentPath = Path;
+
+        }
+
+        //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
+        public void FileLoader(string FilePath)
+        {
+            Pages.Clear();
+            CurrentPage = 0;
+            int i = 0;
+            var archive = ArchiveFactory.Open(FilePath);
+            foreach (var entry in archive.Entries)
+            {
+                //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
+                if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
+                {
+
+                    i++;
+                    MemoryStream memstream = new MemoryStream();
+                    entry.WriteTo(memstream);
+                    memstream.Seek(0, SeekOrigin.Begin);
+                    byte[] bytes = memstream.ToArray();
+                    Pages.Add(i, bytes);
+
+                    // set variable to null to avoid memory hog
+                    memstream = null;
+                    bytes = null;
+
+
+
+
+                }
+
+            }
+            archive = null;
+            TotalPages = i;
+            Viewer(ViewerType, "Start");
+            ShowReader();
+
 
         }
 
