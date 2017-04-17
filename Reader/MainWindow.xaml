@@ -63,7 +63,7 @@
                     <ColumnDefinition x:Name="LeftColumn"/>
                     <ColumnDefinition x:Name="RightColumn"/>
                 </Grid.ColumnDefinitions>
-                <Image x:Name="LeftPage" VerticalAlignment="Center"  HorizontalAlignment="Right" Grid.Column="0"/>
+                <Image x:Name="LeftPage" VerticalAlignment="Center"  HorizontalAlignment="Right" Grid.Column="0" x:FieldModifier="public"/>
                 <Image x:Name="RightPage" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" />
                 <Image x:Name="SinglePage" Visibility="Collapsed" Grid.ColumnSpan="2"/>
 
@@ -199,7 +199,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Button" Margin="0" Width="75" HorizontalContentAlignment="Center" Click="Quit_Event" VerticalAlignment="Bottom" Style="{DynamicResource QuitBtn}"/>
+        <Button Content="Quit" Margin="0" Width="75" HorizontalContentAlignment="Center" Click="Quit_Event" VerticalAlignment="Bottom" Style="{DynamicResource QuitBtn}"/>
 
 
     </Grid>

@@ -21,6 +21,8 @@ namespace Reader
             InitializeComponent();
             MenuPanel();
             File_Picker();
+          
+            
             
         }
         int CurrentPage = 0;
