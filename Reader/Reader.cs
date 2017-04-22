@@ -35,6 +35,8 @@ namespace Reader
                 if (z == "Load")
                 {
                     i = 1;
+                    
+                    
 
                 }
                 else if (z == "Next")
@@ -61,8 +63,8 @@ namespace Reader
                     }
                 }
 
-                var memoryStream = new MemoryStream(Pages[i]);
-                memoryStream.Seek(0, SeekOrigin.Begin);
+               var memoryStream = new MemoryStream(Pages[i]);
+               memoryStream.Seek(0, SeekOrigin.Begin);
                 BitmapImage a = new BitmapImage();
                 a.BeginInit();
                 a.StreamSource = memoryStream;
@@ -110,17 +112,19 @@ namespace Reader
                     }
                 }
 
-
+                
                 LeftPage.Source = null;
                 RightPage.Source = null;
                 SinglePage.Source = null;
+                
 
                 int ia = i;
                 int ib = i + 1;
 
                 BitmapImage a = CreatePage(ia);
                 BitmapImage b = CreatePage(ib);
-
+                a.Freeze();
+                b.Freeze();
 
                 if (a.Width < a.Height && b.Width < b.Height)
                 {
@@ -134,21 +138,30 @@ namespace Reader
 
                 }
 
+
+                a = null;
+                b = null;
+                GC.Collect();
                 CurrentPage = i;
                 //MessageBox.Show("i = " + i + "\n" + CurrentPage.ToString() + " sur " + TotalPages.ToString() + " Pages");
 
 
 
-
                 BitmapImage CreatePage(int p)
                 {
-                    var memoryStream = new MemoryStream(Pages[p]);
-                    BitmapImage Image = new BitmapImage();
-                    Image.BeginInit();
-                    Image.StreamSource = memoryStream;
-                    Image.CacheOption = BitmapCacheOption.OnLoad;
-                    Image.EndInit();
-                    return Image;
+                    using (var memoryStream = new MemoryStream(Pages[p]))
+                    {
+                        BitmapImage Image = new BitmapImage();
+                        Image.BeginInit();
+                        Image.StreamSource = memoryStream;
+                        Image.CacheOption = BitmapCacheOption.OnLoad;
+                        Image.DecodePixelWidth = FilePickerT.Width.int;
+                        Image.EndInit();
+                        Image.Freeze();
+                        return Image;
+                        
+                    }
+                    
                 }
 
                 void SetLeftPage(BitmapImage Image)
@@ -165,8 +178,6 @@ namespace Reader
                     LeftPage.Visibility = Visibility.Visible;
                     RightPage.Visibility = Visibility.Visible;
                     SinglePage.Visibility = Visibility.Collapsed;
-
-
                     RightPage.Source = Image;
 
 
@@ -177,7 +188,6 @@ namespace Reader
                     LeftPage.Visibility = Visibility.Collapsed;
                     RightPage.Visibility = Visibility.Collapsed;
                     SinglePage.Visibility = Visibility.Visible;
-
                     SinglePage.Source = Image;
 
                 }

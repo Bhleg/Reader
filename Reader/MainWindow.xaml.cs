@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Configuration;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.IO;
@@ -15,16 +16,18 @@ namespace Reader
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        
-        public MainWindow ()
+
+        public MainWindow()
         {
             InitializeComponent();
             MenuPanel();
             File_Picker();
-          
-            
-            
+
+
+
         }
+        String BookName;
+
         int CurrentPage = 0;
         int TotalPages = 0;
         string ViewerType = "Double";
@@ -38,6 +41,7 @@ namespace Reader
 
         public void MenuPanel()
         {
+            Menu.Clear();
             MenuGrid.ItemsSource = Menu;
             Menu.Add(new MenuPanelItem() { Name = "Explorer", Command = "Explorer", Icon = "\uE188" });
             Menu.Add(new MenuPanelItem() { Name = "Reader",  Command = "Reader", Icon = Char.ConvertFromUtf32(0x1f4d6) });
@@ -76,6 +80,7 @@ namespace Reader
         }
 
         
+
 
         void ShowExplorer()
         {
@@ -166,7 +171,36 @@ namespace Reader
             }
         }
 
-        
+        private void ContextMenuLibraryList_Event(object sender, RoutedEventArgs e)
+        {
+           
+            List<MenuPanelItem> Librarylist = new List<MenuPanelItem>();
+           
+            foreach (string item in Properties.Settings.Default.Library)
+            {
+                string DirectorieName = System.IO.Path.GetFileName(item);
+                //string Command = "GetContent(" + item + ")";
+
+                Librarylist.Add(new MenuPanelItem() { Name = DirectorieName, Command = item });
+            }
+            //(sender as Button).ContextMenu.IsEnabled = true;
+            (sender as Button).ContextMenu.PlacementTarget = (sender as Button);
+            (sender as Button).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            (sender as Button).ContextMenu.IsOpen = true;
+            (sender as Button).ContextMenu.ItemsSource = Librarylist;
+
+
+
+        }
+
+        private void DeleteLibrary_Event(object sender, RoutedEventArgs e)
+        {
+            Button bn = sender as Button;
+            Properties.Settings.Default.Library.Remove(bn.Tag.ToString());
+            Properties.Settings.Default.Save();
+            MenuPanel();
+            MenuGrid.Items.Refresh();
+        }
     }
     
 

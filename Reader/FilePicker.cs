@@ -15,6 +15,8 @@ using Ghostscript.NET.Viewer;
 using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Reader
 {
@@ -51,7 +53,7 @@ namespace Reader
             foreach (string DirectoriePath in DirectoryEntries)
             {
                 string DirectorieName = System.IO.Path.GetFileName(DirectoriePath);
-                Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder", Icon = "/Icons/Folder.png" });
+                Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder", Icon = "\uE188" });
             }
 
             // Process the list of files found in the directory.
@@ -60,7 +62,7 @@ namespace Reader
             {
 
                 string FileName = System.IO.Path.GetFileName(FilePath);
-                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = "/Icons/Message.png" });
+                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6) });
 
             }
 
@@ -76,24 +78,32 @@ namespace Reader
             CurrentPage = 0;
             int i = 0;
             var archive = ArchiveFactory.Open(FilePath);
+            
+            
+            List<string> SortedOrder = new List<string>();
+            
             foreach (var entry in archive.Entries)
             {
                 //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
                 if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
                 {
 
-                    i++;
-                    MemoryStream memstream = new MemoryStream();
-                    entry.WriteTo(memstream);
-                    memstream.Seek(0, SeekOrigin.Begin);
-                    byte[] bytes = memstream.ToArray();
-                    Pages.Add(i, bytes);
-
-                    // set variable to null to avoid memory hog
-                    memstream = null;
-                    bytes = null;
+                        i++;
 
 
+                    //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
+                    using (MemoryStream MemStream = new MemoryStream())
+                    {
+                         entry.WriteTo(MemStream);
+                         MemStream.Seek(0, SeekOrigin.Begin);
+                         byte[] bytes = MemStream.ToArray();
+                        //MessageBox.Show(entry.Key.ToString());
+                        //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
+                         Pages.Add(i, bytes);
+                    }
+                        
+                    
+                    
 
 
                 }
@@ -101,6 +111,7 @@ namespace Reader
             }
             archive = null;
             TotalPages = i;
+            BookName = System.IO.Path.GetFileName(FilePath);
             Viewer(ViewerType, "Start");
             ShowReader();
 
@@ -121,6 +132,7 @@ namespace Reader
             string Command = "GetContent(" + CurrentPath + ")";
 
             Menu.Add(new MenuPanelItem() { Name = DirectorieName, Command = CurrentPath });
+            
 
 
 
@@ -171,13 +183,9 @@ namespace Reader
             // MessageBox.Show(trrrr);
             if (z == "File")
             {
-                //MainWindow m = Application.ReferenceEquals MainWindow();
-                //MainWindow m = (MainWindow)Application.Current.MainWindow;
                 string Path = FilePickerT.SelectedValue.ToString();
-                //m.CbzLoader(Path);
-                FileLoader(Path);
-                //m.CbzLoader(FilePickerT.SelectedValue.ToString());
-                //FilePickerWindow.Hide();
+                FileLoader(Path);  
+               
             }
             else
             {
@@ -219,11 +227,12 @@ namespace Reader
         //Event for the CreateLibrary Button inside the File Picker Window
         protected void CreateLibrary_Event(object sender, EventArgs e)
         {
-            //Button bn = sender as Button;
-            //GetContent(bn.Tag.ToString());
+           
             CreateLibrary();
-            //FilePickerT.ItemsSource = Items;
-            //FilePickerT.Items.Refresh();
+            MenuPanel();
+            MenuGrid.Items.Refresh();
+
+
         }
 
         //Event for the DeleteLibrary Button inside the File Picker Window
@@ -257,6 +266,7 @@ namespace Reader
             //DeleteLibraryGrid.Items.Refresh();
             //Menu.Clear();
             //MenuPanel();
+
             
 
 
