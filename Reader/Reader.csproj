@@ -98,6 +98,7 @@
     <Compile Include="CustomSetting.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="SettingView.cs" />
+    <Compile Include="StreamWrapperClass.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

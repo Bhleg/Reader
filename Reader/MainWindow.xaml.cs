@@ -8,6 +8,7 @@ using System.IO;
 using SharpCompress.Archives;
 using System.Windows.Controls;
 using MahApps.Metro.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace Reader
 {
@@ -185,7 +186,7 @@ namespace Reader
             }
             //(sender as Button).ContextMenu.IsEnabled = true;
             (sender as Button).ContextMenu.PlacementTarget = (sender as Button);
-            (sender as Button).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            (sender as Button).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;           
             (sender as Button).ContextMenu.IsOpen = true;
             (sender as Button).ContextMenu.ItemsSource = Librarylist;
 
@@ -200,6 +201,7 @@ namespace Reader
             Properties.Settings.Default.Save();
             MenuPanel();
             MenuGrid.Items.Refresh();
+            DeleteLibrary_Button.ContextMenu.IsOpen = false;
         }
     }
     

@@ -89,7 +89,7 @@
                         <ContextMenu >
                             <ContextMenu.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Content="{Binding Name}" Tag="{Binding Command}" Click="DeleteLibrary_Event"/>
+                                    <Button Content="{Binding Name}" Tag="{Binding Command}" Click="DeleteLibrary_Event" Style="{StaticResource MenuPanelButton}"/>
                                     <!-- But where to put Command binding? TextBlock.Command makes no sense, and we have no access to MenuItem! -->
                                 </DataTemplate>
                             </ContextMenu.ItemTemplate>

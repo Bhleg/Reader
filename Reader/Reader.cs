@@ -149,17 +149,19 @@ namespace Reader
 
                 BitmapImage CreatePage(int p)
                 {
+
                     using (var memoryStream = new MemoryStream(Pages[p]))
+                    using (WrappingStream wrapper = new WrappingStream(memoryStream))
                     {
                         BitmapImage Image = new BitmapImage();
                         Image.BeginInit();
-                        Image.StreamSource = memoryStream;
+                        Image.StreamSource = wrapper;
                         Image.CacheOption = BitmapCacheOption.OnLoad;
-                        Image.DecodePixelWidth = FilePickerT.Width.int;
+                        Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
                         Image.EndInit();
                         Image.Freeze();
                         return Image;
-                        
+
                     }
                     
                 }
