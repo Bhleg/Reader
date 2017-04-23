@@ -146,7 +146,7 @@
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" Padding="0" Style="{StaticResource MenuPanelButton}">
+                                <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" Padding="0" Style="{StaticResource MenuPanelButton}" Margin="0">
                                     <Grid Height="40">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="40"/>

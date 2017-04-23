@@ -149,6 +149,7 @@ namespace Reader
 
         private void MenuPanelbtn_Event(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("ok!");
             Button bn = sender as Button;
             string Command = bn.Tag.ToString();
             if (Command == "Explorer")
