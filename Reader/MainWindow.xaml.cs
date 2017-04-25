@@ -149,7 +149,7 @@ namespace Reader
 
         private void MenuPanelbtn_Event(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("ok!");
+            //MessageBox.Show("ok!");
             Button bn = sender as Button;
             string Command = bn.Tag.ToString();
             if (Command == "Explorer")
@@ -204,6 +204,8 @@ namespace Reader
             MenuGrid.Items.Refresh();
             DeleteLibrary_Button.ContextMenu.IsOpen = false;
         }
+
+
     }
     
 

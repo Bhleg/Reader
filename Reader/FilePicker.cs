@@ -235,18 +235,6 @@ namespace Reader
 
         }
 
-        //Event for the DeleteLibrary Button inside the File Picker Window
-        protected void PickerSettings_Event(object sender, EventArgs e)
-        {
-
-           DeleteLibraryGrid.ItemsSource = Menu;
-
-
-            //Button bn = sender as Button;
-           // GetContent(bn.Tag.ToString());
-            //FilePickerT.ItemsSource = Items;
-            //FilePickerT.Items.Refresh();
-        }
 
         //Event for the Library's Button inside the File Picker Window
         protected void GoToLibrary_Event(object sender, EventArgs e)

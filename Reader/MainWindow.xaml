@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" 
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" WindowStyle="None" Height="640" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998" ResizeMode="NoResize" WindowState="Maximized">
+        Title="MainWindow" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998"  WindowState="Maximized">
 
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
@@ -19,7 +19,7 @@
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="Reader" Grid.ColumnSpan="2" Visibility="Collapsed" d:IsHidden="True" Grid.RowSpan="2" d:IsLocked="True">
+        <Grid x:Name="Reader" Grid.ColumnSpan="2" Visibility="Collapsed" Grid.RowSpan="2" d:IsLocked="True">
 
 
             <Grid x:Name="DoubePage" Grid.ColumnSpan="2">
@@ -70,7 +70,7 @@
             </Grid.ColumnDefinitions>
 
 
-            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}"  >
+            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled"  >
                 <DataGrid.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuColorKey}}"/>
                 </DataGrid.Foreground>
@@ -105,25 +105,15 @@
 
 
         </Grid>
-        <Grid x:Name="Settings" Grid.Column="1" Visibility="Collapsed" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="7*"/>
-            </Grid.RowDefinitions>
-            <DataGrid x:Name="DeleteLibraryGrid" AutoGenerateColumns="False" HeadersVisibility="None" SelectionMode="Single" RowHeight="50" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" CanUserAddRows="false" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.RowSpan="2">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="{Binding Name}" Tag="{Binding Path}" Click="DeleteLibrary_Event"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-
-
-
+        <Grid x:Name="Settings" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" >
+            <StackPanel>
+                <TextBlock Text="Default Viewer" FontWeight="Bold" FontSize="18"/>
+                    <ComboBox HorizontalAlignment="Left" FontSize="16">
+                        <ComboBoxItem>Single Page</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">Double Page</ComboBoxItem>
+                </ComboBox>
+                    <TextBlock Text="MAL Integration" FontWeight="Bold" FontSize="18"/>
+            </StackPanel>
         </Grid>
         <Grid x:Name="MainMenuView" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <Grid.RowDefinitions>
