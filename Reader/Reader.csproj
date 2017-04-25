@@ -96,6 +96,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CustomSetting.cs" />
+    <Compile Include="Metadata.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="SettingView.cs" />
     <Compile Include="StreamWrapperClass.cs" />
