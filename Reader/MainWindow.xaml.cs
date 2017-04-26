@@ -31,6 +31,7 @@ namespace Reader
 
         int CurrentPage = 0;
         int TotalPages = 0;
+        string BookPath = "";
         string ViewerType = "Double";
         //string ViewerType = Properties.Settings.Default.DefaultViewer;
         // Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();

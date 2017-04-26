@@ -90,7 +90,9 @@ namespace Reader
                 {
                     if (i + 1 == TotalPages)
                     {
-
+                        SetMetadata(BookPath, "ReadState", "Read");
+                        //ReadMetadata(BookPath, "ReadState");
+                       // MessageBox.Show(ReadMetadata(BookPath, "ReadState"));
                         return;
 
                     }

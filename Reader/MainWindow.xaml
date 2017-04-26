@@ -77,7 +77,17 @@
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Icon" Width="SizeToCells" IsReadOnly="True" CanUserResize="True" Binding="{Binding Icon}" FontFamily="Segoe UI Symbol"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                    <DataGridTemplateColumn Header="Name" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding Status}" FontStyle="Italic" FontSize="12" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                   <!---<DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" /> -->
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel x:Name="ExplorerToolbar" Margin="0" Orientation="Horizontal">

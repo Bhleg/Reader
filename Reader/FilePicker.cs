@@ -62,7 +62,7 @@ namespace Reader
             {
 
                 string FileName = System.IO.Path.GetFileName(FilePath);
-                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6) });
+                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6), Status = ReadMetadata(FilePath, "ReadState") });
 
             }
 
@@ -152,6 +152,8 @@ namespace Reader
             public string Type { get; set; }
 
             public string Icon { get; set; }
+
+            public string Status { get; set; }
         }
 
 
@@ -184,6 +186,7 @@ namespace Reader
             if (z == "File")
             {
                 string Path = FilePickerT.SelectedValue.ToString();
+                BookPath = Path;
                 FileLoader(Path);  
                
             }
