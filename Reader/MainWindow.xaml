@@ -110,6 +110,7 @@
 
 
             </StackPanel>
+            <WindowsFormsHost HorizontalAlignment="Left" Height="2" Margin="407,248,0,0" Grid.Row="1" VerticalAlignment="Top" Width="6"/>
 
 
 

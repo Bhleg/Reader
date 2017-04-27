@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Threading.Tasks;
-
+using MuPDFLib;
 namespace Reader
 {
     /// <summary>
@@ -55,7 +55,7 @@ namespace Reader
             }
 
             // Process the list of files found in the directory.
-            string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar")).ToArray();
+            string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar") || s.EndsWith("pdf")).ToArray();
             foreach (string FilePath in FileEntries)
             {
 
@@ -72,54 +72,104 @@ namespace Reader
         //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
         public void FileLoader(string FilePath)
         {
-            Pages.Clear();
-            CurrentPage = 0;
-            int i = 0;
-            var archive = ArchiveFactory.Open(FilePath);
-            
-            
-            List<string> SortedOrder = new List<string>();
-            
-            foreach (var entry in archive.Entries)
+            string ext = Path.GetExtension(FilePath).ToLower();
+            if (ext == ".pdf")
             {
-                //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
-                if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
+                PdfLoader(FilePath);
+            }
+            else
+            {
+                ArchiveLoader(FilePath);
+            }
+            void PdfLoader(string Path)
+            {
+
+                Pages.Clear();
+                CurrentPage = 0;
+
+                float dpi = 150;
+                MuPDF pdf = new MuPDF(Path, "");
+                
+                
+                for (int i = 1; i <= pdf.PageCount; i++)
                 {
+
+                    pdf.Page = i;
+
+                    BitmapSource s = pdf.GetBitmapSource(0, 0, dpi, dpi, 0, RenderType.RGB, false, false, 90000);
+
+                    byte[] b = StreamFromBitmapSource(s).ToArray();
+                    Pages.Add(i, b);
+
+
+
+                }
+                MemoryStream StreamFromBitmapSource(BitmapSource writeBmp)
+                {
+                    MemoryStream bmp = new MemoryStream();
+
+                    BitmapEncoder enc = new BmpBitmapEncoder();
+                    enc.Frames.Add(BitmapFrame.Create(writeBmp));
+                    enc.Save(bmp);
+
+                    return bmp;
+                }
+                TotalPages = pdf.PageCount;
+                BookName = System.IO.Path.GetFileName(Path);
+                Viewer(ViewerType, "Start");
+                ShowReader();
+
+            }
+
+            void ArchiveLoader (string Path)
+            {
+                Pages.Clear();
+                CurrentPage = 0;
+                int i = 0;
+                var archive = ArchiveFactory.Open(Path);
+
+
+                //List<string> SortedOrder = new List<string>();
+
+                foreach (var entry in archive.Entries)
+                {
+                    //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
+                    if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
+                    {
 
                         i++;
 
 
-                    //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
-                    using (MemoryStream MemStream = new MemoryStream())
-                    {
-                         entry.WriteTo(MemStream);
-                         MemStream.Seek(0, SeekOrigin.Begin);
-                         byte[] bytes = MemStream.ToArray();
-                        //MessageBox.Show(entry.Key.ToString());
-                        //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
-                         Pages.Add(i, bytes);
-                    }
-                        
-                    
-                    
+                        //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
+                        using (MemoryStream MemStream = new MemoryStream())
+                        {
+                            entry.WriteTo(MemStream);
+                            MemStream.Seek(0, SeekOrigin.Begin);
+                            byte[] bytes = MemStream.ToArray();
+                            //MessageBox.Show(entry.Key.ToString());
+                            //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
+                            Pages.Add(i, bytes);
+                        }
 
+
+
+
+
+                    }
 
                 }
+                archive = null;
+                TotalPages = i;
+                BookName = System.IO.Path.GetFileName(Path);
+                Viewer(ViewerType, "Start");
+                ShowReader();
+
 
             }
-            archive = null;
-            TotalPages = i;
-            BookName = System.IO.Path.GetFileName(FilePath);
-            Viewer(ViewerType, "Start");
-            ShowReader();
-
 
         }
 
-        public void PdfLoaderstring (string Filepath)
-        {
-            
-        }
+       
 
 
         private void CreateLibrary()

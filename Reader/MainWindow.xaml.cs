@@ -23,6 +23,7 @@ namespace Reader
             InitializeComponent();
             MenuPanel();
             File_Picker();
+            //PdfLoaderstring(@"C:\IMG_0001.pdf");
 
 
 
