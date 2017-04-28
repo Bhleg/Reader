@@ -40,7 +40,7 @@ namespace Reader
         String BookName;
 
         int CurrentPage = 0;
-        int TotalPages = 0;
+        public static int TotalPages = 0;
         string BookPath = "";
         string ViewerType = "Single";
         //string ViewerType = Properties.Settings.Default.DefaultViewer;

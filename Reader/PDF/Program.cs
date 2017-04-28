@@ -39,19 +39,22 @@ namespace MupdfSharp
             IntPtr stm = NativeMethods.OpenFile(ctx, path); // opens file test.pdf as a stream
             IntPtr doc = NativeMethods.OpenDocumentStream(ctx, stm); // opens the document
             int pn = NativeMethods.CountPages(doc); // gets the number of pages in the document
+            Reader.MainWindow.TotalPages = NativeMethods.CountPages(doc);
             for (int i = 1; i < pn; i++)
             { // iterate through each pages
                 //Console.WriteLine("Rendering page " + (i + 1));
                 IntPtr p = NativeMethods.LoadPage(doc, i); // loads the page (first page number is 1)
                 Rectangle b = new Rectangle();
                 NativeMethods.BoundPage(doc, p, ref b); // gets the page size
-
+                
+                
                 var bmp = RenderPage(ctx, doc, p, b);  // renders the page and converts the result to Bitmap
 
                 byte[] bi = StreamFromBitmapSource(bmp).ToArray();
                 Reader.MainWindow.Pages.Add(i, bi);
 
                 NativeMethods.FreePage(doc, p); // releases the resources consumed by the page
+                GC.Collect();
             }
             NativeMethods.CloseDocument(doc); // releases the resources
             NativeMethods.CloseStream(stm);
@@ -76,14 +79,15 @@ namespace MupdfSharp
 			IntPtr pix = IntPtr.Zero;
 			IntPtr dev = IntPtr.Zero;
 
-            float zoomX = 2, zoomY = 2;
+            float zoomX = 350 / 72;
+            float zoomY = 350 / 72;
 
             int width = (int)(zoomX * (pageBound.Right - pageBound.Left)); // gets the size of the scaled page
             int height = (int)(zoomY * (pageBound.Bottom - pageBound.Top));
             ctm.A = zoomX;
             ctm.D = zoomY; // sets the matrix as (zoomX,0,0,zoomY,0,0) 
 
-            //int width = (int)(pageBound.Right - pageBound.Left); // gets the size of the page
+           // int width = (int)(pageBound.Right - pageBound.Left); // gets the size of the page
 			//int height = (int)(pageBound.Bottom - pageBound.Top);
 
             const int depth = 24;
