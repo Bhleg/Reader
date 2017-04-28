@@ -29,10 +29,9 @@ namespace Reader
 
             void SinglePageViewer(string z, int i = 0)
             {
-                DoubePage.Visibility = Visibility.Collapsed;
-                SinglePage.Visibility = Visibility.Visible;
+                
                 i = CurrentPage;
-                if (z == "Load")
+                if (z == "Start")
                 {
                     i = 1;
                     
@@ -63,16 +62,19 @@ namespace Reader
                     }
                 }
 
-               var memoryStream = new MemoryStream(Pages[i]);
-               memoryStream.Seek(0, SeekOrigin.Begin);
-                BitmapImage a = new BitmapImage();
-                a.BeginInit();
-                a.StreamSource = memoryStream;
-                a.CacheOption = BitmapCacheOption.OnLoad;
-                a.EndInit();
-                SinglePage.Source = a;
-                CurrentPage = i;
+                LeftPage.Source = null;
+                RightPage.Source = null;
+                SinglePage.Source = null;
 
+                BitmapImage a = CreatePage(i);
+                a.Freeze();
+                SetSinglePage(a);
+
+                a = null;
+               
+                GC.Collect();
+                CurrentPage = i;
+              
             }
 
             void DoublePageViewer(string z, int i = 0)
@@ -149,56 +151,58 @@ namespace Reader
 
 
 
-                BitmapImage CreatePage(int p)
-                {
+               
 
-                    using (var memoryStream = new MemoryStream(Pages[p]))
-                    using (WrappingStream wrapper = new WrappingStream(memoryStream))
-                    {
-                        BitmapImage Image = new BitmapImage();
-                        Image.BeginInit();
-                        Image.StreamSource = wrapper;
-                        Image.CacheOption = BitmapCacheOption.OnLoad;
-                       // Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
-                        Image.EndInit();
-                        Image.Freeze();
-                        return Image;
-
-                    }
-                    
-                }
-
-                void SetLeftPage(BitmapImage Image)
-                {
-                    LeftPage.Visibility = Visibility.Visible;
-                    RightPage.Visibility = Visibility.Visible;
-                    SinglePage.Visibility = Visibility.Collapsed;
-                    LeftPage.Source = Image;
-
-                }
-
-                void SetRightPage(BitmapImage Image)
-                {
-                    LeftPage.Visibility = Visibility.Visible;
-                    RightPage.Visibility = Visibility.Visible;
-                    SinglePage.Visibility = Visibility.Collapsed;
-                    RightPage.Source = Image;
-
-
-                }
-
-                void SetSinglePage(BitmapImage Image)
-                {
-                    LeftPage.Visibility = Visibility.Collapsed;
-                    RightPage.Visibility = Visibility.Collapsed;
-                    SinglePage.Visibility = Visibility.Visible;
-                    SinglePage.Source = Image;
-
-                }
+                
 
 
             }
 
+            void SetLeftPage(BitmapImage Image)
+            {
+                LeftPage.Visibility = Visibility.Visible;
+                RightPage.Visibility = Visibility.Visible;
+                SinglePage.Visibility = Visibility.Collapsed;
+                LeftPage.Source = Image;
+
+            }
+
+            void SetRightPage(BitmapImage Image)
+            {
+                LeftPage.Visibility = Visibility.Visible;
+                RightPage.Visibility = Visibility.Visible;
+                SinglePage.Visibility = Visibility.Collapsed;
+                RightPage.Source = Image;
+
+
+            }
+
+            void SetSinglePage(BitmapImage Image)
+            {
+                LeftPage.Visibility = Visibility.Collapsed;
+                RightPage.Visibility = Visibility.Collapsed;
+                SinglePage.Visibility = Visibility.Visible;
+                SinglePage.Source = Image;
+
+            }
+            BitmapImage CreatePage(int p)
+            {
+
+                using (var memoryStream = new MemoryStream(Pages[p]))
+                using (WrappingStream wrapper = new WrappingStream(memoryStream))
+                {
+                    BitmapImage Image = new BitmapImage();
+                    Image.BeginInit();
+                    Image.StreamSource = wrapper;
+                    Image.CacheOption = BitmapCacheOption.OnLoad;
+                    // Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
+                    Image.EndInit();
+                    Image.Freeze();
+                    return Image;
+
+                }
+
+            }
 
 
         }

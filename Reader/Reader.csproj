@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>A5978735AD288847FA5959343A99BA82FD9BEA69</ManifestCertificateThumbprint>
@@ -97,6 +99,8 @@
     </ApplicationDefinition>
     <Compile Include="CustomSetting.cs" />
     <Compile Include="Metadata.cs" />
+    <Compile Include="PDF\Program.cs" />
+    <Compile Include="PDF\Structures.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="SettingView.cs" />
     <Compile Include="StreamWrapperClass.cs" />
@@ -173,14 +177,9 @@
     <Resource Include="Icons\Library.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Source\Repos\mupdf-converter\MuPDFlib\MuPDFLib.vcxproj">
-      <Project>{1897affe-97ec-4b8e-adcc-6a19ba3f9eef}</Project>
-      <Name>MuPDFLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Source\Repos\mupdf-converter\MuPDF\MuPDF.csproj">
-      <Project>{5e72e751-1fe9-451b-b548-b645829a0951}</Project>
-      <Name>MuPDF</Name>
-    </ProjectReference>
+    <Content Include="libmupdf.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -104,7 +104,7 @@ namespace Reader
             {
                 return "null";
             }
-            return "null";
+            
         }
     }
 }

@@ -15,7 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Threading.Tasks;
-using MuPDFLib;
+using MupdfSharp;
+
 namespace Reader
 {
     /// <summary>
@@ -69,57 +70,64 @@ namespace Reader
 
         }
 
-        //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
+       //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
         public void FileLoader(string FilePath)
         {
+            Pages.Clear();
+            CurrentPage = 0;
             string ext = Path.GetExtension(FilePath).ToLower();
             if (ext == ".pdf")
             {
-                PdfLoader(FilePath);
+               Program.GetPdF(FilePath);
+                //TotalPages = pdf.PageCount;
+                BookName = System.IO.Path.GetFileName(FilePath);
+                Viewer(ViewerType, "Start");
+                ShowReader();
             }
             else
             {
                 ArchiveLoader(FilePath);
             }
-            void PdfLoader(string Path)
-            {
+           /*   void PdfLoader(string Path)
+             {
 
-                Pages.Clear();
-                CurrentPage = 0;
+                 Pages.Clear();
+                 CurrentPage = 0;
 
-                float dpi = 150;
-                MuPDF pdf = new MuPDF(Path, "");
-                
-                
-                for (int i = 1; i <= pdf.PageCount; i++)
-                {
-
-                    pdf.Page = i;
-
-                    BitmapSource s = pdf.GetBitmapSource(0, 0, dpi, dpi, 0, RenderType.RGB, false, false, 90000);
-
-                    byte[] b = StreamFromBitmapSource(s).ToArray();
-                    Pages.Add(i, b);
+                 float dpi = 96;
+                 MuPDF pdf = new MuPDF(Path, "");
 
 
+                 for (int i = 1; i <= pdf.PageCount; i++)
+                 {
 
-                }
-                MemoryStream StreamFromBitmapSource(BitmapSource writeBmp)
-                {
-                    MemoryStream bmp = new MemoryStream();
+                     pdf.Page = i;
 
-                    BitmapEncoder enc = new BmpBitmapEncoder();
-                    enc.Frames.Add(BitmapFrame.Create(writeBmp));
-                    enc.Save(bmp);
+                     BitmapSource s = pdf.GetBitmapSource(0, 0, dpi, dpi, 0, RenderType.RGB, false, false, 90000);
 
-                    return bmp;
-                }
-                TotalPages = pdf.PageCount;
-                BookName = System.IO.Path.GetFileName(Path);
-                Viewer(ViewerType, "Start");
-                ShowReader();
+                     byte[] b = StreamFromBitmapSource(s).ToArray();
+                     Pages.Add(i, b);
 
-            }
+
+
+                 }
+                 MemoryStream StreamFromBitmapSource(BitmapSource writeBmp)
+                 {
+                     MemoryStream bmp = new MemoryStream();
+
+                     BitmapEncoder enc = new BmpBitmapEncoder();
+                     enc.Frames.Add(BitmapFrame.Create(writeBmp));
+                     enc.Save(bmp);
+
+                     return bmp;
+                 }
+                 TotalPages = pdf.PageCount;
+                 BookName = System.IO.Path.GetFileName(Path);
+                 Viewer(ViewerType, "Start");
+                 ShowReader();
+
+             } 
+             */
 
             void ArchiveLoader (string Path)
             {

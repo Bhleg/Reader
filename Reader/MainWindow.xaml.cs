@@ -9,6 +9,7 @@ using SharpCompress.Archives;
 using System.Windows.Controls;
 using MahApps.Metro.Controls;
 using System.Windows.Controls.Primitives;
+using MupdfSharp;
 
 namespace Reader
 {
@@ -23,7 +24,15 @@ namespace Reader
             InitializeComponent();
             MenuPanel();
             File_Picker();
+            // Program p = new Program();
+            //Program.RenderPage();
+
+           // LeftPage.Visibility = Visibility.Collapsed;
+           // RightPage.Visibility = Visibility.Collapsed;
+           // SinglePage.Visibility = Visibility.Visible;
+            //SinglePage.Source = Program.GetPdF(@"C:\Users\XXXXX\Desktop\Matt\FMD\downloads\Canard_PC_Hardware_Janvier_Fevrier_2017.pdf");
             //PdfLoaderstring(@"C:\IMG_0001.pdf");
+
 
 
 
@@ -33,10 +42,10 @@ namespace Reader
         int CurrentPage = 0;
         int TotalPages = 0;
         string BookPath = "";
-        string ViewerType = "Double";
+        string ViewerType = "Single";
         //string ViewerType = Properties.Settings.Default.DefaultViewer;
         // Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
-        Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
+        public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
         List<MenuPanelItem> Menu = new List<MenuPanelItem>();
         
 
