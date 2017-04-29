@@ -22,20 +22,12 @@ namespace Reader
     {
         public void SetMetadata(string path, string propertie, string value)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
+            
             string MetadataFile = Path.GetFileName(path);
             string MetadataFolder = String.Concat(Path.GetDirectoryName(path), "/.metadata");
             string MetadataFilePath = Path.ChangeExtension(Path.Combine(MetadataFolder, MetadataFile),".metadata");
             Directory.CreateDirectory(MetadataFolder);
             string line = propertie + " :" + value;
-
-            stopwatch.Stop();
-
-            // Write result.
-            MessageBox.Show("Time elapsed: {0}", stopwatch.Elapsed.ToString());
-
 
             if (File.Exists(MetadataFilePath))
             {

@@ -31,41 +31,29 @@ namespace Reader
             {
                 
                 i = CurrentPage;
-                if (z == "Start")
-                {
-                    i = 1;
-                    
-                    
-
-                }
+                if (z == "Start") { i = 1; }
                 else if (z == "Next")
                 {
-                    if (i + 1 <= Book.TotalPages)
-                    {
-                        i = i + 1;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Last Page !");
-                    }
+                    if (i + 1 <= Book.TotalPages) {    i = i + 1; }
+                    else { MessageBox.Show("Last Page !");}
 
                 }
                 else if (z == "Previous")
                 {
-                    if (i == 1)
-                    {
-                        MessageBox.Show("First Page !");
-                    }
-                    else
-                    {
-                        i = i - 1;
-                    }
+                    if (i == 1)  { MessageBox.Show("First Page !"); }
+                    else {i = i - 1;}
                 }
-                MupdfSharp.Program.GetPdFPageLazy(i);
 
-                LeftPage.Source = null;
-                RightPage.Source = null;
-                SinglePage.Source = null;
+                //call the function that only load the needed pdf page
+                if (Book.Type==".pdf")
+                {
+                    MupdfSharp.Program.GetPdFPageLazy(i);
+                }
+                
+
+
+                // set source page to null to make sure that memory has been freed before re-assigning them
+                LeftPage.Source = RightPage.Source = SinglePage.Source = null;
 
                 BitmapImage a = CreatePage(i);
                 a.Freeze();
@@ -80,64 +68,61 @@ namespace Reader
 
             void DoublePageViewer(string z, int i = 0)
             {
-
                 i = CurrentPage;
-
-
-                if (z == "Start")
-                {
-                    i = 1;
-
-                }
+                if (z == "Start"){i = 1;}
                 else if (z == "Next")
                 {
-                    if (i + 1 == Book.TotalPages)
+                    if (i + 1 <= Book.TotalPages)
                     {
-                        SetMetadata(BookPath, "ReadState", "Read");
-                        //ReadMetadata(BookPath, "ReadState");
-                       // MessageBox.Show(ReadMetadata(BookPath, "ReadState"));
-                        return;
-
+                        i = i + 1;
                     }
-                    i = i + 1;
-                    //MessageBox.Show(i.ToString());
+                    else
+                    {
+                        SetMetadata(Book.Path, "ReadState", "Read");
+                        return;
+                    }
+                    
 
                 }
                 else if (z == "Previous")
                 {
-                    if (i <= 2)
-                    {
-
-                        return;
-
-                    }
-                    else
-                    {
-                        i = i - 2;
-                    }
+                    if (i <= 2) { return; }
+                    else { i = i - 2;}
                 }
 
-                
-                LeftPage.Source = null;
-                RightPage.Source = null;
-                SinglePage.Source = null;
-                
+                // set source page to null to make sure that memory has been freed before re-assigning them
+                LeftPage.Source = RightPage.Source = SinglePage.Source = null;
+
+                //call the function that only load the needed pdf page
+                if (Book.Type == ".pdf")
+                {
+                    MupdfSharp.Program.GetPdFPageLazy(i);
+                }
+
 
                 int ia = i;
                 int ib = i + 1;
-
                 BitmapImage a = CreatePage(ia);
-                BitmapImage b = CreatePage(ib);
                 a.Freeze();
+                
+                if (ib>Book.TotalPages)
+                {
+                    SetSinglePage(a);
+                    return;
+                }
+                BitmapImage b = CreatePage(ib);
                 b.Freeze();
+                
+                
 
+                //Double Page Detection logic
                 if (a.Width < a.Height && b.Width < b.Height)
                 {
                     SetLeftPage(a);
                     SetRightPage(b);
                     i = i + 1;
                 }
-                else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height))
+                else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height) )
                 {
                     SetSinglePage(a);
 
@@ -148,7 +133,7 @@ namespace Reader
                 b = null;
                 GC.Collect();
                 CurrentPage = i;
-                //MessageBox.Show("i = " + i + "\n" + CurrentPage.ToString() + " sur " + TotalPages.ToString() + " Pages");
+                
 
             }
 
@@ -179,6 +164,7 @@ namespace Reader
                 SinglePage.Source = Image;
 
             }
+
             BitmapImage CreatePage(int p)
             {
 

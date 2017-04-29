@@ -12,30 +12,6 @@ namespace MupdfSharp
 {
 	public class Program
 	{
-		static public void Mainold (string[] args) {
-			IntPtr ctx = NativeMethods.NewContext (); // Creates the context
-			IntPtr stm = NativeMethods.OpenFile (ctx, "test.pdf"); // opens file test.pdf as a stream
-			IntPtr doc = NativeMethods.OpenDocumentStream (ctx, stm); // opens the document
-			int pn = NativeMethods.CountPages (doc); // gets the number of pages in the document
-			for (int i = 0; i < pn; i++) { // iterate through each pages
-				Console.WriteLine ("Rendering page " + (i + 1));
-				IntPtr p = NativeMethods.LoadPage (doc, i); // loads the page (first page number is 0)
-				Rectangle b = new Rectangle ();
-				NativeMethods.BoundPage (doc, p, ref b); // gets the page size
-
-                var bmp = RenderPage(ctx, doc, p, b);  // renders the page and converts the result to Bitmap
-					//Console.WriteLine ("Saving picture: " + (i+1) + ".png");
-					//bmp.Save ((i+1) + ".png"); // saves the bitmap to a file
-				
-				NativeMethods.FreePage (doc, p); // releases the resources consumed by the page
-			}
-			NativeMethods.CloseDocument (doc); // releases the resources
-			NativeMethods.CloseStream (stm);
-			NativeMethods.FreeContext (ctx);
-			Console.WriteLine ("Program finished. Press any key to quit.");
-			Console.ReadKey (true);
-		}
-
         static public void GetPdF(string path)
         {
             IntPtr ctx = NativeMethods.NewContext(); // Creates the context
@@ -79,13 +55,6 @@ namespace MupdfSharp
 
         static public void GetPdFPageLazy(int page)
         {
-            // PDFBook.ctx = NativeMethods.NewContext(); // Creates the context
-            // PDFBook.stm = NativeMethods.OpenFile(PDFBook.ctx, path); // opens file test.pdf as a stream
-            // PDFBook.doc = NativeMethods.OpenDocumentStream(PDFBook.ctx, PDFBook.stm); // opens the document
-            // PDFBook.pn = NativeMethods.CountPages(PDFBook.doc); // gets the number of pages in the document
-            //Reader.MainWindow.TotalPages = NativeMethods.CountPages(PDFBook.doc);
-            
-            //Reader.MainWindow.Pages.Remove();
             int a = page-2;
             int b = page + 2;
             if (a<1)
@@ -117,11 +86,10 @@ namespace MupdfSharp
 
 
             for (int i = a; i <= b; i++)
-            { // iterate through each pages
-                //Console.WriteLine("Rendering page " + (i + 1));
+            { 
                 if (!Reader.MainWindow.Pages.ContainsKey(i))
                 {
-                    int z = i-1;
+                    int z = i-1; // account for the fact that NativeMethods.CountPages start counting at 0 (Page number start at 1)
                     IntPtr p = NativeMethods.LoadPage(PDFBook.doc, z); // loads the page (first page number is 1)
                     Rectangle r = new Rectangle();
                     NativeMethods.BoundPage(PDFBook.doc, p, ref r); // gets the page size
@@ -176,6 +144,7 @@ namespace MupdfSharp
             }
             //return;
         }
+
         static public void LoadPDF(string path)
         {
             PDFBook.ctx = NativeMethods.NewContext(); // Creates the context
@@ -273,7 +242,6 @@ namespace MupdfSharp
             public static int TotalPage { get; set; }
 
         }
-
 
     }
 

@@ -40,9 +40,8 @@ namespace Reader
         String BookName;
 
         int CurrentPage = 0; 
-        string BookPath = "";
-        string ViewerType = "Single";
-        //string ViewerType = Properties.Settings.Default.DefaultViewer;
+        //string ViewerType = "Double";
+        string ViewerType = Properties.Settings.Default.DefaultViewer;
         // Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
         public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
         List<MenuPanelItem> Menu = new List<MenuPanelItem>();

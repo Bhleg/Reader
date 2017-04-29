@@ -70,26 +70,38 @@ namespace Reader
 
         }
 
-       //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
-        public void FileLoader(string FilePath)
+
+
+
+        //Load book ... pretty straightforward
+        public void LoadBook(string FilePath)
         {
+            
             Pages.Clear();
-            CurrentPage = 0;
-            string ext = Path.GetExtension(FilePath).ToLower();
-            if (ext == ".pdf")
+            CurrentPage = 0; 
+            Book.Type = Path.GetExtension(FilePath).ToLower();
+            Book.Path = FilePath;
+
+            if (Book.Type == ".pdf")
             {
-               Program.GetPdF(FilePath);
-                //TotalPages = pdf.PageCount;
-                BookName = System.IO.Path.GetFileName(FilePath);
+                //Call the function to load the pdf (not the pages)
+                //the function that load the page is called within the reader.cs
+                //since on a pdf the page is loaded on demand for memory efficiency purpose
+                Program.LoadPDF(FilePath);
+                Book.TotalPages = Program.PDFBook.TotalPage;
+                Book.Name = System.IO.Path.GetFileName(FilePath);
                 Viewer(ViewerType, "Start");
                 ShowReader();
             }
             else
             {
+                
                 ArchiveLoader(FilePath);
+
             }
 
-            void ArchiveLoader (string Path)
+            //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
+            void ArchiveLoader(string Path)
             {
                 Pages.Clear();
                 CurrentPage = 0;
@@ -137,87 +149,13 @@ namespace Reader
 
         }
 
-        void ArchiveLoader(string Path)
-        {
-            Pages.Clear();
-            CurrentPage = 0;
-            int i = 0;
-            var archive = ArchiveFactory.Open(Path);
+        
 
-
-            //List<string> SortedOrder = new List<string>();
-
-            foreach (var entry in archive.Entries)
-            {
-                //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
-                if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
-                {
-
-                    i++;
-
-
-                    //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
-                    using (MemoryStream MemStream = new MemoryStream())
-                    {
-                        entry.WriteTo(MemStream);
-                        MemStream.Seek(0, SeekOrigin.Begin);
-                        byte[] bytes = MemStream.ToArray();
-                        //MessageBox.Show(entry.Key.ToString());
-                        //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
-                        Pages.Add(i, bytes);
-                    }
-
-
-
-
-
-                }
-
-            }
-            archive = null;
-            Book.TotalPages = i;
-            BookName = System.IO.Path.GetFileName(Path);
-            Viewer(ViewerType, "Start");
-            ShowReader();
-
-
-        }
-        public void LoadBook(string FilePath)
-        {
-            
-            Pages.Clear();
-            //Pages.Keys.
-            CurrentPage = 0;
-            
-            string ext = Path.GetExtension(FilePath).ToLower();
-            if (ext == ".pdf")
-            {
-
-                Program.LoadPDF(FilePath);
-                Book.TotalPages = Program.PDFBook.TotalPage;
-                Book.Name = System.IO.Path.GetFileName(FilePath);
-                Viewer(ViewerType, "Start");
-                //MessageBox.Show(Pages.Keys.ToString());
-                ShowReader();
-            }
-            else
-            {
-                  ArchiveLoader(FilePath);
-              //  Program.PDFBook.;
-               // NativeMethods.BoundPage;
-            }
-
-        }
-
-        public void LazyLoadPage (int p)
-        {
-
-        }
 
        
 
 
-        private void CreateLibrary()
+       private void CreateLibrary()
         {
             Properties.Settings.Default.Library.Add(CurrentPath);
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
@@ -284,16 +222,10 @@ namespace Reader
             Item File = (Item)FilePickerT.SelectedItem;
             string z = File.Type;
 
-
-
-            //String trrrr = z.Type;
-            // MessageBox.Show(trrrr);
             if (z == "File")
             {
                 string Path = FilePickerT.SelectedValue.ToString();
-                BookPath = Path;
                 LoadBook(Path);
-                //FileLoader(Path);  
                
             }
             else
