@@ -4,6 +4,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using System.Windows.Documents;
 
 namespace MupdfSharp
 {
@@ -39,7 +42,7 @@ namespace MupdfSharp
             IntPtr stm = NativeMethods.OpenFile(ctx, path); // opens file test.pdf as a stream
             IntPtr doc = NativeMethods.OpenDocumentStream(ctx, stm); // opens the document
             int pn = NativeMethods.CountPages(doc); // gets the number of pages in the document
-            Reader.MainWindow.TotalPages = NativeMethods.CountPages(doc);
+            Reader.MainWindow.Book.TotalPages = NativeMethods.CountPages(doc);
             for (int i = 1; i < pn; i++)
             { // iterate through each pages
                 //Console.WriteLine("Rendering page " + (i + 1));
@@ -73,8 +76,114 @@ namespace MupdfSharp
             }
             //return;
         }
-        
-		static public BitmapSource RenderPage (IntPtr context, IntPtr document, IntPtr page, Rectangle pageBound) {
+
+        static public void GetPdFPageLazy(int page)
+        {
+            // PDFBook.ctx = NativeMethods.NewContext(); // Creates the context
+            // PDFBook.stm = NativeMethods.OpenFile(PDFBook.ctx, path); // opens file test.pdf as a stream
+            // PDFBook.doc = NativeMethods.OpenDocumentStream(PDFBook.ctx, PDFBook.stm); // opens the document
+            // PDFBook.pn = NativeMethods.CountPages(PDFBook.doc); // gets the number of pages in the document
+            //Reader.MainWindow.TotalPages = NativeMethods.CountPages(PDFBook.doc);
+            
+            //Reader.MainWindow.Pages.Remove();
+            int a = page-2;
+            int b = page + 2;
+            if (a<0)
+            {
+                a = 0;
+            }
+            if (b > PDFBook.TotalPage)
+            {
+                b = PDFBook.TotalPage;
+            }
+
+             
+
+            List<int>Keylist = new List<int>();
+            foreach (int key in Reader.MainWindow.Pages.Keys)
+            {
+                Keylist.Add(key);
+            }
+
+
+
+            foreach (var item in Keylist)
+            {
+                if (!IsBetween(item,a,b))
+                {
+                    Reader.MainWindow.Pages.Remove(item);
+                }
+            }
+
+
+            for (int i = a; i < b; i++)
+            { // iterate through each pages
+                //Console.WriteLine("Rendering page " + (i + 1));
+                if (!Reader.MainWindow.Pages.ContainsKey(i))
+                {
+                    IntPtr p = NativeMethods.LoadPage(PDFBook.doc, i); // loads the page (first page number is 1)
+                    Rectangle r = new Rectangle();
+                    NativeMethods.BoundPage(PDFBook.doc, p, ref r); // gets the page size
+
+
+                    var bmp = RenderPage(PDFBook.ctx, PDFBook.doc, p, r);  // renders the page and converts the result to Bitmap
+
+                    byte[] bi = StreamFromBitmapSource(bmp).ToArray();
+                    
+                    Reader.MainWindow.Pages.Add(i, bi);
+                    bmp = null;
+                    bi = null;
+
+                    NativeMethods.FreePage(PDFBook.doc, p); // releases the resources consumed by the page
+                }
+                else
+                {
+                    continue;
+                }
+                
+                
+            }
+            GC.Collect();
+            // NativeMethods.CloseDocument(PDFBook.doc); // releases the resources
+            // NativeMethods.CloseStream(PDFBook.stm);
+            // NativeMethods.FreeContext(PDFBook.ctx);
+            // Console.WriteLine("Program finished. Press any key to quit.");
+            // Console.ReadKey(true);
+            bool IsBetween(int i,int a1,int a2)
+            {
+                if (i>=a1 && i<=a2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            MemoryStream StreamFromBitmapSource(BitmapSource writeBmp)
+            {
+                using (MemoryStream bmp = new MemoryStream())
+                {
+                    BitmapEncoder enc = new BmpBitmapEncoder();
+                    enc.Frames.Add(BitmapFrame.Create(writeBmp));
+                    enc.Save(bmp);
+
+                    return bmp;
+                }
+
+                
+            }
+            //return;
+        }
+        static public void LoadPDF(string path)
+        {
+            PDFBook.ctx = NativeMethods.NewContext(); // Creates the context
+            PDFBook.stm = NativeMethods.OpenFile(PDFBook.ctx, path); // opens file test.pdf as a stream
+            PDFBook.doc = NativeMethods.OpenDocumentStream(PDFBook.ctx, PDFBook.stm); // opens the document
+            PDFBook.TotalPage = NativeMethods.CountPages(PDFBook.doc); // gets the number of pages in the document
+        }
+
+        static public BitmapSource RenderPage (IntPtr context, IntPtr document, IntPtr page, Rectangle pageBound) {
 			Matrix ctm = new Matrix ();
 			IntPtr pix = IntPtr.Zero;
 			IntPtr dev = IntPtr.Zero;
@@ -152,7 +261,22 @@ namespace MupdfSharp
             return write;
 		}
 
-		class NativeMethods
+        public static class PDFBook
+        {
+            public static IntPtr ctx { get; set; }
+
+            public static IntPtr stm { get; set; }
+
+            public static IntPtr doc { get; set; }
+
+            public static int TotalPage { get; set; }
+
+        }
+
+
+    }
+
+		public class NativeMethods
 		{
 			const uint FZ_STORE_DEFAULT = 256 << 20;
 			const string DLL = "libmupdf.dll";
@@ -217,5 +341,5 @@ namespace MupdfSharp
 			public static extern IntPtr GetSamples (IntPtr ctx, IntPtr pix);
 
 		}
-	}
+	
 }

@@ -88,46 +88,6 @@ namespace Reader
             {
                 ArchiveLoader(FilePath);
             }
-           /*   void PdfLoader(string Path)
-             {
-
-                 Pages.Clear();
-                 CurrentPage = 0;
-
-                 float dpi = 96;
-                 MuPDF pdf = new MuPDF(Path, "");
-
-
-                 for (int i = 1; i <= pdf.PageCount; i++)
-                 {
-
-                     pdf.Page = i;
-
-                     BitmapSource s = pdf.GetBitmapSource(0, 0, dpi, dpi, 0, RenderType.RGB, false, false, 90000);
-
-                     byte[] b = StreamFromBitmapSource(s).ToArray();
-                     Pages.Add(i, b);
-
-
-
-                 }
-                 MemoryStream StreamFromBitmapSource(BitmapSource writeBmp)
-                 {
-                     MemoryStream bmp = new MemoryStream();
-
-                     BitmapEncoder enc = new BmpBitmapEncoder();
-                     enc.Frames.Add(BitmapFrame.Create(writeBmp));
-                     enc.Save(bmp);
-
-                     return bmp;
-                 }
-                 TotalPages = pdf.PageCount;
-                 BookName = System.IO.Path.GetFileName(Path);
-                 Viewer(ViewerType, "Start");
-                 ShowReader();
-
-             } 
-             */
 
             void ArchiveLoader (string Path)
             {
@@ -167,13 +127,90 @@ namespace Reader
 
                 }
                 archive = null;
-                TotalPages = i;
+                Book.TotalPages = i;
                 BookName = System.IO.Path.GetFileName(Path);
                 Viewer(ViewerType, "Start");
                 ShowReader();
 
 
             }
+
+        }
+
+        void ArchiveLoader(string Path)
+        {
+            Pages.Clear();
+            CurrentPage = 0;
+            int i = 0;
+            var archive = ArchiveFactory.Open(Path);
+
+
+            //List<string> SortedOrder = new List<string>();
+
+            foreach (var entry in archive.Entries)
+            {
+                //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
+                if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
+                {
+
+                    i++;
+
+
+                    //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
+                    using (MemoryStream MemStream = new MemoryStream())
+                    {
+                        entry.WriteTo(MemStream);
+                        MemStream.Seek(0, SeekOrigin.Begin);
+                        byte[] bytes = MemStream.ToArray();
+                        //MessageBox.Show(entry.Key.ToString());
+                        //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
+                        Pages.Add(i, bytes);
+                    }
+
+
+
+
+
+                }
+
+            }
+            archive = null;
+            Book.TotalPages = i;
+            BookName = System.IO.Path.GetFileName(Path);
+            Viewer(ViewerType, "Start");
+            ShowReader();
+
+
+        }
+        public void LoadBook(string FilePath)
+        {
+            
+            Pages.Clear();
+            //Pages.Keys.
+            CurrentPage = 0;
+            
+            string ext = Path.GetExtension(FilePath).ToLower();
+            if (ext == ".pdf")
+            {
+
+                Program.LoadPDF(FilePath);
+                Book.TotalPages = Program.PDFBook.TotalPage;
+                Book.Name = System.IO.Path.GetFileName(FilePath);
+                Viewer(ViewerType, "Start");
+                //MessageBox.Show(Pages.Keys.ToString());
+                ShowReader();
+            }
+            else
+            {
+                  ArchiveLoader(FilePath);
+              //  Program.PDFBook.;
+               // NativeMethods.BoundPage;
+            }
+
+        }
+
+        public void LazyLoadPage (int p)
+        {
 
         }
 
@@ -196,7 +233,19 @@ namespace Reader
 
         }
 
-        
+      public static class Book
+        {
+            public static string Name { get; set; }
+
+            public static string Path { get; set; }
+
+            public static string Type { get; set; }
+
+            public static int TotalPages { get; set; }
+
+            public static string Status { get; set; }
+        }
+
 
         //Item class which is used for each entry inside the datagrid Filepicker
         class Item
@@ -243,7 +292,8 @@ namespace Reader
             {
                 string Path = FilePickerT.SelectedValue.ToString();
                 BookPath = Path;
-                FileLoader(Path);  
+                LoadBook(Path);
+                //FileLoader(Path);  
                
             }
             else

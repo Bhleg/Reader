@@ -40,7 +40,7 @@ namespace Reader
                 }
                 else if (z == "Next")
                 {
-                    if (i + 1 <= TotalPages)
+                    if (i + 1 <= Book.TotalPages)
                     {
                         i = i + 1;
                     }
@@ -61,6 +61,7 @@ namespace Reader
                         i = i - 1;
                     }
                 }
+                MupdfSharp.Program.GetPdFPageLazy(i);
 
                 LeftPage.Source = null;
                 RightPage.Source = null;
@@ -90,7 +91,7 @@ namespace Reader
                 }
                 else if (z == "Next")
                 {
-                    if (i + 1 == TotalPages)
+                    if (i + 1 == Book.TotalPages)
                     {
                         SetMetadata(BookPath, "ReadState", "Read");
                         //ReadMetadata(BookPath, "ReadState");
