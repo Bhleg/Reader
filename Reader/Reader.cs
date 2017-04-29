@@ -150,13 +150,6 @@ namespace Reader
                 CurrentPage = i;
                 //MessageBox.Show("i = " + i + "\n" + CurrentPage.ToString() + " sur " + TotalPages.ToString() + " Pages");
 
-
-
-               
-
-                
-
-
             }
 
             void SetLeftPage(BitmapImage Image)
@@ -196,7 +189,7 @@ namespace Reader
                     Image.BeginInit();
                     Image.StreamSource = wrapper;
                     Image.CacheOption = BitmapCacheOption.OnLoad;
-                    // Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
+                    Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
                     Image.EndInit();
                     Image.Freeze();
                     return Image;

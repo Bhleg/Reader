@@ -88,13 +88,13 @@ namespace MupdfSharp
             //Reader.MainWindow.Pages.Remove();
             int a = page-2;
             int b = page + 2;
-            if (a<0)
+            if (a<1)
             {
-                a = 0;
+                a = 1;
             }
-            if (b > PDFBook.TotalPage)
+            if (b > Reader.MainWindow.Book.TotalPages)
             {
-                b = PDFBook.TotalPage;
+                b = Reader.MainWindow.Book.TotalPages;
             }
 
              
@@ -116,12 +116,13 @@ namespace MupdfSharp
             }
 
 
-            for (int i = a; i < b; i++)
+            for (int i = a; i <= b; i++)
             { // iterate through each pages
                 //Console.WriteLine("Rendering page " + (i + 1));
                 if (!Reader.MainWindow.Pages.ContainsKey(i))
                 {
-                    IntPtr p = NativeMethods.LoadPage(PDFBook.doc, i); // loads the page (first page number is 1)
+                    int z = i-1;
+                    IntPtr p = NativeMethods.LoadPage(PDFBook.doc, z); // loads the page (first page number is 1)
                     Rectangle r = new Rectangle();
                     NativeMethods.BoundPage(PDFBook.doc, p, ref r); // gets the page size
 
@@ -255,9 +256,9 @@ namespace MupdfSharp
             }
 			NativeMethods.DropPixmap (context, pix);
 
-
+            
             //return bmp;
-            //write.Freeze();
+            write.Freeze();
             return write;
 		}
 
