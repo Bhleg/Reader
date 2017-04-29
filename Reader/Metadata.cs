@@ -87,11 +87,19 @@ namespace Reader
                    // var regex = new Regex(@"(?i)(?<=^" + propertie + @"\s*?:\s*?)\w*?(?=\s*?$)");
                     //File.WriteAllText(MetadataFilePath, text);
                 }
+                else if (propertie == "ReadState")
+                {
+                    return "Unread";
+                }
                 else
                 {
                     return "null";
                 }
             }
+            else if (propertie == "ReadState")
+            {
+                return "Unread";
+            } 
             else
             {
                 return "null";

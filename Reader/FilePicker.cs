@@ -59,9 +59,15 @@ namespace Reader
             string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar") || s.EndsWith("pdf")).ToArray();
             foreach (string FilePath in FileEntries)
             {
-
+                String Font = null;
+                string ReadState = ReadMetadata(FilePath, "ReadState");
+                if (ReadState=="Read")
+                {
+                    Font = "Light";
+                }
+           
                 string FileName = System.IO.Path.GetFileName(FilePath);
-                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6), Status = ReadMetadata(FilePath, "ReadState") });
+                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6), Status = ReadState, FontWeight = Font });
 
             }
 
@@ -197,6 +203,8 @@ namespace Reader
             public string Icon { get; set; }
 
             public string Status { get; set; }
+
+            public string FontWeight { get; set; }
         }
 
 

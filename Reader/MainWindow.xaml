@@ -81,13 +81,12 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{Binding Name}" FontWeight="{Binding FontWeight}" />
                                     <TextBlock Text="{Binding Status}" FontStyle="Italic" FontSize="12" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                   <!---<DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" /> -->
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel x:Name="ExplorerToolbar" Margin="0" Orientation="Horizontal">
@@ -100,7 +99,6 @@
                             <ContextMenu.ItemTemplate>
                                 <DataTemplate>
                                     <Button Content="{Binding Name}" Tag="{Binding Command}" Click="DeleteLibrary_Event" Style="{StaticResource MenuPanelButton}"/>
-                                    <!-- But where to put Command binding? TextBlock.Command makes no sense, and we have no access to MenuItem! -->
                                 </DataTemplate>
                             </ContextMenu.ItemTemplate>
                         </ContextMenu>
@@ -135,7 +133,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="MenuGrid" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" HeadersVisibility="None" Grid.IsSharedSizeScope="True" CanUserResizeRows="False" ScrollViewer.CanContentScroll="False" BorderThickness="0" Margin="0,0,2,0" Grid.RowSpan="2">
+            <DataGrid x:Name="MenuGrid" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" HeadersVisibility="None" CanUserResizeRows="False" ScrollViewer.CanContentScroll="False" BorderThickness="0" Margin="0,0,2,0" Grid.RowSpan="2" Grid.IsSharedSizeScope="True" MinWidth="100">
                 <DataGrid.Effect>
                     <DropShadowEffect BlurRadius="10" Opacity="0.5"/>
                 </DataGrid.Effect>
