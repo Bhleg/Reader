@@ -7,6 +7,8 @@ using System.IO;
 using SharpCompress.Archives;
 using System.Windows.Controls;
 using MahApps.Metro.Controls;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Reader
 {
@@ -15,9 +17,10 @@ namespace Reader
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        Task t = null;
         void Viewer(string ViewerType, string Action, int Page = 0)
         {
-
+            
             if (ViewerType == "Single")
             {
                 SinglePageViewer(Action);
@@ -47,7 +50,11 @@ namespace Reader
                 //call the function that only load the needed pdf page
                 if (Book.Type==".pdf")
                 {
-                    MupdfSharp.Program.GetPdFPageLazy(i);
+                    MupdfSharp.Program.GetPdFPage(i);
+                    if (t == null || t.IsCompleted)
+                    {
+                        t = Task.Factory.StartNew(() => { MupdfSharp.Program.GetPdFPageLazy(i); });
+                    }
                 }
                 
 
@@ -96,7 +103,13 @@ namespace Reader
                 //call the function that only load the needed pdf page
                 if (Book.Type == ".pdf")
                 {
-                    MupdfSharp.Program.GetPdFPageLazy(i);
+
+                    MupdfSharp.Program.GetPdFPage(i);
+                    MupdfSharp.Program.GetPdFPage(i+1);
+                    if (t == null || t.IsCompleted)
+                    {
+                        t = Task.Factory.StartNew(() => { MupdfSharp.Program.GetPdFPageLazy(i); });
+                    }
                 }
 
 

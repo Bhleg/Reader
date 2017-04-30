@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Documents;
+using System.Threading.Tasks;
 
 namespace MupdfSharp
 {
@@ -55,7 +56,7 @@ namespace MupdfSharp
 
         static public void GetPdFPageLazy(int page)
         {
-            int a = page-2;
+            int a = page-1;
             int b = page + 2;
             if (a<1)
             {
@@ -97,9 +98,14 @@ namespace MupdfSharp
 
                     var bmp = RenderPage(PDFBook.ctx, PDFBook.doc, p, r);  // renders the page and converts the result to Bitmap
 
-                    byte[] bi = StreamFromBitmapSource(bmp).ToArray();
                     
-                    Reader.MainWindow.Pages.Add(i, bi);
+                    byte[] bi = StreamFromBitmapSource(bmp).ToArray();
+                    //if (!Reader.MainWindow.Pages.ContainsKey(i))
+                    //{
+                  //      Reader.MainWindow.Pages.Add(i, bi);
+                  //  }
+
+                   Reader.MainWindow.Pages.Add(i, bi);
                     bmp = null;
                     bi = null;
 
@@ -109,7 +115,7 @@ namespace MupdfSharp
                 {
                     continue;
                 }
-                
+             
                 
             }
             GC.Collect();
@@ -145,6 +151,59 @@ namespace MupdfSharp
             //return;
         }
 
+        static public void GetPdFPage(int page)
+        {
+            
+                if (!Reader.MainWindow.Pages.ContainsKey(page))
+                {
+                    int z = page - 1; // account for the fact that NativeMethods.CountPages start counting at 0 (Page number start at 1)
+                    IntPtr p = NativeMethods.LoadPage(PDFBook.doc, z); // loads the page (first page number is 1)
+                    Rectangle r = new Rectangle();
+                    NativeMethods.BoundPage(PDFBook.doc, p, ref r); // gets the page size
+
+
+                    var bmp = RenderPage(PDFBook.ctx, PDFBook.doc, p, r);  // renders the page and converts the result to Bitmap
+
+                    byte[] bi = StreamFromBitmapSource(bmp).ToArray();
+                    if (!Reader.MainWindow.Pages.ContainsKey(page))
+                    {
+                        Reader.MainWindow.Pages.Add(page, bi);
+                    }
+                    
+                    bmp = null;
+                    bi = null;
+
+                    NativeMethods.FreePage(PDFBook.doc, p); // releases the resources consumed by the page
+                }
+                else
+                {
+                    return;
+                }
+             
+            
+            GC.Collect();
+            MemoryStream StreamFromBitmapSource(BitmapSource writeBmp)
+            {
+                using (MemoryStream bmp = new MemoryStream())
+                {
+                    BitmapEncoder enc = new BmpBitmapEncoder();
+                    enc.Frames.Add(BitmapFrame.Create(writeBmp));
+                    enc.Save(bmp);
+
+                    return bmp;
+                }
+
+
+            }
+            
+        }
+
+        static bool IsTrue()
+        {
+            bool True = true;
+            return True;
+
+        }
         static public void LoadPDF(string path)
         {
             PDFBook.ctx = NativeMethods.NewContext(); // Creates the context
