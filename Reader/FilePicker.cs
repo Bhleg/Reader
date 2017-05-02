@@ -135,7 +135,10 @@ namespace Reader
                             //MessageBox.Show(entry.Key.ToString());
                             //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
                             Pages.Add(i, bytes);
+                            bytes = null;
+                            
                         }
+
 
 
 
@@ -147,7 +150,10 @@ namespace Reader
                 archive = null;
                 Book.TotalPages = i;
                 BookName = System.IO.Path.GetFileName(Path);
+                //
                 Viewer(ViewerType, "Start");
+                //MessageBox.Show("tt");
+                GC.Collect();
                 ShowReader();
 
 

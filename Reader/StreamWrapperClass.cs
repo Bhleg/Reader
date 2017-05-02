@@ -200,7 +200,7 @@ namespace Reader
         {
             // throws an ObjectDisposedException if this object has been disposed
             if (m_streamBase == null)
-                throw new ObjectDisposedException(GetType().Name);
+            throw new ObjectDisposedException(GetType().Name);
         }
         Stream m_streamBase;
     }

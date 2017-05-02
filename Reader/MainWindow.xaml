@@ -27,9 +27,21 @@
                     <ColumnDefinition x:Name="LeftColumn"/>
                     <ColumnDefinition x:Name="RightColumn"/>
                 </Grid.ColumnDefinitions>
-                <Image x:Name="LeftPage" VerticalAlignment="Center"  HorizontalAlignment="Right" Grid.Column="0" x:FieldModifier="public"/>
-                <Image x:Name="RightPage" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" />
-                <Image x:Name="SinglePage" Visibility="Collapsed" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Image x:Name="LeftPage" VerticalAlignment="Center"  HorizontalAlignment="Right" Grid.Column="0" x:FieldModifier="public">
+                    <Image.CacheMode>
+                        <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"  />
+                    </Image.CacheMode>
+                </Image>
+                <Image x:Name="RightPage" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" >
+                    <Image.CacheMode>
+                        <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"  />
+                    </Image.CacheMode>
+                </Image>
+                <Image x:Name="SinglePage" Visibility="Collapsed" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Image.CacheMode>
+                        <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="True"  />
+                    </Image.CacheMode>
+                </Image>
 
             </Grid>
 

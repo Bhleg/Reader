@@ -97,7 +97,7 @@ namespace MupdfSharp
 
 
                     var bmp = RenderPage(PDFBook.ctx, PDFBook.doc, p, r);  // renders the page and converts the result to Bitmap
-
+                    bmp.Freeze();
                     
                     byte[] bi = StreamFromBitmapSource(bmp).ToArray();
                     //if (!Reader.MainWindow.Pages.ContainsKey(i))
@@ -163,7 +163,7 @@ namespace MupdfSharp
 
 
                     var bmp = RenderPage(PDFBook.ctx, PDFBook.doc, p, r);  // renders the page and converts the result to Bitmap
-
+                    bmp.Freeze();
                     byte[] bi = StreamFromBitmapSource(bmp).ToArray();
                     if (!Reader.MainWindow.Pages.ContainsKey(page))
                     {
@@ -177,7 +177,8 @@ namespace MupdfSharp
                 }
                 else
                 {
-                    return;
+                GC.Collect();
+                return;
                 }
              
             

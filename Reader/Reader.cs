@@ -117,10 +117,13 @@ namespace Reader
                 int ib = i + 1;
                 BitmapImage a = CreatePage(ia);
                 a.Freeze();
+               
                 
                 if (ib>Book.TotalPages)
                 {
                     SetSinglePage(a);
+                    a = null;
+                    GC.Collect();
                     return;
                 }
                 BitmapImage b = CreatePage(ib);
@@ -133,18 +136,21 @@ namespace Reader
                 {
                     SetLeftPage(a);
                     SetRightPage(b);
+                    a = null;
+                    b = null;
                     i = i + 1;
                 }
                 else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height) )
                 {
                     SetSinglePage(a);
+                    a = null;
 
                 }
 
 
-                a = null;
-                b = null;
+                
                 GC.Collect();
+              
                 CurrentPage = i;
                 
 
@@ -155,7 +161,9 @@ namespace Reader
                 LeftPage.Visibility = Visibility.Visible;
                 RightPage.Visibility = Visibility.Visible;
                 SinglePage.Visibility = Visibility.Collapsed;
+                Image.Freeze();
                 LeftPage.Source = Image;
+                Image = null;
 
             }
 
@@ -164,7 +172,9 @@ namespace Reader
                 LeftPage.Visibility = Visibility.Visible;
                 RightPage.Visibility = Visibility.Visible;
                 SinglePage.Visibility = Visibility.Collapsed;
+                Image.Freeze();
                 RightPage.Source = Image;
+                Image = null;
 
 
             }
@@ -174,7 +184,9 @@ namespace Reader
                 LeftPage.Visibility = Visibility.Collapsed;
                 RightPage.Visibility = Visibility.Collapsed;
                 SinglePage.Visibility = Visibility.Visible;
+                Image.Freeze();
                 SinglePage.Source = Image;
+                Image = null;
 
             }
 
