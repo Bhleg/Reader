@@ -21,15 +21,20 @@ namespace Reader
 
         public MainWindow()
         {
+            
+           
+
+
             InitializeComponent();
             MenuPanel();
             File_Picker();
+
             // Program p = new Program();
             //Program.RenderPage();
 
-           // LeftPage.Visibility = Visibility.Collapsed;
-           // RightPage.Visibility = Visibility.Collapsed;
-           // SinglePage.Visibility = Visibility.Visible;
+            // LeftPage.Visibility = Visibility.Collapsed;
+            // RightPage.Visibility = Visibility.Collapsed;
+            // SinglePage.Visibility = Visibility.Visible;
             //SinglePage.Source = Program.GetPdF(@"C:\Users\XXXXX\Desktop\Matt\FMD\downloads\Canard_PC_Hardware_Janvier_Fevrier_2017.pdf");
             //PdfLoaderstring(@"C:\IMG_0001.pdf");
 
