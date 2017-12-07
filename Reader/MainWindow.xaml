@@ -82,7 +82,7 @@
             </Grid.ColumnDefinitions>
 
 
-            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" Background="Transparent" >
+            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" Background="Transparent" EnableColumnVirtualization="True" ManipulationBoundaryFeedback="OnManipulationBoundaryFeedback" >
                 <DataGrid.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                 </DataGrid.Foreground>

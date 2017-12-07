@@ -219,7 +219,10 @@ namespace Reader
             DeleteLibrary_Button.ContextMenu.IsOpen = false;
         }
 
-      
+        private void OnManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
     
 
