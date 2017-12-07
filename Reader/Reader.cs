@@ -18,9 +18,11 @@ namespace Reader
     public partial class MainWindow : MetroWindow
     {
         Task t = null;
+        string currentViewer = "Double";
         void Viewer(string ViewerType, string Action, int Page = 0)
         {
-            
+           
+
             if (ViewerType == "Single")
             {
                 SinglePageViewer(Action);
@@ -75,30 +77,176 @@ namespace Reader
 
             void DoublePageViewer(string z, int i = 0)
             {
+                
                 i = CurrentPage;
-                if (z == "Start"){i = 1;}
+
+                if (z == "Start")
+                {
+                    i = 1;
+
+                    int ia = i;
+                    int ib = i + 1;
+                    BitmapImage a = CreatePage(ia);
+                    a.Freeze();
+
+                    //if last page only display one page (obviously)
+                    if (ib > Book.TotalPages)
+                    {
+                        SetSinglePage(a);
+                        a = null;
+                        GC.Collect();
+                        i = ia;
+                        return;
+                    }
+                    BitmapImage b = CreatePage(ib);
+                    b.Freeze();
+
+                    //Double Page Detection logic
+                    if (a.Width < a.Height && b.Width < b.Height)
+                    {
+                        SetLeftPage(a);
+                        SetRightPage(b);
+                        a = null;
+                        b = null;
+                        i = ib;
+                        
+                    }
+                    else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height))
+                    {
+                        SetSinglePage(a);
+                        a = null;
+                        i = ia;
+
+                    }
+                    
+                }
+
                 else if (z == "Next")
                 {
                     if (i + 1 <= Book.TotalPages)
                     {
-                        i = i + 1;
+                        
+
+                        int ia = i + 1;
+                        int ib = i + 2;
+                        BitmapImage a = CreatePage(ia);
+                        a.Freeze();
+
+                        //if last page only display one page (obviously)
+                        if (ib > Book.TotalPages)
+                        {
+                            SetSinglePage(a);
+                            a = null;
+                            GC.Collect();
+                            i = ia;
+                            return;
+                        }
+                        BitmapImage b = CreatePage(ib);
+                        b.Freeze();
+
+                        //Double Page Detection logic
+                        if (a.Width < a.Height && b.Width < b.Height)
+                        {
+                            SetLeftPage(a);
+                            SetRightPage(b);
+                            a = null;
+                            b = null;
+                            i = ib;
+                          //  MessageBox.Show("Page : " + ia.ToString()+" et "+ib.ToString());
+                        }
+                        else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height))
+                        {
+                            SetSinglePage(a);
+                            a = null;
+                           // MessageBox.Show("Page : " + ia.ToString());
+                            i = ia;
+
+                        }
+
                     }
                     else
                     {
                         SetMetadata(Book.Path, "ReadState", "Read");
+                        MessageBox.Show("Complete!");
                         return;
                     }
-                    
+
 
                 }
                 else if (z == "Previous")
                 {
-                    if (i <= 2) { return; }
-                    else { i = i - 2;}
+                                        
+                   
+                        
+
+                        int ib;
+                        int ia;
+                        if (currentViewer=="Double")
+                        {
+                            if (i - 2 < 1)
+                            {
+                                MessageBox.Show("First Page!");
+                                return;
+                            }
+                            else
+                            {
+                                ib = i - 2;
+                                ia = i - 3;
+                            }
+                        }
+                        else
+                        {
+                            if (i - 1 < 1)
+                            {
+                                MessageBox.Show("First Page!");
+                                return;
+                            }
+                            else
+                            {
+                                ib = i - 1;
+                                ia = i - 2;
+                            }
+                        }
+
+                    // set source page to null to make sure that memory has been freed before re-assigning them
+                    LeftPage.Source = RightPage.Source = SinglePage.Source = null;
+
+                    BitmapImage b = CreatePage(ib);
+                        b.Freeze();
+
+                        // if last page only display one page (obviously)
+                        if (ia <= 0)
+                        {
+                            SetSinglePage(b);
+                            b = null;
+                            GC.Collect();
+                            i = ib;
+                            CurrentPage = i;
+                            return;
+                        }
+                        BitmapImage a = CreatePage(ia);
+                        a.Freeze();
+
+                        //Double Page Detection logic
+                        if (a.Width < a.Height && b.Width < b.Height)
+                        {
+                            SetLeftPage(a);
+                            SetRightPage(b);
+                            a = null;
+                            b = null;
+                            i = ib;
+                        }
+                        else if (b.Width > b.Height | (b.Width < b.Height && a.Width > a.Height))
+                        {
+                            SetSinglePage(b);
+                            b = null;
+                            i = ib;
+
+                        }
+                    
                 }
 
-                // set source page to null to make sure that memory has been freed before re-assigning them
-                LeftPage.Source = RightPage.Source = SinglePage.Source = null;
+                
 
                 //call the function that only load the needed pdf page
                 if (Book.Type == ".pdf")
@@ -113,46 +261,13 @@ namespace Reader
                 }
 
 
-                int ia = i;
-                int ib = i + 1;
-                BitmapImage a = CreatePage(ia);
-                a.Freeze();
                
-                
-                if (ib>Book.TotalPages)
-                {
-                    SetSinglePage(a);
-                    a = null;
-                    GC.Collect();
-                    return;
-                }
-                BitmapImage b = CreatePage(ib);
-                b.Freeze();
-                
-                
-
-                //Double Page Detection logic
-                if (a.Width < a.Height && b.Width < b.Height)
-                {
-                    SetLeftPage(a);
-                    SetRightPage(b);
-                    a = null;
-                    b = null;
-                    i = i + 1;
-                }
-                else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height) )
-                {
-                    SetSinglePage(a);
-                    a = null;
-
-                }
-
-
                 
                 GC.Collect();
               
                 CurrentPage = i;
                 
+
 
             }
 
@@ -164,7 +279,7 @@ namespace Reader
                 Image.Freeze();
                 LeftPage.Source = Image;
                 Image = null;
-
+                currentViewer = "Double";
             }
 
             void SetRightPage(BitmapImage Image)
@@ -175,7 +290,7 @@ namespace Reader
                 Image.Freeze();
                 RightPage.Source = Image;
                 Image = null;
-
+                currentViewer = "Double";
 
             }
 
@@ -187,6 +302,7 @@ namespace Reader
                 Image.Freeze();
                 SinglePage.Source = Image;
                 Image = null;
+                currentViewer = "Single";
 
             }
 

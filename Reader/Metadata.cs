@@ -69,7 +69,7 @@ namespace Reader
         public string ReadMetadata(string path, string propertie)
         {
             string MetadataFile = Path.GetFileName(path);
-            string MetadataFolder = String.Concat(Path.GetDirectoryName(path), "/.metadata");
+            string MetadataFolder = String.Concat(Path.GetDirectoryName(path), ".metadata");
             string MetadataFilePath = Path.ChangeExtension(Path.Combine(MetadataFolder, MetadataFile), ".metadata");
             Directory.CreateDirectory(MetadataFolder);
             //string line = propertie + " :" + value;
