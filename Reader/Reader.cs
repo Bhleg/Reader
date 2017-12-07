@@ -153,9 +153,12 @@ namespace Reader
                             a = null;
                             b = null;
                             i = ib;
-                          //  MessageBox.Show("Page : " + ia.ToString()+" et "+ib.ToString());
+                            //  MessageBox.Show("Page : " + ia.ToString()+" et "+ib.ToString());
                         }
-                        else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height))
+                        
+                        
+                        //else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height)) GOOD BUT DONT COVER ALL FILE ex : square last page (fansub team)
+                        else
                         {
                             SetSinglePage(a);
                             a = null;
