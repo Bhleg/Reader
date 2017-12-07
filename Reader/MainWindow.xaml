@@ -19,7 +19,7 @@
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="Reader" Grid.ColumnSpan="2" Visibility="Collapsed" Grid.RowSpan="2">
+        <Grid x:Name="Reader" Grid.ColumnSpan="2" Visibility="Collapsed" Grid.RowSpan="2" d:IsHidden="True">
 
 
             <Grid x:Name="DoubePage" Grid.ColumnSpan="2">
@@ -72,7 +72,7 @@
 
             </Grid>
         </Grid>
-        <Grid x:Name="FilePicker" Grid.Column="1" Grid.RowSpan="2">
+        <Grid x:Name="FilePicker" Grid.Column="1" Grid.RowSpan="2" d:IsHidden="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="11*"/>
                 <RowDefinition Height="117*"/>
@@ -82,9 +82,9 @@
             </Grid.ColumnDefinitions>
 
 
-            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled"  >
+            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" Background="Transparent" >
                 <DataGrid.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuColorKey}}"/>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                 </DataGrid.Foreground>
 
                 <DataGrid.Columns>
@@ -129,11 +129,11 @@
         <Grid x:Name="Settings" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" >
             <StackPanel>
                 <TextBlock Text="Default Viewer" FontWeight="Bold" FontSize="18"/>
-                    <ComboBox HorizontalAlignment="Left" FontSize="16">
-                        <ComboBoxItem>Single Page</ComboBoxItem>
+                <ComboBox HorizontalAlignment="Left" FontSize="16">
+                    <ComboBoxItem>Single Page</ComboBoxItem>
                     <ComboBoxItem IsSelected="True">Double Page</ComboBoxItem>
                 </ComboBox>
-                    <TextBlock Text="MAL Integration" FontWeight="Bold" FontSize="18"/>
+                <TextBlock Text="MAL Integration" FontWeight="Bold" FontSize="18"/>
             </StackPanel>
         </Grid>
         <Grid x:Name="MainMenuView" Grid.ColumnSpan="2" Grid.RowSpan="2">
@@ -147,29 +147,37 @@
             </Grid.ColumnDefinitions>
             <DataGrid x:Name="MenuGrid" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" HeadersVisibility="None" CanUserResizeRows="False" ScrollViewer.CanContentScroll="False" BorderThickness="0" Margin="0,0,2,0" Grid.RowSpan="2" Grid.IsSharedSizeScope="True" MinWidth="100">
                 <DataGrid.Effect>
-                    <DropShadowEffect BlurRadius="10" Opacity="0.5"/>
+                    <DropShadowEffect BlurRadius="3" Opacity="0.3"/>
                 </DataGrid.Effect>
 
                 <DataGrid.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuColorKey}}"/>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                 </DataGrid.Foreground>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" Padding="0" Style="{StaticResource MenuPanelButton}" Margin="0">
+                                <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" Padding="0" Style="{StaticResource MenuPanelButton}" Margin="0" Background="Transparent">
+                                    
                                     <Grid Height="40">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="40"/>
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
+                                        
                                         <TextBlock Text="{Binding Icon}"  Grid.Column="0" FontFamily="Segoe UI Symbol" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center" >
                                             <TextBlock.Foreground>
-                                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuColorKey}}"/>
+                                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                                             </TextBlock.Foreground>
                                         </TextBlock>
-                                        <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" Width="160" Foreground="#FFE0E0E0" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2"/>
+                                        <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" Width="160" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2">
+                                            <TextBlock.Foreground>
+                                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                            
                                     </Grid>
+                                    
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

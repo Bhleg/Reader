@@ -139,6 +139,7 @@ namespace Reader
                             a = null;
                             GC.Collect();
                             i = ia;
+                            CurrentPage = i;
                             return;
                         }
                         BitmapImage b = CreatePage(ib);

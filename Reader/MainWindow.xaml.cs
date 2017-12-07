@@ -219,7 +219,7 @@ namespace Reader
             DeleteLibrary_Button.ContextMenu.IsOpen = false;
         }
 
-
+      
     }
     
 
