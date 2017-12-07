@@ -82,7 +82,19 @@ namespace Reader
 
                 if (z == "Start")
                 {
+
                     i = 1;
+                    //call the function that only load the needed pdf page
+                    if (Book.Type == ".pdf")
+                    {
+
+                        MupdfSharp.Program.GetPdFPage(i);
+                        MupdfSharp.Program.GetPdFPage(i + 1);
+                        if (t == null || t.IsCompleted)
+                        {
+                            t = Task.Factory.StartNew(() => { MupdfSharp.Program.GetPdFPageLazy(i); });
+                        }
+                    }
 
                     int ia = i;
                     int ib = i + 1;
@@ -111,7 +123,8 @@ namespace Reader
                         i = ib;
                         
                     }
-                    else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height))
+                    // else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height)) GOOD BUT DONT COVER ALL FILE ex: square last page(fansub team)
+                    else
                     {
                         SetSinglePage(a);
                         a = null;
@@ -125,7 +138,18 @@ namespace Reader
                 {
                     if (i + 1 <= Book.TotalPages)
                     {
-                        
+                        //call the function that only load the needed pdf page
+                        if (Book.Type == ".pdf")
+                        {
+
+                            MupdfSharp.Program.GetPdFPage(i+1);
+                            MupdfSharp.Program.GetPdFPage(i + 2);
+                            if (t == null || t.IsCompleted)
+                            {
+                                t = Task.Factory.StartNew(() => { MupdfSharp.Program.GetPdFPageLazy(i); });
+                            }
+                        }
+
 
                         int ia = i + 1;
                         int ib = i + 2;
@@ -248,20 +272,6 @@ namespace Reader
 
                         }
                     
-                }
-
-                
-
-                //call the function that only load the needed pdf page
-                if (Book.Type == ".pdf")
-                {
-
-                    MupdfSharp.Program.GetPdFPage(i);
-                    MupdfSharp.Program.GetPdFPage(i+1);
-                    if (t == null || t.IsCompleted)
-                    {
-                        t = Task.Factory.StartNew(() => { MupdfSharp.Program.GetPdFPageLazy(i); });
-                    }
                 }
 
 

@@ -57,7 +57,7 @@ namespace MupdfSharp
         static public void GetPdFPageLazy(int page)
         {
             int a = page-1;
-            int b = page + 2;
+            int b = page + 4;
             if (a<1)
             {
                 a = 1;
