@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" 
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" d:DesignWidth="1279.998"  WindowState="Maximized">
+        Title="MainWindow" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" Topmost="True" ResizeMode="NoResize" WindowState="Maximized">
 
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
@@ -122,9 +122,6 @@
             </StackPanel>
             <WindowsFormsHost HorizontalAlignment="Left" Height="2" Margin="407,248,0,0" Grid.Row="1" VerticalAlignment="Top" Width="6"/>
 
-
-
-
         </Grid>
         <Grid x:Name="Settings" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" >
             <StackPanel>
@@ -184,7 +181,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Quit" Margin="44,0,43,0" HorizontalContentAlignment="Center" Click="Quit_Event" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="16" Grid.Row="1"/>
+            <Button Content="Quit" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50" Grid.Row="1"/>
 
 
         </Grid>
