@@ -74,14 +74,16 @@ namespace Reader
         void GenerateLibrary()
         {
             // BookmarkPanel.Children.Add(new Button { Content = "Button" });
-            foreach (string item in Properties.Settings.Default.Library)
+            if (Properties.Settings.Default.Library != null) // catch null if library is empty
             {
-                string DirectorieName = System.IO.Path.GetFileName(item);
-                //string Command = "GetContent(" + item + ")";
+                foreach (string item in Properties.Settings.Default.Library)
+                {
+                    string DirectorieName = System.IO.Path.GetFileName(item);
+                    //string Command = "GetContent(" + item + ")";
 
-                Menu.Add(new MenuPanelItem() { Name = DirectorieName, Command = item, Type = "Library", Icon = "\uE1D3" });
+                    Menu.Add(new MenuPanelItem() { Name = DirectorieName, Command = item, Type = "Library", Icon = "\uE1D3" });
+                }
             }
-
         }
 
         class MenuPanelItem
