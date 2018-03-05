@@ -62,8 +62,9 @@ namespace Reader
             Menu.Add(new MenuPanelItem() { Name = "Reader",  Command = "Reader", Icon = Char.ConvertFromUtf32(0x1f4d6) });
             Menu.Add(new MenuPanelItem() { Name = "Setting", Command = "Setting", Icon = "\uE115" });
             GenerateLibrary();
-            
-            
+          
+
+
             //MenuIcon.ItemsSource = Menu;
             InitializeComponent();
 

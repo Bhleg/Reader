@@ -66,13 +66,14 @@
 
                 <StackPanel x:Name="StackMenu" Grid.Column="2" Height="240" Grid.Row="3" Grid.RowSpan="2">
                     <Button Margin="0" Click="Quit_Event" Padding="0" HorizontalContentAlignment="Center" MinHeight="30" FontSize="20" Content="Quit"/>
+                    <Button Content="Quit" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50"/>
                 </StackPanel>
 
 
 
             </Grid>
         </Grid>
-        <Grid x:Name="FilePicker" Grid.Column="1" Grid.RowSpan="2" d:IsHidden="True">
+        <Grid x:Name="FilePicker" Grid.Column="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="11*"/>
                 <RowDefinition Height="117*"/>
@@ -123,7 +124,7 @@
             <WindowsFormsHost HorizontalAlignment="Left" Height="2" Margin="407,248,0,0" Grid.Row="1" VerticalAlignment="Top" Width="6"/>
 
         </Grid>
-        <Grid x:Name="Settings" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" >
+        <Grid x:Name="Settings" Grid.Column="1" Grid.RowSpan="2" Visibility="Collapsed" d:IsHidden="True" >
             <StackPanel>
                 <TextBlock Text="Default Viewer" FontWeight="Bold" FontSize="18"/>
                 <ComboBox HorizontalAlignment="Left" FontSize="16">
@@ -176,13 +177,14 @@
                                     </Grid>
                                     
                                 </Button>
+                                
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
+               
             </DataGrid>
-            <Button Content="Quit" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50" Grid.Row="1"/>
-
+            
 
         </Grid>
 
