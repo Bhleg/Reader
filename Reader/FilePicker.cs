@@ -169,6 +169,7 @@ namespace Reader
 
        private void CreateLibrary()
         {
+           
             Properties.Settings.Default.Library.Add(CurrentPath);
             Properties.Settings.Default.Save(); // Saves settings in application configuration file
             string DirectorieName = System.IO.Path.GetFileName(CurrentPath);
