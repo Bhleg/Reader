@@ -221,8 +221,6 @@ namespace Reader
                 else if (z == "Previous")
                 {
                                         
-                   
-                        
 
                         int ib;
                         int ia;
@@ -235,8 +233,8 @@ namespace Reader
                             }
                             else
                             {
-                                ib = i - 2;
-                                ia = i - 3;
+                                ib = i - 1;
+                                ia = i - 2;
                             }
                         }
                         else
@@ -265,7 +263,7 @@ namespace Reader
                             SetSinglePage(b);
                             b = null;
                             GC.Collect();
-                            i = ib;
+                            i = ia;
                             currentBook.CurrentPage = i;
                             return;
                         }
@@ -279,8 +277,9 @@ namespace Reader
                             SetRightPage(b);
                             a = null;
                             b = null;
-                            i = ib;
-                        }
+                            i = ia;
+                            currentBook.CurrentPage = i;
+                    }
                         else if (b.Width > b.Height | (b.Width < b.Height && a.Width > a.Height))
                         {
                             SetSinglePage(b);
@@ -292,12 +291,13 @@ namespace Reader
                 }
 
 
-               
-                
-               // GC.Collect();
-              
+
+
+                // GC.Collect();
                 //currentBook.CurrentPage = i;
+                MessageBox.Show(currentBook.CurrentPage.ToString());
                 
+
 
 
             }
