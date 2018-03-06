@@ -18,16 +18,18 @@ namespace Reader
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-
+        public static Book currentBook = new Book();
+        
         public MainWindow()
         {
             
            
 
-
+            
             InitializeComponent();
             MenuPanel();
             File_Picker();
+            
 
             // Program p = new Program();
             //Program.RenderPage();
@@ -43,7 +45,11 @@ namespace Reader
 
         }
         String BookName;
-
+        
+        
+        
+        
+        
         int CurrentPage = 0; 
         string ViewerType = "Double";
         //string ViewerType = Properties.Settings.Default.DefaultViewer;
@@ -56,6 +62,7 @@ namespace Reader
 
         public void MenuPanel()
         {
+            
             Menu.Clear();
             MenuGrid.ItemsSource = Menu;
             Menu.Add(new MenuPanelItem() { Name = "Explorer", Command = "Explorer", Icon = "\uE188" });
@@ -124,7 +131,7 @@ namespace Reader
 
         private void NextPage_Event(object sender, EventArgs e)
         {
-            Viewer(ViewerType, "Next",CurrentPage);
+            Viewer("Next", currentBook.CurrentPage);
 
         }
 
@@ -155,13 +162,25 @@ namespace Reader
         private void PreviousPage_Event(object sender, RoutedEventArgs e)
         {
 
-                Viewer(ViewerType, "Previous");
+                Viewer("Previous");
 
         }
 
         private void Quit_Event(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void LtR_Event(object sender, RoutedEventArgs e)
+        {
+            readingDirection="LeftToRight";
+            Viewer("Start", currentBook.CurrentPage);
+        }
+
+        private void RtL_Event(object sender, RoutedEventArgs e)
+        {
+            readingDirection = "RightToLeft";
+            Viewer("Start", currentBook.CurrentPage);
         }
 
         private void MenuPanelbtn_Event(object sender, RoutedEventArgs e)

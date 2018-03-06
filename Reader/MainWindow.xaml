@@ -19,7 +19,7 @@
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="Reader" Grid.ColumnSpan="2" Visibility="Collapsed" Grid.RowSpan="2" d:IsHidden="True">
+        <Grid x:Name="Reader" Grid.ColumnSpan="2" Visibility="Collapsed" Grid.RowSpan="2">
 
 
             <Grid x:Name="DoubePage" Grid.ColumnSpan="2">
@@ -67,6 +67,8 @@
                 <StackPanel x:Name="StackMenu" Grid.Column="2" Height="240" Grid.Row="3" Grid.RowSpan="2">
                     <Button Margin="0" Click="Quit_Event" Padding="0" HorizontalContentAlignment="Center" MinHeight="30" FontSize="20" Content="Quit"/>
                     <Button Content="Quit" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50"/>
+                    <Button Content="Left to Right" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="LtR_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50"/>
+                    <Button Content="Right to Left" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="RtL_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50"/>
                 </StackPanel>
 
 

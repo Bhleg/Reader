@@ -19,7 +19,7 @@ namespace MupdfSharp
             IntPtr stm = NativeMethods.OpenFile(ctx, path); // opens file test.pdf as a stream
             IntPtr doc = NativeMethods.OpenDocumentStream(ctx, stm); // opens the document
             int pn = NativeMethods.CountPages(doc); // gets the number of pages in the document
-            Reader.MainWindow.Book.TotalPages = NativeMethods.CountPages(doc);
+            Reader.MainWindow.currentBook.TotalPages = NativeMethods.CountPages(doc);
             for (int i = 1; i < pn; i++)
             { // iterate through each pages
                 //Console.WriteLine("Rendering page " + (i + 1));
@@ -62,9 +62,9 @@ namespace MupdfSharp
             {
                 a = 1;
             }
-            if (b > Reader.MainWindow.Book.TotalPages)
+            if (b > Reader.MainWindow.currentBook.TotalPages)
             {
-                b = Reader.MainWindow.Book.TotalPages;
+                b = Reader.MainWindow.currentBook.TotalPages;
             }
 
              

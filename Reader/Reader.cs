@@ -19,7 +19,8 @@ namespace Reader
     {
         Task t = null;
         string currentViewer = "Double";
-        void Viewer(string ViewerType, string Action, int Page = 0)
+        string readingDirection = "LeftToRight";
+        void Viewer(string Action, int Page = 1)
         {
            
 
@@ -29,17 +30,17 @@ namespace Reader
             }
             else if (ViewerType == "Double")
             {
-                DoublePageViewer(Action);
+                DoublePageViewer(Action, Page);
             }
 
             void SinglePageViewer(string z, int i = 0)
             {
                 
-                i = CurrentPage;
+                i = currentBook.CurrentPage;
                 if (z == "Start") { i = 1; }
                 else if (z == "Next")
                 {
-                    if (i + 1 <= Book.TotalPages) {    i = i + 1; }
+                    if (i + 1 <= currentBook.TotalPages) {    i = i + 1; }
                     else { MessageBox.Show("Last Page !");}
 
                 }
@@ -48,9 +49,10 @@ namespace Reader
                     if (i == 1)  { MessageBox.Show("First Page !"); }
                     else {i = i - 1;}
                 }
+                else if (z == "GoTo") { i = 1; }
 
                 //call the function that only load the needed pdf page
-                if (Book.Type==".pdf")
+                if (currentBook.Type==".pdf")
                 {
                     MupdfSharp.Program.GetPdFPage(i);
                     if (t == null || t.IsCompleted)
@@ -71,21 +73,23 @@ namespace Reader
                 a = null;
                
                 GC.Collect();
-                CurrentPage = i;
+                currentBook.CurrentPage = i;
               
             }
 
-            void DoublePageViewer(string z, int i = 0)
+            void DoublePageViewer(string z, int i = 1)
             {
                 
-                i = CurrentPage;
+                i = currentBook.CurrentPage;
+               // MessageBox.Show(currentBook.CurrentPage.ToString());
+               
 
                 if (z == "Start")
                 {
 
-                    i = 1;
+                    //i = 1;
                     //call the function that only load the needed pdf page
-                    if (Book.Type == ".pdf")
+                    if (currentBook.Type == ".pdf")
                     {
 
                         MupdfSharp.Program.GetPdFPage(i);
@@ -100,9 +104,9 @@ namespace Reader
                     int ib = i + 1;
                     BitmapImage a = CreatePage(ia);
                     a.Freeze();
-
+                    
                     //if last page only display one page (obviously)
-                    if (ib > Book.TotalPages)
+                    if (ib > currentBook.TotalPages)
                     {
                         SetSinglePage(a);
                         a = null;
@@ -116,11 +120,24 @@ namespace Reader
                     //Double Page Detection logic
                     if (a.Width < a.Height && b.Width < b.Height)
                     {
-                        SetLeftPage(a);
-                        SetRightPage(b);
-                        a = null;
-                        b = null;
-                        i = ib;
+                        //Reading direction logic
+                        if (readingDirection=="RightToLeft")
+                        {
+                            SetLeftPage(b);
+                            SetRightPage(a);
+                            a = null;
+                            b = null;
+                           // i = ib;
+                        }
+                        else
+                        {
+                            SetLeftPage(a);
+                            SetRightPage(b);
+                            a = null;
+                            b = null;
+                           // i = ib;
+                        }
+
                         
                     }
                     // else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height)) GOOD BUT DONT COVER ALL FILE ex: square last page(fansub team)
@@ -136,10 +153,10 @@ namespace Reader
 
                 else if (z == "Next")
                 {
-                    if (i + 1 <= Book.TotalPages)
+                    if (i + 2 <= currentBook.TotalPages)
                     {
                         //call the function that only load the needed pdf page
-                        if (Book.Type == ".pdf")
+                        if (currentBook.Type == ".pdf")
                         {
 
                             MupdfSharp.Program.GetPdFPage(i+1);
@@ -151,19 +168,19 @@ namespace Reader
                         }
 
 
-                        int ia = i + 1;
-                        int ib = i + 2;
+                        int ia = i + 2;
+                        int ib = i + 3;
                         BitmapImage a = CreatePage(ia);
                         a.Freeze();
-
+                        currentBook.CurrentPage = ia;
                         //if last page only display one page (obviously)
-                        if (ib > Book.TotalPages)
+                        if (ib > currentBook.TotalPages)
                         {
                             SetSinglePage(a);
                             a = null;
                             GC.Collect();
-                            i = ia;
-                            CurrentPage = i;
+                           // i = ia;
+                           // currentBook.CurrentPage = i;
                             return;
                         }
                         BitmapImage b = CreatePage(ib);
@@ -176,7 +193,7 @@ namespace Reader
                             SetRightPage(b);
                             a = null;
                             b = null;
-                            i = ib;
+                          //  i = ib;
                             //  MessageBox.Show("Page : " + ia.ToString()+" et "+ib.ToString());
                         }
                         
@@ -187,14 +204,14 @@ namespace Reader
                             SetSinglePage(a);
                             a = null;
                            // MessageBox.Show("Page : " + ia.ToString());
-                            i = ia;
+                           // i = ia;
 
                         }
 
                     }
                     else
                     {
-                        SetMetadata(Book.Path, "ReadState", "Read");
+                        SetMetadata(currentBook.Path, "ReadState", "Read");
                         MessageBox.Show("Complete!");
                         return;
                     }
@@ -249,7 +266,7 @@ namespace Reader
                             b = null;
                             GC.Collect();
                             i = ib;
-                            CurrentPage = i;
+                            currentBook.CurrentPage = i;
                             return;
                         }
                         BitmapImage a = CreatePage(ia);
@@ -277,9 +294,9 @@ namespace Reader
 
                
                 
-                GC.Collect();
+               // GC.Collect();
               
-                CurrentPage = i;
+                //currentBook.CurrentPage = i;
                 
 
 

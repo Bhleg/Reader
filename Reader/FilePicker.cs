@@ -80,24 +80,23 @@ namespace Reader
 
 
         //Load book ... pretty straightforward
-        public void LoadBook(string FilePath)
+        public void LoadBook(string FilePath, int p = 1)
         {
             
             Pages.Clear();
-            CurrentPage = 0; 
-            Book.Type = Path.GetExtension(FilePath).ToLower();
-            Book.Path = FilePath;
+            currentBook.CurrentPage = p;
+            currentBook.Name = System.IO.Path.GetFileName(FilePath);            
+            currentBook.Type = Path.GetExtension(FilePath).ToLower();
+            currentBook.Path = FilePath;
 
-            if (Book.Type == ".pdf")
+            if (currentBook.Type == ".pdf")
             {
                 //Call the function to load the pdf (not the pages)
                 //the function that load the page is called within the reader.cs
                 //since on a pdf the page is loaded on demand for memory efficiency purpose
                 Program.LoadPDF(FilePath);
-                Book.TotalPages = Program.PDFBook.TotalPage;
-                Book.Name = System.IO.Path.GetFileName(FilePath);
-                Viewer(ViewerType, "Start");
-                ShowReader();
+                currentBook.TotalPages = Program.PDFBook.TotalPage;           
+                
             }
             else
             {
@@ -107,15 +106,18 @@ namespace Reader
             }
 
             //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
+            Viewer("Start");
+            GC.Collect();
+            ShowReader();
+            MessageBox.Show(currentBook.CurrentPage.ToString());
+
+
             void ArchiveLoader(string Path)
             {
-                Pages.Clear();
-                CurrentPage = 0;
+
                 int i = 0;
                 var archive = ArchiveFactory.Open(Path);
 
-
-                //List<string> SortedOrder = new List<string>();
 
                 foreach (var entry in archive.Entries)
                 {
@@ -136,7 +138,7 @@ namespace Reader
                             //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
                             Pages.Add(i, bytes);
                             bytes = null;
-                            
+
                         }
 
 
@@ -148,26 +150,19 @@ namespace Reader
 
                 }
                 archive = null;
-                Book.TotalPages = i;
-                BookName = System.IO.Path.GetFileName(Path);
-                //
-                Viewer(ViewerType, "Start");
-                //MessageBox.Show("tt");
-                GC.Collect();
-                ShowReader();
 
+                currentBook.TotalPages = i;
 
             }
 
         }
 
+
+
         
 
 
-       
-
-
-       private void CreateLibrary()
+        private void CreateLibrary()
         {
            
             Properties.Settings.Default.Library.Add(CurrentPath);
@@ -184,17 +179,19 @@ namespace Reader
 
         }
 
-      public static class Book
+      public class Book
         {
-            public static string Name { get; set; }
+            public string Name { get; set; }
 
-            public static string Path { get; set; }
+            public string Path { get; set; }
 
-            public static string Type { get; set; }
+            public string Type { get; set; }
 
-            public static int TotalPages { get; set; }
+            public int CurrentPage { get; set; }
 
-            public static string Status { get; set; }
+            public int TotalPages { get; set; }
+
+            public string Status { get; set; }
         }
 
 
@@ -241,6 +238,7 @@ namespace Reader
             {
                 string Path = FilePickerT.SelectedValue.ToString();
                 LoadBook(Path);
+                MessageBox.Show("Name : " + currentBook.Name + "\n" + "Path : " + currentBook.Path);
                
             }
             else
