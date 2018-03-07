@@ -29,6 +29,7 @@ namespace Reader
             File_Picker();
             tbReadingDirection.Content = "Current : " + readingDirection;
 
+
             // Program p = new Program();
             //Program.RenderPage();
 
@@ -163,19 +164,23 @@ namespace Reader
                 readingDirection = "Right to Left";
                 bNext.SetValue(Grid.ColumnProperty, 0);
                 bPrevious.SetValue(Grid.ColumnProperty, 4);
-                LeftPage.SetValue(Grid.ColumnProperty,0);
-                RightPage.SetValue(Grid.ColumnProperty,1);
+                LeftPage.HorizontalAlignment = HorizontalAlignment.Left;
+                RightPage.HorizontalAlignment = HorizontalAlignment.Right;
+                LeftPage.SetValue(Grid.ColumnProperty,1);
+                RightPage.SetValue(Grid.ColumnProperty,0);
             }
             else
             {
                 readingDirection = "Left to Right";
                 bNext.SetValue(Grid.ColumnProperty, 4);
                 bPrevious.SetValue(Grid.ColumnProperty, 0);
-                LeftPage.SetValue(Grid.ColumnProperty,1);
-                RightPage.SetValue(Grid.ColumnProperty,0);
+                LeftPage.HorizontalAlignment = HorizontalAlignment.Right;
+                RightPage.HorizontalAlignment = HorizontalAlignment.Left;
+                LeftPage.SetValue(Grid.ColumnProperty,0);
+                RightPage.SetValue(Grid.ColumnProperty,1);
             }
             tbReadingDirection.Content = "Current : "+readingDirection;           
-            Viewer("Start", currentBook.CurrentPage);
+            //Viewer("Start", currentBook.CurrentPage);
         }
 
         private void SwitchViewingMode_Event(object sender, RoutedEventArgs e)
