@@ -109,7 +109,7 @@ namespace Reader
             Viewer("Start");
             GC.Collect();
             ShowReader();
-            MessageBox.Show(currentBook.CurrentPage.ToString());
+            // MessageBox.Show(currentBook.CurrentPage.ToString());
 
 
             void ArchiveLoader(string Path)

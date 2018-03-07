@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" 
         xmlns:local="clr-namespace:Reader"
         mc:Ignorable="d"
-        Title="MainWindow" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" Topmost="True" ResizeMode="NoResize" WindowState="Maximized">
+        Title="MainWindow" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" Topmost="True" ResizeMode="CanResizeWithGrip" WindowState="Maximized">
 
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
@@ -67,6 +67,12 @@
                 <StackPanel x:Name="StackMenu" Grid.Column="2" Height="240" Grid.Row="3" Grid.RowSpan="2">
                     <Button Content="Quit" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50"/>
                     <Button Content="{Binding readingDirection}" x:Name="tbReadingDirection" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="SwitchReadingDirection_Event" Background="Aquamarine" VerticalAlignment="Bottom" Height="50"/>
+                    <ComboBox x:Name="cbViewModeSwitch" SelectionChanged="SwitchViewingMode_Event" SelectedValuePath="Tag">
+                        <ComboBoxItem Tag="DPdc">Double Page (Double cover)</ComboBoxItem>
+                        <ComboBoxItem Tag="DPsc">Double Page (Single cover)</ComboBoxItem>
+                        <ComboBoxItem IsSelected="True" Tag="SP">Single Page</ComboBoxItem>
+                        
+                    </ComboBox>
                 </StackPanel>
 
 

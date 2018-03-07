@@ -163,17 +163,49 @@ namespace Reader
                 readingDirection = "Right to Left";
                 bNext.SetValue(Grid.ColumnProperty, 0);
                 bPrevious.SetValue(Grid.ColumnProperty, 4);
+                LeftPage.SetValue(Grid.ColumnProperty,0);
+                RightPage.SetValue(Grid.ColumnProperty,1);
             }
             else
             {
                 readingDirection = "Left to Right";
                 bNext.SetValue(Grid.ColumnProperty, 4);
                 bPrevious.SetValue(Grid.ColumnProperty, 0);
+                LeftPage.SetValue(Grid.ColumnProperty,1);
+                RightPage.SetValue(Grid.ColumnProperty,0);
             }
             tbReadingDirection.Content = "Current : "+readingDirection;           
             Viewer("Start", currentBook.CurrentPage);
         }
-        
+
+        private void SwitchViewingMode_Event(object sender, RoutedEventArgs e)
+        {
+            // ... Get the ComboBox.
+            var comboBox = sender as ComboBox;
+            // Get the Tag of selected item
+            string value = comboBox.SelectedValue as string;
+
+            if (value == "DPdc")
+            {
+                currentViewer = "Double";
+                Viewer("Start", currentBook.CurrentPage);
+                //DoublePageViewer("Start", currentBook.CurrentPage);
+            }
+            else if (value == "DPsc")
+            {
+                currentViewer = "Double";
+                Viewer("Start", currentBook.CurrentPage);
+                //DoublePageViewer("Start", currentBook.CurrentPage);
+            }
+            else if (value == "SP")
+            {
+                currentViewer = "Single";
+                Viewer("Start", currentBook.CurrentPage);
+                //SinglePageViewer("Start", currentBook.CurrentPage);
+            }
+          
+        }
+
         private void MenuPanelbtn_Event(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show("ok!");
