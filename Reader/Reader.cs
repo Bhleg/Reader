@@ -19,7 +19,9 @@ namespace Reader
     {
         Task t = null;
         string currentViewer = "Double";
-        string readingDirection = "LeftToRight";
+        public string readingDirection = "Left to Right";
+        
+
         void Viewer(string Action, int Page = 1)
         {
            
@@ -121,7 +123,7 @@ namespace Reader
                     if (a.Width < a.Height && b.Width < b.Height)
                     {
                         //Reading direction logic
-                        if (readingDirection=="RightToLeft")
+                        if (readingDirection=="Right to Left")
                         {
                             SetLeftPage(b);
                             SetRightPage(a);

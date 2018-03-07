@@ -22,14 +22,12 @@ namespace Reader
         
         public MainWindow()
         {
-            
-           
 
             
             InitializeComponent();
             MenuPanel();
             File_Picker();
-            
+            tbReadingDirection.Content = "Current : " + readingDirection;
 
             // Program p = new Program();
             //Program.RenderPage();
@@ -41,19 +39,9 @@ namespace Reader
             //PdfLoaderstring(@"C:\IMG_0001.pdf");
 
 
-
-
         }
-        String BookName;
-        
-        
-        
-        
-        
-        int CurrentPage = 0; 
+
         string ViewerType = "Double";
-        //string ViewerType = Properties.Settings.Default.DefaultViewer;
-        // Dictionary<int, BitmapImage> Pages = new Dictionary<int, BitmapImage>();
         public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
         List<MenuPanelItem> Menu = new List<MenuPanelItem>();
         
@@ -132,7 +120,6 @@ namespace Reader
         private void NextPage_Event(object sender, EventArgs e)
         {
             Viewer("Next", currentBook.CurrentPage);
-
         }
 
         private void FilePickerT_Event(object sender, EventArgs e)
@@ -161,9 +148,7 @@ namespace Reader
 
         private void PreviousPage_Event(object sender, RoutedEventArgs e)
         {
-
                 Viewer("Previous");
-
         }
 
         private void Quit_Event(object sender, RoutedEventArgs e)
@@ -171,18 +156,24 @@ namespace Reader
             Application.Current.Shutdown();
         }
 
-        private void LtR_Event(object sender, RoutedEventArgs e)
+        private void SwitchReadingDirection_Event(object sender, RoutedEventArgs e)
         {
-            readingDirection="LeftToRight";
+            if (readingDirection == "Left to Right")
+            {
+                readingDirection = "Right to Left";
+                bNext.SetValue(Grid.ColumnProperty, 0);
+                bPrevious.SetValue(Grid.ColumnProperty, 4);
+            }
+            else
+            {
+                readingDirection = "Left to Right";
+                bNext.SetValue(Grid.ColumnProperty, 4);
+                bPrevious.SetValue(Grid.ColumnProperty, 0);
+            }
+            tbReadingDirection.Content = "Current : "+readingDirection;           
             Viewer("Start", currentBook.CurrentPage);
         }
-
-        private void RtL_Event(object sender, RoutedEventArgs e)
-        {
-            readingDirection = "RightToLeft";
-            Viewer("Start", currentBook.CurrentPage);
-        }
-
+        
         private void MenuPanelbtn_Event(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show("ok!");
