@@ -27,7 +27,7 @@ namespace Reader
             InitializeComponent();
             MenuPanel();
             File_Picker();
-            tbReadingDirection.Content = "Current : " + readingDirection;
+           
 
 
             // Program p = new Program();

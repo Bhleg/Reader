@@ -67,11 +67,12 @@
                 <StackPanel x:Name="StackMenu" Grid.Column="2" Height="240" Grid.Row="3" Grid.RowSpan="2">
                     <Button Content="Quit" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50"/>
                     <Button Content="{Binding readingDirection}" x:Name="tbReadingDirection" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="SwitchReadingDirection_Event" Background="Aquamarine" VerticalAlignment="Bottom" Height="50"/>
-                    <ComboBox x:Name="cbViewModeSwitch" SelectionChanged="SwitchViewingMode_Event" SelectedValuePath="Tag">
-                        <ComboBoxItem Tag="DPdc">Double Page (Double cover)</ComboBoxItem>
-                        <ComboBoxItem Tag="DPsc">Double Page (Single cover)</ComboBoxItem>
-                        <ComboBoxItem IsSelected="True" Tag="SP">Single Page</ComboBoxItem>
-                        
+                    <ComboBox x:Name="cbViewModeSwitch" SelectionChanged="SwitchViewingMode_Event" SelectedValuePath="Tag" VerticalAlignment="Center" Height="50" FontSize="22">
+                        <ComboBoxItem x:Name="DPdc" Tag="DPdc" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="50" FontSize="22">Double Page (Double cover)</ComboBoxItem>
+                        <ComboBoxItem Tag="DPsc" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="50" FontSize="22">Double Page (Single cover)</ComboBoxItem>
+                        <ComboBoxItem Tag="SP" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="50" FontSize="22">Single Page</ComboBoxItem>
+                        <ComboBoxItem IsSelected="True" Tag="DPdc" Content="View mode : Auto" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="50" FontSize="22"/>
+
                     </ComboBox>
                 </StackPanel>
 

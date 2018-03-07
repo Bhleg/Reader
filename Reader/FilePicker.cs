@@ -107,6 +107,8 @@ namespace Reader
 
             //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
             Viewer("Start");
+            tbReadingDirection.Content = "Current : " + readingDirection;
+            
             GC.Collect();
             ShowReader();
             // MessageBox.Show(currentBook.CurrentPage.ToString());
