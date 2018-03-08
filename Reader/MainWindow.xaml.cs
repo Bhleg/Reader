@@ -42,7 +42,7 @@ namespace Reader
 
         }
 
-        string ViewerType = "Double";
+        
         public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
         List<MenuPanelItem> Menu = new List<MenuPanelItem>();
         
@@ -193,12 +193,23 @@ namespace Reader
             if (value == "DPdc")
             {
                 currentViewer = "Double";
+                currentViewerOption = "dc";
+                if (currentViewer == "Double (Single Cover)" && currentBook.CurrentPage > 1)
+                {
+                    currentBook.CurrentPage = currentBook.CurrentPage - 1;
+                }
                 Viewer("Start", currentBook.CurrentPage);
                 //DoublePageViewer("Start", currentBook.CurrentPage);
             }
             else if (value == "DPsc")
             {
                 currentViewer = "Double";
+                currentViewerOption = "sc";
+                if (currentBook.CurrentPage > 1)
+                {
+                    currentBook.CurrentPage = currentBook.CurrentPage - 1;
+                }
+                
                 Viewer("Start", currentBook.CurrentPage);
                 //DoublePageViewer("Start", currentBook.CurrentPage);
             }

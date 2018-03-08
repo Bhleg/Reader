@@ -20,6 +20,7 @@ namespace Reader
     {
         Task t = null;
         string currentViewer = "Double";
+        string currentViewerOption = "dc";
         public string readingDirection = "Left to Right";
 
         // list of currently displayed page (usualy 1 or 2)
@@ -28,18 +29,14 @@ namespace Reader
         void Viewer(string Action, int Page = 1)
         {
            
-
             if (currentViewer == "Single")
             {
                 SinglePageViewer(Action, Page);
             }
             else if (currentViewer == "Double")
             {
-                DoublePageViewer(Action, Page);
+                DoublePageViewer(Action, Page, currentViewerOption);
             }
-
-            
-
 
         }
 
@@ -92,10 +89,10 @@ namespace Reader
 
         }
 
-        void DoublePageViewer(string z, int i = 1)
+        void DoublePageViewer(string z, int i = 1, string y = "dc")
         {
 
-            i = currentBook.CurrentPage;
+           // i = currentBook.CurrentPage;
 
 
             if (z == "Start")
@@ -119,10 +116,11 @@ namespace Reader
                 BitmapImage a = CreatePage(ia);
                 a.Freeze();
 
-                //if last page only display one page (obviously)
-                if (ib > currentBook.TotalPages)
+                //if last page OR first page in single cover =>  only display one page
+                if (ib > currentBook.TotalPages || y == "sc" && i == 1)
                 {
                     displayedPages.Clear();
+                    displayedPages.Add(ia);
                     SetSinglePage(a);
                     a = null;
                     GC.Collect();
@@ -135,7 +133,6 @@ namespace Reader
                 //Double Page Detection logic
                 if (a.Width < a.Height && b.Width < b.Height)
                 {
-
                         SetLeftPage(a);
                         SetRightPage(b);
                         a = null;
@@ -143,8 +140,7 @@ namespace Reader
                         displayedPages.Clear();
                         displayedPages.Add(ia);
                         displayedPages.Add(ib);
-                        // i = ib;
-                    
+                        // i = ib;      
                 }
                 // else if (a.Width > a.Height | (a.Width < a.Height && b.Width > b.Height)) GOOD BUT DONT COVER ALL FILE ex: square last page(fansub team)
                 else
@@ -154,7 +150,6 @@ namespace Reader
                     displayedPages.Add(ia);
                     a = null;
                     //i = ia;
-
                 }
 
             }
@@ -319,11 +314,8 @@ namespace Reader
 
             }
             //i = currentBook.CurrentPage;
+            i = currentBook.CurrentPage;
             MessageBox.Show(currentBook.CurrentPage.ToString());
-
-
-
-
         }
 
         void SetLeftPage(BitmapImage Image)
@@ -356,8 +348,7 @@ namespace Reader
             SinglePage.Visibility = Visibility.Visible;
             Image.Freeze();
             SinglePage.Source = Image;
-            Image = null;          
-
+            Image = null;
         }
 
         BitmapImage CreatePage(int p)
