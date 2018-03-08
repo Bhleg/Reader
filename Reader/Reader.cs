@@ -315,7 +315,7 @@ namespace Reader
             }
             //i = currentBook.CurrentPage;
             i = currentBook.CurrentPage;
-            MessageBox.Show(currentBook.CurrentPage.ToString());
+            //MessageBox.Show(currentBook.CurrentPage.ToString());
         }
 
         void SetLeftPage(BitmapImage Image)

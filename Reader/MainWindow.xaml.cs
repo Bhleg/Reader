@@ -199,6 +199,7 @@ namespace Reader
                     currentBook.CurrentPage = currentBook.CurrentPage - 1;
                 }
                 Viewer("Start", currentBook.CurrentPage);
+                SetMetadata(currentBook.Path, "Viewer", "DPdc");
                 //DoublePageViewer("Start", currentBook.CurrentPage);
             }
             else if (value == "DPsc")
@@ -211,6 +212,7 @@ namespace Reader
                 }
                 
                 Viewer("Start", currentBook.CurrentPage);
+                SetMetadata(currentBook.Path, "Viewer", "DPsc");
                 //DoublePageViewer("Start", currentBook.CurrentPage);
             }
             else if (value == "SP")
