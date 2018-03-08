@@ -16,6 +16,7 @@ using System.Drawing.Imaging;
 using System.Threading;
 using System.Threading.Tasks;
 using MupdfSharp;
+using System.ComponentModel;
 
 namespace Reader
 {
@@ -181,7 +182,7 @@ namespace Reader
 
         }
 
-      public class Book
+      public class Book : INotifyPropertyChanged
         {
             public string Name { get; set; }
 
@@ -189,11 +190,28 @@ namespace Reader
 
             public string Type { get; set; }
 
-            public int CurrentPage { get; set; }
+            private int _currentpage;
+            public int CurrentPage
+            {
+                get { return _currentpage; }
+                set {
+                    _currentpage = value;
+                    OnPropertyChanged("Name");
+                    }
+            }
 
             public int TotalPages { get; set; }
 
             public string Status { get; set; }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            private void OnPropertyChanged(string property)
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs(property));
+                //MessageBox.Show(property);
+            }
         }
 
 
