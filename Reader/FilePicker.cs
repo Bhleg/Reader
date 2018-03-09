@@ -203,11 +203,12 @@ namespace Reader
             public string Status { get; set; }
 
             public event PropertyChangedEventHandler PropertyChanged;
+           
+
 
             private void OnPropertyChanged(string property)
             {
-                if (PropertyChanged != null)
-                    PropertyChanged(this, new PropertyChangedEventArgs(property));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
                 //MessageBox.Show(property);
             }
         }

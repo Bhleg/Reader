@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using MahApps.Metro.Controls;
 using System.Windows.Controls.Primitives;
 using MupdfSharp;
+using System.ComponentModel;
 
 namespace Reader
 {
@@ -25,6 +26,7 @@ namespace Reader
 
             
             InitializeComponent();
+            this.DataContext = this;
             MenuPanel();
             File_Picker();
            
