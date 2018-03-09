@@ -114,6 +114,27 @@ namespace Reader
             Reader.Visibility = Visibility.Collapsed;
             Settings.Visibility = Visibility.Visible;
         }
+        void SetDirection(string t)
+        {
+            if (t == "LtR")
+            {
+                bNext.SetValue(Grid.ColumnProperty, 4);
+                bPrevious.SetValue(Grid.ColumnProperty, 0);
+                LeftPage.HorizontalAlignment = HorizontalAlignment.Right;
+                RightPage.HorizontalAlignment = HorizontalAlignment.Left;
+                LeftPage.SetValue(Grid.ColumnProperty, 0);
+                RightPage.SetValue(Grid.ColumnProperty, 1);
+            }
+            else if (t == "RtL")
+            {
+                bNext.SetValue(Grid.ColumnProperty, 0);
+                bPrevious.SetValue(Grid.ColumnProperty, 4);
+                LeftPage.HorizontalAlignment = HorizontalAlignment.Left;
+                RightPage.HorizontalAlignment = HorizontalAlignment.Right;
+                LeftPage.SetValue(Grid.ColumnProperty, 1);
+                RightPage.SetValue(Grid.ColumnProperty, 0);
+            }
+        }
         ////////////////////////////EVENT//////////////////////////////  
 
 
@@ -162,22 +183,14 @@ namespace Reader
             if (readingDirection == "Left to Right")
             {
                 readingDirection = "Right to Left";
-                bNext.SetValue(Grid.ColumnProperty, 0);
-                bPrevious.SetValue(Grid.ColumnProperty, 4);
-                LeftPage.HorizontalAlignment = HorizontalAlignment.Left;
-                RightPage.HorizontalAlignment = HorizontalAlignment.Right;
-                LeftPage.SetValue(Grid.ColumnProperty,1);
-                RightPage.SetValue(Grid.ColumnProperty,0);
+                SetMetadata(currentBook.Path, "ReadDirection", "RtL");
+                SetDirection("RtL");
             }
             else
             {
                 readingDirection = "Left to Right";
-                bNext.SetValue(Grid.ColumnProperty, 4);
-                bPrevious.SetValue(Grid.ColumnProperty, 0);
-                LeftPage.HorizontalAlignment = HorizontalAlignment.Right;
-                RightPage.HorizontalAlignment = HorizontalAlignment.Left;
-                LeftPage.SetValue(Grid.ColumnProperty,0);
-                RightPage.SetValue(Grid.ColumnProperty,1);
+                SetMetadata(currentBook.Path, "ReadwDirection", "LtR");
+                SetDirection("LtR");
             }
             tbReadingDirection.Content = "Current : "+readingDirection;           
             //Viewer("Start", currentBook.CurrentPage);

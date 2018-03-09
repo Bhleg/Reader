@@ -62,10 +62,8 @@ namespace Reader
             {
                 String Font = null;
                 string ReadState = ReadMetadata(FilePath, "ReadState");
-                if (ReadState=="Read")
-                {
-                    Font = "Light";
-                }
+                if (ReadState=="Read") { Font = "Light"; }
+                else { ReadState = "Unread";}
            
                 string FileName = System.IO.Path.GetFileName(FilePath);
                 Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6), Status = ReadState, FontWeight = Font });
@@ -90,6 +88,7 @@ namespace Reader
             currentBook.Type = Path.GetExtension(FilePath).ToLower();
             currentBook.Path = FilePath;
 
+            // use the apropriate function for compressed or pdf file
             if (currentBook.Type == ".pdf")
             {
                 //Call the function to load the pdf (not the pages)
@@ -100,27 +99,34 @@ namespace Reader
                 
             }
             else
-            {
-                
+            {               
                 ArchiveLoader(FilePath);
-
             }
 
-            //Load a File (cbz or cbr), and put all of their relevant entry in a bitmapimage then in a Dictionary
+            // Get The Reading direction from metadate and set it
+            string ReadDirection = ReadMetadata(FilePath, "ReadDirection");
+           // MessageBox.Show(ReadMetadata(FilePath, "ReadDirection"));
+            if (ReadDirection == "RtL") { SetDirection("RtL"); }
+            else { SetDirection("LtR"); }
+
+            // Get The View Mode from metadate and set it
+            string v = ReadMetadata(FilePath, "Viewer");
+            // MessageBox.Show(ReadMetadata(FilePath, "ReadDirection"));
+            if (v == "DPdc") { currentViewerOption = "dc"; }
+            else { currentViewerOption = "sc"; }
+
+
             Viewer("Start");
             tbReadingDirection.Content = "Current : " + readingDirection;
             
             GC.Collect();
             ShowReader();
-            // MessageBox.Show(currentBook.CurrentPage.ToString());
-
-
+            
             void ArchiveLoader(string Path)
             {
 
                 int i = 0;
                 var archive = ArchiveFactory.Open(Path);
-
 
                 foreach (var entry in archive.Entries)
                 {
@@ -130,15 +136,12 @@ namespace Reader
 
                         i++;
 
-
                         //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
                         using (MemoryStream MemStream = new MemoryStream())
                         {
                             entry.WriteTo(MemStream);
                             MemStream.Seek(0, SeekOrigin.Begin);
-                            byte[] bytes = MemStream.ToArray();
-                            //MessageBox.Show(entry.Key.ToString());
-                            //MessageBox.Show(SortedOrder.FindIndex(s => s.Equals(entry.ToString())).ToString());
+                            byte[] bytes = MemStream.ToArray(); 
                             Pages.Add(i, bytes);
                             bytes = null;
 
@@ -159,11 +162,6 @@ namespace Reader
             }
 
         }
-
-
-
-        
-
 
         private void CreateLibrary()
         {

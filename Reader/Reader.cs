@@ -125,6 +125,7 @@ namespace Reader
                     a = null;
                     GC.Collect();
                     i = ia;
+                    currentBook.CurrentPage = i;
                     return;
                 }
                 BitmapImage b = CreatePage(ib);
@@ -174,8 +175,6 @@ namespace Reader
                             t = Task.Factory.StartNew(() => { MupdfSharp.Program.GetPdFPageLazy(i); });
                         }
                     }
-
-
                     int ia = i + 1;
                     int ib = i + 2;
                     BitmapImage a = CreatePage(ia);
@@ -229,7 +228,7 @@ namespace Reader
                     return;
                 }
 
-
+                MessageBox.Show("Page : " + currentBook.CurrentPage.ToString());
             }
             else if (z == "Previous")
             {
@@ -240,7 +239,7 @@ namespace Reader
                 int ia;
                 if (currentViewer == "Double")
                 {
-                    if (i - 2 < 1)
+                    if (i - 1 < 1)
                     {
                         MessageBox.Show("First Page!");
                         return;

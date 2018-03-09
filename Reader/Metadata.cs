@@ -72,6 +72,7 @@ namespace Reader
             string MetadataFolder = String.Concat(Path.GetDirectoryName(path), "/.metadata");
             string MetadataFilePath = Path.ChangeExtension(Path.Combine(MetadataFolder, MetadataFile), ".metadata");
             Directory.CreateDirectory(MetadataFolder);
+            string value;
             //string line = propertie + " :" + value;
 
 
@@ -81,29 +82,20 @@ namespace Reader
 
                 if (text.Contains(propertie))
                 {
-                    Match m = Regex.Match(text, @"(?i)(?<=^" + propertie + @"\s*?:\s*?)\w*?(?=\s*?$)");
-                    //MessageBox.Show(m.ToString());
-                    return m.ToString();
-                   // var regex = new Regex(@"(?i)(?<=^" + propertie + @"\s*?:\s*?)\w*?(?=\s*?$)");
-                    //File.WriteAllText(MetadataFilePath, text);
+                    // Match m = Regex.Match(text, @"(?i)(?<=^" + propertie + @"\s*?:\s*?)\w*?(?=\s*?$)");
+                    string t = Regex.Replace(text, @"\r", "");
+                    Match m = Regex.Match(t, @"(?<=" + propertie + " :" + @").*"); 
+                    value= m.ToString();
+                    return value;
                 }
-                else if (propertie == "ReadState")
-                {
-                    return "Unread";
-                }
+
                 else
                 {
                     return "null";
                 }
             }
-            else if (propertie == "ReadState")
-            {
-                return "Unread";
-            } 
-            else
-            {
-                return "null";
-            }
+            else { return "null"; }
+            
             
         }
     }

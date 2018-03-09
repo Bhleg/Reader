@@ -66,7 +66,7 @@
 
                 <StackPanel x:Name="StackMenu" Grid.Column="2" Height="240" Grid.Row="3" Grid.RowSpan="2">
                     <Button Content="Quit" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Bottom" Style="{DynamicResource MenuPanelButton}" Height="50"/>
-                    <TextBlock Text="{Binding currentBook.Name}" FontWeight="Bold" MinWidth="10" MinHeight="10"></TextBlock>
+                    <TextBlock Text="{Binding currentBook.Name}" FontWeight="Bold" MinWidth="10" MinHeight="10"/>
                     <Button Content="{Binding readingDirection}" x:Name="tbReadingDirection" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="SwitchReadingDirection_Event" Background="Aquamarine" VerticalAlignment="Bottom" Height="50"/>
                     <ComboBox x:Name="cbViewModeSwitch" SelectionChanged="SwitchViewingMode_Event" SelectedValuePath="Tag" VerticalAlignment="Center" Height="50" FontSize="22">
                         <ComboBoxItem x:Name="DPdc" Tag="DPdc" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="50" FontSize="22">Double Page (Double cover)</ComboBoxItem>
