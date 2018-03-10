@@ -19,37 +19,20 @@ namespace Reader
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        public static Book currentBook = new Book();
         
         public MainWindow()
         {
-
             
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = currentBook;
             MenuPanel();
-            File_Picker();
-           
-
-
-            // Program p = new Program();
-            //Program.RenderPage();
-
-            // LeftPage.Visibility = Visibility.Collapsed;
-            // RightPage.Visibility = Visibility.Collapsed;
-            // SinglePage.Visibility = Visibility.Visible;
-            //SinglePage.Source = Program.GetPdF(@"C:\Users\XXXXX\Desktop\Matt\FMD\downloads\Canard_PC_Hardware_Janvier_Fevrier_2017.pdf");
-            //PdfLoaderstring(@"C:\IMG_0001.pdf");
-
+            File_Picker();           
 
         }
 
-        
+        public static Book currentBook = new Book();
         public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
         List<MenuPanelItem> Menu = new List<MenuPanelItem>();
-        
-
-
 
         public void MenuPanel()
         {
@@ -61,12 +44,8 @@ namespace Reader
             Menu.Add(new MenuPanelItem() { Name = "Setting", Command = "Setting", Icon = "\uE115" });
             GenerateLibrary();
           
-
-
             //MenuIcon.ItemsSource = Menu;
             InitializeComponent();
-
-
 
         }
 
@@ -91,7 +70,6 @@ namespace Reader
             public string Command { get; set; }
             public string Type { get; set; }
             public string Icon { get; set; }
-
 
         }
 

@@ -180,8 +180,10 @@ namespace Reader
 
         }
 
-      public class Book : INotifyPropertyChanged
+        public class Book : INotifyPropertyChanged
         {
+           
+            
             public string Name { get; set; }
 
             public string Path { get; set; }
@@ -194,8 +196,9 @@ namespace Reader
                 get { return _currentpage; }
                 set {
                     _currentpage = value;
-                    OnPropertyChanged("Name");
-                    }
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs("CurrentPage"));
+                }
             }
 
             public int TotalPages { get; set; }
@@ -203,9 +206,6 @@ namespace Reader
             public string Status { get; set; }
 
             public event PropertyChangedEventHandler PropertyChanged;
-           
-
-
             private void OnPropertyChanged(string property)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
@@ -290,7 +290,7 @@ namespace Reader
                 GetContent(GoUpPath);
                 FilePickerT.ItemsSource = Items;
                 FilePickerT.Items.Refresh();
-
+                
             }
 
 
