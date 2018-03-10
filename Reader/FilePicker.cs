@@ -303,8 +303,7 @@ namespace Reader
            
             CreateLibrary();
             MenuPanel();
-            MenuGrid.Items.Refresh();
-
+            TopPanel.Items.Refresh();
 
         }
 

@@ -26,7 +26,8 @@ namespace Reader
             InitializeComponent();
             DataContext = currentBook;
             MenuPanel();
-            File_Picker();           
+            File_Picker();
+            ShowFilePicker();
 
         }
 
@@ -38,7 +39,7 @@ namespace Reader
         {
             
             Menu.Clear();
-            MenuGrid.ItemsSource = Menu;
+            TopPanel.ItemsSource = Menu;
             Menu.Add(new MenuPanelItem() { Name = "Explorer", Command = "Explorer", Icon = "\uE188" });
             Menu.Add(new MenuPanelItem() { Name = "Reader",  Command = "Reader", Icon = Char.ConvertFromUtf32(0x1f4d6) });
             Menu.Add(new MenuPanelItem() { Name = "Setting", Command = "Setting", Icon = "\uE115" });
@@ -81,18 +82,31 @@ namespace Reader
             Settings.Visibility = Visibility.Collapsed;
             Reader.Visibility = Visibility.Collapsed;
             FilePicker.Visibility = Visibility.Visible;
+            TopPanel.Visibility = Visibility.Visible;
+            BottomPanel.Visibility = Visibility.Collapsed;
         }
         void ShowReader()
         {
             Settings.Visibility = Visibility.Collapsed;
             FilePicker.Visibility = Visibility.Collapsed;
             Reader.Visibility = Visibility.Visible;
+            MenuView.Visibility = Visibility.Collapsed;
         }
         void ShowSetting()
         {
             FilePicker.Visibility = Visibility.Collapsed;
             Reader.Visibility = Visibility.Collapsed;
             Settings.Visibility = Visibility.Visible;
+            TopPanel.Visibility = Visibility.Visible;
+            BottomPanel.Visibility = Visibility.Collapsed;
+        }
+        void ShowFilePicker()
+        {
+            FilePicker.Visibility = Visibility.Visible;
+            Reader.Visibility = Visibility.Collapsed;
+            Settings.Visibility = Visibility.Collapsed;
+            TopPanel.Visibility = Visibility.Visible;
+            BottomPanel.Visibility = Visibility.Collapsed;
         }
         void SetDirection(string t)
         {
@@ -133,17 +147,19 @@ namespace Reader
         private void MainMenu_Event(object sender, EventArgs e)
         {
             
-           if (MainMenu.Opacity == 0.75)
+           if (MenuView.Visibility == Visibility.Visible)
             {
-                MainMenu.Opacity = 0;
-                StackMenu.Visibility = Visibility.Collapsed;
-                MenuGrid.Visibility = Visibility.Collapsed;
+                //MainMenu.Opacity = 0;
+                MenuView.Visibility = Visibility.Collapsed;
+                TopPanel.Visibility = Visibility.Collapsed;
+                BottomPanel.Visibility = Visibility.Collapsed;
             }
-            else if (MainMenu.Opacity == 0)
+            else if (MenuView.Visibility == Visibility.Collapsed)
             {
-                MainMenu.Opacity = 0.75;
-                StackMenu.Visibility = Visibility.Visible;
-                MenuGrid.Visibility = Visibility.Visible;
+                //MainMenu.Opacity = 0.75;
+                MenuView.Visibility = Visibility.Visible;
+                TopPanel.Visibility = Visibility.Visible;
+                BottomPanel.Visibility = Visibility.Visible;
             }
 
         }
@@ -271,7 +287,7 @@ namespace Reader
             Properties.Settings.Default.Library.Remove(bn.Tag.ToString());
             Properties.Settings.Default.Save();
             MenuPanel();
-            MenuGrid.Items.Refresh();
+            TopPanel.Items.Refresh();
             DeleteLibrary_Button.ContextMenu.IsOpen = false;
         }
 
