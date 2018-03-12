@@ -228,7 +228,7 @@ namespace Reader
                     return;
                 }
 
-                MessageBox.Show("Page : " + currentBook.CurrentPage.ToString());
+               // MessageBox.Show("Page : " + currentBook.CurrentPage.ToString());
             }
             else if (z == "Previous")
             {
@@ -314,7 +314,7 @@ namespace Reader
             }
             //i = currentBook.CurrentPage;
             i = currentBook.CurrentPage;
-            //MessageBox.Show(currentBook.CurrentPage.ToString());
+            
         }
 
         void SetLeftPage(BitmapImage Image)
