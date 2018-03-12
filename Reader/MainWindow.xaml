@@ -138,21 +138,34 @@
                 <TextBlock Text="MAL Integration" FontWeight="Bold" FontSize="18"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="MenuView" Margin="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
+        <Grid x:Name="MenuView" Margin="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="{x:Null}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"/>
                 <RowDefinition Height="55*"/>
                 <RowDefinition Height="30*"/>
             </Grid.RowDefinitions>
-            <DataGrid x:Name="TopPanel" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" HeadersVisibility="None" CanUserResizeRows="False" ScrollViewer.CanContentScroll="False" BorderThickness="0" Grid.IsSharedSizeScope="True" MinWidth="100" Margin="0" RenderTransformOrigin="0.5,0.5" OpacityMask="#FFECECEC" Panel.ZIndex="1">
+            <DataGrid x:Name="TopPanel2" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" HeadersVisibility="None" CanUserResizeRows="False" ScrollViewer.CanContentScroll="False" BorderThickness="0" Grid.IsSharedSizeScope="True" MinWidth="100" Margin="0" RenderTransformOrigin="0.5,0.5" OpacityMask="#FFECECEC" Panel.ZIndex="1" Visibility="Collapsed">
                 <DataGrid.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                 </DataGrid.Foreground>
+                <DataGrid.LayoutTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="-90"/>
+                    </TransformGroup>
+                </DataGrid.LayoutTransform>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" Padding="0" Style="{StaticResource MenuPanelButton}" Margin="0" Background="Transparent">
+                                <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" Padding="0" Style="{StaticResource MenuPanelButton}" Margin="0" Background="Transparent" RenderTransformOrigin="0.5,0.5">
+                                    <Button.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="0"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Button.RenderTransform>
 
                                     <Grid Height="40">
                                         <Grid.ColumnDefinitions>
@@ -180,8 +193,20 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCellsPresenter}">
+                        <Setter Property="LayoutTransform">
+                            <Setter.Value>
+                                <RotateTransform Angle="90" />
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.CellStyle>
             </DataGrid>
-            <StackPanel x:Name="BottomPanel" Margin="0" Grid.Row="2" Orientation="Horizontal">
+            <StackPanel x:Name="BottomPanel" Margin="0" Grid.Row="2" Orientation="Horizontal" Opacity="0.9">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                </StackPanel.Background>
                 <TextBlock x:Name="customtest" Text="{Binding CurrentPage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" MinWidth="10" MinHeight="25" Background="{DynamicResource Button.MouseOver.Background}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Button Content="{Binding readingDirection}" x:Name="tbReadingDirection" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="SwitchReadingDirection_Event" Background="Aquamarine" VerticalAlignment="Center" Height="50" HorizontalAlignment="Left"/>
                 <ComboBox x:Name="cbViewModeSwitch" SelectionChanged="SwitchViewingMode_Event" SelectedValuePath="Tag" VerticalAlignment="Center" Height="50" FontSize="22" HorizontalAlignment="Left" MinHeight="25">
@@ -194,6 +219,53 @@
                 <Button Margin="0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="Aquamarine" VerticalAlignment="Center" Style="{DynamicResource MenuPanelButton}" HorizontalAlignment="Left" Content="Quit" MinHeight="25"/>
 
             </StackPanel>
+            <ItemsControl x:Name="TopPanel" Opacity="0.9" VerticalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <ItemsControl.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                </ItemsControl.Background>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel VerticalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" Padding="1,0"  Margin="0" Background="Transparent" RenderTransformOrigin="0.5,0.5" VerticalContentAlignment="Stretch" BorderBrush="#FFF70000" BorderThickness="1" MinHeight="100">
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="0"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.RenderTransform>
+
+                            <Grid Height="Auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding Icon}"  Grid.Column="0" FontFamily="Segoe UI Symbol" FontSize="22" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+                                <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" Width="Auto" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2">
+                                    <TextBlock.Foreground>
+                                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
+                                    </TextBlock.Foreground>
+                                </TextBlock>
+
+
+                            </Grid>
+
+                        </Button>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
 
 
