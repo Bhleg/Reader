@@ -71,7 +71,7 @@
 
             </Grid>
         </Grid>
-        <Grid x:Name="FilePicker" Grid.Column="1" Grid.Row="1" d:IsHidden="True">
+        <Grid x:Name="FilePicker" Grid.Column="1" Grid.Row="1">
             <Grid.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Grid.Background>
@@ -84,7 +84,7 @@
             </Grid.ColumnDefinitions>
 
 
-            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" EnableColumnVirtualization="True" ManipulationBoundaryFeedback="OnManipulationBoundaryFeedback" >
+            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" EnableColumnVirtualization="True" ManipulationBoundaryFeedback="OnManipulationBoundaryFeedback" Opacity="0.9" >
                 <DataGrid.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                 </DataGrid.Background>
@@ -98,8 +98,19 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Name}" FontWeight="{Binding FontWeight}" />
-                                    <TextBlock Text="{Binding Status}" FontStyle="Italic" FontSize="12" />
+                                    <StackPanel.Background>
+                                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                                    </StackPanel.Background>
+                                    <TextBlock Text="{Binding Name}" FontWeight="{Binding FontWeight}" >
+                                        <TextBlock.Background>
+                                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                                        </TextBlock.Background>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Status}" FontStyle="Italic" FontSize="12" >
+                                        <TextBlock.Background>
+                                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                                        </TextBlock.Background>
+                                    </TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -125,7 +136,7 @@
 
 
             </StackPanel>
-            <WindowsFormsHost HorizontalAlignment="Left" Height="2" Margin="407,248,0,0" Grid.Row="1" VerticalAlignment="Top" Width="6"/>
+            
 
         </Grid>
         <Grid x:Name="Settings" Grid.Column="1" Visibility="Collapsed" Grid.Row="1" >
@@ -138,11 +149,12 @@
                 <TextBlock Text="MAL Integration" FontWeight="Bold" FontSize="18"/>
             </StackPanel>
         </Grid>
-        <Grid x:Name="MenuView" Margin="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="{x:Null}">
+        <Grid x:Name="MenuView" Margin="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"/>
                 <RowDefinition Height="55*"/>
-                <RowDefinition Height="30*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="20*"/>
             </Grid.RowDefinitions>
             <DataGrid x:Name="TopPanel2" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AutoGenerateColumns="False" HeadersVisibility="None" CanUserResizeRows="False" ScrollViewer.CanContentScroll="False" BorderThickness="0" Grid.IsSharedSizeScope="True" MinWidth="100" Margin="0" RenderTransformOrigin="0.5,0.5" OpacityMask="#FFECECEC" Panel.ZIndex="1" Visibility="Collapsed">
                 <DataGrid.Foreground>
@@ -203,7 +215,7 @@
                     </Style>
                 </DataGrid.CellStyle>
             </DataGrid>
-            <StackPanel x:Name="BottomPanel" Margin="0" Grid.Row="2" Orientation="Horizontal" Opacity="0.9">
+            <StackPanel x:Name="BottomPanel" Margin="0" Grid.Row="2" Orientation="Horizontal" Opacity="0.9" Grid.RowSpan="2">
                 <StackPanel.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                 </StackPanel.Background>
@@ -231,7 +243,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" Padding="1,0"  Margin="0" Background="Transparent" RenderTransformOrigin="0.5,0.5" VerticalContentAlignment="Stretch" BorderBrush="#FFF70000" BorderThickness="1" MinHeight="100">
+                        <Button  Tag="{Binding Command}" Click="MenuPanelbtn_Event" HorizontalContentAlignment="Left" Padding="1,0"  Margin="5,0" Background="Transparent" RenderTransformOrigin="0.5,0.5" VerticalContentAlignment="Center" BorderBrush="{x:Null}" BorderThickness="1" MinHeight="100" VerticalAlignment="Stretch">
                             <Button.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform/>

@@ -80,7 +80,7 @@ namespace Reader
         void ShowExplorer()
         {
             Settings.Visibility = Visibility.Collapsed;
-            Reader.Visibility = Visibility.Collapsed;
+           // Reader.Visibility = Visibility.Collapsed;
             FilePicker.Visibility = Visibility.Visible;
             TopPanel.Visibility = Visibility.Visible;
             BottomPanel.Visibility = Visibility.Collapsed;
@@ -103,7 +103,7 @@ namespace Reader
         void ShowFilePicker()
         {
             FilePicker.Visibility = Visibility.Visible;
-            Reader.Visibility = Visibility.Collapsed;
+           // Reader.Visibility = Visibility.Collapsed;
             Settings.Visibility = Visibility.Collapsed;
             TopPanel.Visibility = Visibility.Visible;
             BottomPanel.Visibility = Visibility.Collapsed;
