@@ -92,9 +92,6 @@ namespace Reader
         void DoublePageViewer(string z, int i = 1, string y = "dc")
         {
 
-           // i = currentBook.CurrentPage;
-
-
             if (z == "Start")
             {
 
@@ -102,7 +99,6 @@ namespace Reader
                 //call the function that only load the needed pdf page
                 if (currentBook.Type == ".pdf")
                 {
-
                     MupdfSharp.Program.GetPdFPage(i);
                     MupdfSharp.Program.GetPdFPage(i + 1);
                     if (t == null || t.IsCompleted)
@@ -215,9 +211,6 @@ namespace Reader
                         a = null;
                         displayedPages.Clear();
                         displayedPages.Add(ia);
-                        // MessageBox.Show("Page : " + ia.ToString());
-                        // i = ia;
-
                     }
 
                 }
@@ -228,7 +221,6 @@ namespace Reader
                     return;
                 }
 
-               // MessageBox.Show("Page : " + currentBook.CurrentPage.ToString());
             }
             else if (z == "Previous")
             {
@@ -364,7 +356,6 @@ namespace Reader
                 Image.EndInit();
                 Image.Freeze();
                 return Image;
-
             }
 
         }

@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Reader"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="Reader.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" ResizeMode="CanResizeWithGrip" WindowState="Maximized">
+        Title="MainWindow" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" ResizeMode="CanResizeWithGrip" WindowState="Maximized" IsCloseButtonEnabled="False" ShowCloseButton="False">
 
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
@@ -72,6 +72,9 @@
             </Grid>
         </Grid>
         <Grid x:Name="FilePicker" Grid.Column="1" Grid.Row="1" d:IsHidden="True">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="3" Opacity="0.9"/>
+            </Grid.Effect>
             <Grid.Background>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
             </Grid.Background>
@@ -179,7 +182,7 @@
             </StackPanel>
             <Grid Margin="0" VerticalAlignment="Top" Opacity="0.9">
                 <Grid.Effect>
-                    <DropShadowEffect Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" ShadowDepth="2"/>
+                    <DropShadowEffect ShadowDepth="2" Opacity="0.9"/>
                 </Grid.Effect>
 
                 <Grid.Background>
@@ -190,7 +193,7 @@
                     <ColumnDefinition Width="95*"/>
                     <ColumnDefinition Width="5*"/>
                 </Grid.ColumnDefinitions>
-                <Button Margin="0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="#FFFF857F" Style="{DynamicResource MenuPanelButton}" Content="Quit" MinHeight="50" Grid.Column="1"/>
+                <Button Margin="0" HorizontalContentAlignment="Center" Click="Quit_Event" Background="#FFFF857F" Style="{DynamicResource MenuPanelButton}" Content="Quit" MinHeight="50" Grid.Column="1" FontFamily="Segoe UI Semibold" FontSize="22"/>
                 <ItemsControl x:Name="TopPanel" Opacity="0.9" VerticalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.IsSharedSizeScope="True" Margin="0" HorizontalAlignment="Left">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -221,7 +224,7 @@
                                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                                         </TextBlock.Foreground>
                                     </TextBlock>
-                                    <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" Width="Auto" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2">
+                                    <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding Name}" Width="Auto" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2" FontFamily="Segoe UI Semibold">
                                         <TextBlock.Foreground>
                                             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                                         </TextBlock.Foreground>

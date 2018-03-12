@@ -124,10 +124,8 @@ namespace Reader
             
             void ArchiveLoader(string Path)
             {
-
                 int i = 0;
                 var archive = ArchiveFactory.Open(Path);
-
                 foreach (var entry in archive.Entries)
                 {
                     //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
@@ -148,20 +146,46 @@ namespace Reader
                         }
 
 
-
-
-
-
                     }
 
                 }
                 archive = null;
-
                 currentBook.TotalPages = i;
-
             }
 
         }
+
+        void GetCover(string Path)
+        {
+            int i = 0;
+            var archive = ArchiveFactory.Open(Path);
+            foreach (var entry in archive.Entries)
+            {
+                //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
+                if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
+                {
+
+                    i++;
+
+                    //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
+                    using (MemoryStream MemStream = new MemoryStream())
+                    {
+                        entry.WriteTo(MemStream);
+                        MemStream.Seek(0, SeekOrigin.Begin);
+                        byte[] bytes = MemStream.ToArray();
+                        Pages.Add(i, bytes);
+                        bytes = null;
+
+                    }
+
+
+                }
+
+            }
+            archive = null;
+            currentBook.TotalPages = i;
+        }
+
 
         private void CreateLibrary()
         {
