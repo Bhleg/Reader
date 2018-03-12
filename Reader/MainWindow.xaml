@@ -84,30 +84,29 @@
             </Grid.ColumnDefinitions>
 
 
-            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" EnableColumnVirtualization="True" ManipulationBoundaryFeedback="OnManipulationBoundaryFeedback" Opacity="0.9" Background="{x:Null}" BorderBrush="{x:Null}" >
+            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" EnableColumnVirtualization="True" ManipulationBoundaryFeedback="OnManipulationBoundaryFeedback" Opacity="0.9" Background="{x:Null}" BorderBrush="{x:Null}" >
                 <DataGrid.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                 </DataGrid.Foreground>
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.RowStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Icon" CellStyle="{x:Null}" Width="SizeToCells" IsReadOnly="True" CanUserResize="True" Binding="{Binding Icon}" FontFamily="Segoe UI Symbol"/>
+                    <DataGridTextColumn Header="Icon" Width="SizeToCells" IsReadOnly="True" CanUserResize="True" Binding="{Binding Icon}" FontFamily="Segoe UI Symbol"/>
+
                     <DataGridTemplateColumn Header="Name" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <StackPanel.Background>
-                                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                                    </StackPanel.Background>
-                                    <TextBlock Text="{Binding Name}" FontWeight="{Binding FontWeight}" >
-                                        <TextBlock.Background>
-                                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                                        </TextBlock.Background>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding Status}" FontStyle="Italic" FontSize="12" >
-                                        <TextBlock.Background>
-                                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                                        </TextBlock.Background>
-                                    </TextBlock>
+                                    <TextBlock Text="{Binding Name}" FontWeight="{Binding FontWeight}"/>
+                                    <TextBlock Text="{Binding Status}" FontStyle="Italic" FontSize="12"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -115,8 +114,11 @@
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel x:Name="ExplorerToolbar" Margin="0" Orientation="Horizontal">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+                </StackPanel.Background>
 
-                <Button x:Name="GoUp_Button" Content="Go Up" HorizontalAlignment="Left" Click="GoUp_Event"/>
+                <Button x:Name="GoUp_Button" Content="Go Up" HorizontalAlignment="Left" Click="GoUp_Event" Background="{x:Null}" BorderBrush="{x:Null}"/>
                 <Button x:Name="CreateLibrary_Button" Content="Create Library" HorizontalAlignment="Left" Click="CreateLibrary_Event"/>
                 <Button x:Name="DeleteLibrary_Button" Content="Delete Library" Click="ContextMenuLibraryList_Event" ContextMenuService.IsEnabled="True" HorizontalContentAlignment="Center" HorizontalAlignment="Left">
                     <Button.ContextMenu>
@@ -164,7 +166,7 @@
                 <StackPanel.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                 </StackPanel.Background>
-                <TextBlock x:Name="customtest" Text="{Binding CurrentPage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" MinWidth="10" MinHeight="50" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock x:Name="customtest" Text="{Binding CurrentPage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" MinWidth="10" MinHeight="50" VerticalAlignment="Center"/>
                 <Button Content="{Binding readingDirection}" x:Name="tbReadingDirection" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="SwitchReadingDirection_Event" Background="Aquamarine" VerticalAlignment="Center" HorizontalAlignment="Left" MinHeight="50"/>
                 <ComboBox x:Name="cbViewModeSwitch" SelectionChanged="SwitchViewingMode_Event" SelectedValuePath="Tag" VerticalAlignment="Center" Height="50" FontSize="22" HorizontalAlignment="Left" MinHeight="50">
                     <ComboBoxItem x:Name="DPdc" Tag="DPdc" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="50" FontSize="22" Content="Double Page (Double cover)"/>
@@ -176,8 +178,13 @@
 
             </StackPanel>
             <Grid Margin="0" VerticalAlignment="Top" Opacity="0.9">
+                <Grid.Effect>
+                    <DropShadowEffect Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" ShadowDepth="2"/>
+                </Grid.Effect>
+
                 <Grid.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                    
                 </Grid.Background>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="95*"/>
