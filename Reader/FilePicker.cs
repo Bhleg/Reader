@@ -63,6 +63,12 @@ namespace Reader
             foreach (string DirectoriePath in DirectoryEntries)
             {
                 string DirectorieName = System.IO.Path.GetFileName(DirectoriePath);
+
+                //ignore .metadate folder
+                if (DirectorieName==".metadata")
+                {
+                    continue;
+                }
                 Items.Add(new Item() { Name = DirectorieName, Path = DirectoriePath, Type = "Folder", Icon = "\uE188" });
             }
 
@@ -98,6 +104,7 @@ namespace Reader
                     else
                     {
                         string FileName = System.IO.Path.GetFileName(FilePath);
+                        
                         Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Status = ReadState, Icon = Char.ConvertFromUtf32(0x1f4d6), FontWeight = Font});
                     }
                     

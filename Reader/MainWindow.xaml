@@ -87,7 +87,7 @@
             </Grid.ColumnDefinitions>
 
 
-            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" VerticalScrollBarVisibility="Disabled" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="True" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" EnableColumnVirtualization="True" ManipulationBoundaryFeedback="OnManipulationBoundaryFeedback" Opacity="0.9" Background="{x:Null}" BorderBrush="{x:Null}" >
+            <DataGrid x:Name="FilePickerT" AutoGenerateColumns="False" GridLinesVisibility="None" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RowHeight="50" SelectedValuePath="{Binding Source=Path}" IsReadOnly="True" SelectionMode="Single" FontSize="20" HeadersVisibility="None" CanUserResizeRows="False" IsHitTestVisible="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="FilePickerT_MouseLeftButtonDown" SelectedItem="{Binding Item}" ScrollViewer.CanContentScroll="False" VirtualizingPanel.ScrollUnit="Pixel" HorizontalScrollBarVisibility="Disabled" ManipulationBoundaryFeedback="OnManipulationBoundaryFeedback" Opacity="0.9" Background="{x:Null}" BorderBrush="{x:Null}" EnableRowVirtualization="False" SnapsToDevicePixels="True" VerticalScrollBarVisibility="Hidden" MinRowHeight="30" >
                 <DataGrid.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.MenuTextColorKey}}"/>
                 </DataGrid.Foreground>
@@ -102,21 +102,21 @@
                 </DataGrid.RowStyle>
 
                 <DataGrid.Columns>
-                    
-                   
+
+
                     <DataGridTemplateColumn Header="Image" Width="SizeToCells" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <Image x:Name="fcThumbnail" Source="{Binding Thumb}" />
-                                    <TextBlock x:Name="fcText" Text="{Binding Icon}" FontFamily="Segoe UI Symbol"/>
+                                    <Image x:Name="fcThumbnail" Source="{Binding Thumb}" Grid.RowSpan="2" />
+                                    <TextBlock x:Name="fcText" Text="{Binding Icon}" FontFamily="Segoe UI Symbol" Grid.RowSpan="2"/>
                                 </Grid>
-                                
-                                
+
+
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                   
+
                     <DataGridTemplateColumn Header="Name" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
