@@ -43,6 +43,19 @@ namespace Reader
         //The Function wich is used to get the content of a folder(Path) and fill the Items list with the content of the folder(Path)
         void GetContent(string Path)
         { 
+            //check if the path is part of a library
+            bool IsLibrary = false;
+            foreach (string sl in LibraryList)
+            {
+
+                if (Path.Contains(sl))
+                {
+                    IsLibrary = true;
+                    break;
+                } 
+             
+            }
+
             Items.Clear();
 
             // Process the list of directory found in the directory.
@@ -57,21 +70,49 @@ namespace Reader
             string[] FileEntries = Directory.GetFiles(Path).Where(s => s.EndsWith(".cbz") || s.EndsWith("cbr") || s.EndsWith("zip") || s.EndsWith("rar") || s.EndsWith("pdf")).ToArray();
             foreach (string FilePath in FileEntries)
             {
+
                 String Font = null;
-                string ReadState = ReadMetadata(FilePath, "ReadState");
-                if (ReadState=="Read") { Font = "Light"; }
-                else { ReadState = "Unread";}
 
-
-                //Check if thumbnail are already present if not create them
-                string Thumb = System.IO.Path.GetDirectoryName(FilePath) + "/.metadata/" + System.IO.Path.GetFileNameWithoutExtension(FilePath) + ".jpg";
-                if (!File.Exists(Thumb))
+                //If the path is part of a library the program should act diferently than a standard path
+                if (IsLibrary)
                 {
-                    CreateThumbnail(FilePath);
+                    //set Read State
+                    string ReadState = ReadMetadata(FilePath, "ReadState");
+                    if (ReadState == "Read") { Font = "Light"; }
+                    else { ReadState = "Unread"; }
+
+                    //the thumbnail part
+                    string Thumb = System.IO.Path.GetDirectoryName(FilePath) + "\\.metadata\\" + System.IO.Path.GetFileNameWithoutExtension(FilePath) + ".jpg";
+                    if (!File.Exists(Thumb))
+                    {
+                        CreateThumbnail(FilePath);
+                    }
+
+                    // If the file exist get the thumbnail
+                    if (File.Exists(Thumb))
+                    {
+                       BitmapImage t = GetThumbFromFile(Thumb);
+                        string FileName = System.IO.Path.GetFileName(FilePath);
+                        Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Status = ReadState, FontWeight = Font, Thumb = t });
+                    }
+                    else
+                    {
+                        string FileName = System.IO.Path.GetFileName(FilePath);
+                        Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Status = ReadState, Icon = Char.ConvertFromUtf32(0x1f4d6), FontWeight = Font});
+                    }
+                    
+                  
+                        
+                    
+
+                }
+                else
+                {
+                    string FileName = System.IO.Path.GetFileName(FilePath);
+                    Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6), FontWeight = Font });
                 }
 
-                string FileName = System.IO.Path.GetFileName(FilePath);
-                Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6), Status = ReadState, FontWeight = Font });
+                
 
             }
 
@@ -255,6 +296,15 @@ namespace Reader
             }
 
         }
+        public BitmapImage GetThumbFromFile(string Filepath)
+        {           
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri("C:"+Filepath);
+            image.EndInit();
+            //image2.Source = image;
+            return image;
+        }
        
 
 
@@ -323,6 +373,8 @@ namespace Reader
             public string Status { get; set; }
 
             public string FontWeight { get; set; }
+
+            public BitmapImage Thumb { get; set; }
         }
 
 

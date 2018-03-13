@@ -22,7 +22,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid x:Name="Reader" Grid.ColumnSpan="3" Grid.RowSpan="3">
+        <Grid x:Name="Reader" Grid.ColumnSpan="3" Grid.RowSpan="3" d:IsHidden="True">
 
 
             <Grid x:Name="ReadingArea" Grid.ColumnSpan="2" Background="#FF939393">
@@ -71,7 +71,7 @@
 
             </Grid>
         </Grid>
-        <Grid x:Name="FilePicker" Grid.Column="1" Grid.Row="1" d:IsHidden="True">
+        <Grid x:Name="FilePicker" Grid.Column="1" Grid.Row="1">
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="3" Opacity="0.9"/>
             </Grid.Effect>
@@ -102,8 +102,21 @@
                 </DataGrid.RowStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Icon" Width="SizeToCells" IsReadOnly="True" CanUserResize="True" Binding="{Binding Icon}" FontFamily="Segoe UI Symbol"/>
-
+                    
+                   
+                    <DataGridTemplateColumn Header="Image" Width="SizeToCells" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Image x:Name="fcThumbnail" Source="{Binding Thumb}" />
+                                    <TextBlock x:Name="fcText" Text="{Binding Icon}" FontFamily="Segoe UI Symbol"/>
+                                </Grid>
+                                
+                                
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                   
                     <DataGridTemplateColumn Header="Name" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -116,14 +129,22 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel x:Name="ExplorerToolbar" Margin="0" Orientation="Horizontal">
-                <StackPanel.Background>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
-                </StackPanel.Background>
-
-                <Button x:Name="GoUp_Button" Content="Go Up" HorizontalAlignment="Left" Click="GoUp_Event" Background="{x:Null}" BorderBrush="{x:Null}"/>
-                <Button x:Name="CreateLibrary_Button" Content="Create Library" HorizontalAlignment="Left" Click="CreateLibrary_Event"/>
-                <Button x:Name="DeleteLibrary_Button" Content="Delete Library" Click="ContextMenuLibraryList_Event" ContextMenuService.IsEnabled="True" HorizontalContentAlignment="Center" HorizontalAlignment="Left">
+            <Grid x:Name="ExplorerToolbar" Margin="0">
+                <Grid.Effect>
+                    <DropShadowEffect ShadowDepth="1" Opacity="0.9" BlurRadius="1"/>
+                </Grid.Effect>
+                <Grid.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="75*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="GoUp_Button" Content="&#xE74A;" Click="GoUp_Event" FontFamily="Segoe MDL2 Assets" Margin="0" FontSize="18" FontWeight="SemiBold"/>
+                <Button x:Name="CreateLibrary_Button" Content="+ Library" Click="CreateLibrary_Event" Margin="0" Grid.Column="1" Padding="5"/>
+                <Button x:Name="DeleteLibrary_Button" Content="- Library" Click="ContextMenuLibraryList_Event" ContextMenuService.IsEnabled="True" HorizontalContentAlignment="Center" Margin="0" Grid.Column="2">
                     <Button.ContextMenu>
                         <ContextMenu >
                             <ContextMenu.ItemTemplate>
@@ -134,10 +155,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-
-
-
-            </StackPanel>
+            </Grid>
 
 
         </Grid>
@@ -187,7 +205,7 @@
 
                 <Grid.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-                    
+
                 </Grid.Background>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="95*"/>

@@ -34,6 +34,7 @@ namespace Reader
         public static Book currentBook = new Book();
         public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
         List<MenuPanelItem> Menu = new List<MenuPanelItem>();
+        public static List<string> LibraryList = new List<string>();
 
         public void MenuPanel()
         {
@@ -52,14 +53,14 @@ namespace Reader
 
         void GenerateLibrary()
         {
-            // BookmarkPanel.Children.Add(new Button { Content = "Button" });
+            LibraryList.Clear();
             if (Properties.Settings.Default.Library != null) // catch null if library is empty
             {
                 foreach (string item in Properties.Settings.Default.Library)
                 {
                     string DirectorieName = System.IO.Path.GetFileName(item);
                     //string Command = "GetContent(" + item + ")";
-
+                    LibraryList.Add(item);
                     Menu.Add(new MenuPanelItem() { Name = DirectorieName, Command = item, Type = "Library", Icon = "\uE1D3" });
                 }
             }
