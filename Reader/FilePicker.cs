@@ -42,11 +42,8 @@ namespace Reader
 
         //The Function wich is used to get the content of a folder(Path) and fill the Items list with the content of the folder(Path)
         void GetContent(string Path)
-        {
-            //List<Item> Items = new List<Item>();
+        { 
             Items.Clear();
-
-
 
             // Process the list of directory found in the directory.
             string[] DirectoryEntries = Directory.GetDirectories(Path);
@@ -64,7 +61,15 @@ namespace Reader
                 string ReadState = ReadMetadata(FilePath, "ReadState");
                 if (ReadState=="Read") { Font = "Light"; }
                 else { ReadState = "Unread";}
-           
+
+
+                //Check if thumbnail are already present if not create them
+                string Thumb = System.IO.Path.GetDirectoryName(FilePath) + "/.metadata/" + System.IO.Path.GetFileNameWithoutExtension(FilePath) + ".jpg";
+                if (!File.Exists(Thumb))
+                {
+                    CreateThumbnail(FilePath);
+                }
+
                 string FileName = System.IO.Path.GetFileName(FilePath);
                 Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Icon = Char.ConvertFromUtf32(0x1f4d6), Status = ReadState, FontWeight = Font });
 
@@ -120,6 +125,7 @@ namespace Reader
             tbReadingDirection.Content = "Current : " + readingDirection;
             
             GC.Collect();
+          //  CreateThumbnail(FilePath);
             ShowReader();
             
             void ArchiveLoader(string Path)
@@ -155,36 +161,101 @@ namespace Reader
 
         }
 
-        void GetCover(string Path)
+        //Get Cover for Book
+        public static Dictionary<int, byte[]> Cover = new Dictionary<int, byte[]>();
+        public void CreateThumbnail(string FilePath, int p = 1)
         {
-            int i = 0;
-            var archive = ArchiveFactory.Open(Path);
-            foreach (var entry in archive.Entries)
+            Dictionary<int, byte[]> Cover = new Dictionary<int, byte[]>();
+            Cover.Clear();
+
+            string type = Path.GetExtension(FilePath).ToLower();
+
+            // use the apropriate function for compressed or pdf file
+            if (System.IO.Path.GetExtension(FilePath) == ".pdf")
             {
-                //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
-                if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
+                //Call the function to load the pdf (not the pages)
+                //the function that load the page is called within the reader.cs
+                //since on a pdf the page is loaded on demand for memory efficiency purpose
+                //  Program.LoadPDF(FilePath);
+                //  currentBook.TotalPages = Program.PDFBook.TotalPage;
+                return;
+            }
+            else
+            {
+                ArchiveLoader(FilePath);
+            }
+
+            BitmapImage a = CreateCover(1);
+
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(a));
+            string cover = Path.GetDirectoryName(FilePath)+"/.metadata/"+ Path.GetFileNameWithoutExtension(FilePath)+".jpg";
+            using (var fileStream = new System.IO.FileStream(cover, System.IO.FileMode.Create))
+            {
+                encoder.Save(fileStream);
+                
+            }
+
+            GC.Collect();
+            
+            void ArchiveLoader(string Path)
+            {
+                int i = 0;
+                var archive = ArchiveFactory.Open(Path);
+                foreach (var entry in archive.Entries)
                 {
-
-                    i++;
-
-                    //SortedOrder.FindIndex(s => s.Equals(entry.ToString()));
-                    using (MemoryStream MemStream = new MemoryStream())
+                    //Check if the entries in the File are : not a directoy AND contain in their name .jpg OR .png
+                    if (!entry.IsDirectory & (entry.Key.ToLower().Contains(".jpg") | entry.Key.ToLower().Contains(".png")))
                     {
-                        entry.WriteTo(MemStream);
-                        MemStream.Seek(0, SeekOrigin.Begin);
-                        byte[] bytes = MemStream.ToArray();
-                        Pages.Add(i, bytes);
-                        bytes = null;
+
+                        i++;
+                        if (i <= 1)
+                        {                          
+                            using (MemoryStream MemStream = new MemoryStream())
+                            {
+                                entry.WriteTo(MemStream);
+                                MemStream.Seek(0, SeekOrigin.Begin);
+                                byte[] bytes = MemStream.ToArray();
+                                Cover.Add(i, bytes);
+                                bytes = null;
+
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+
 
                     }
 
+                }
+                archive = null;
+                
+            }
 
+            BitmapImage CreateCover(int c)
+            {
+
+                using (var memoryStream = new MemoryStream(Cover[c]))
+                using (WrappingStream wrapper = new WrappingStream(memoryStream))
+                {
+                    BitmapImage Image = new BitmapImage();
+                    Image.BeginInit();
+                    Image.StreamSource = wrapper;
+                    Image.CacheOption = BitmapCacheOption.OnLoad;
+                    // Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
+                    Image.DecodePixelWidth = 200;
+                    Image.EndInit();
+                    Image.Freeze();
+                    return Image;
                 }
 
             }
-            archive = null;
-            currentBook.TotalPages = i;
+
         }
+       
 
 
         private void CreateLibrary()
