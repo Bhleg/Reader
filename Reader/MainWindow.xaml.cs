@@ -33,6 +33,7 @@ namespace Reader
 
         public static Book currentBook = new Book();
         public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
+        public static Dictionary<int, String> PagesList = new Dictionary<int, String>();
         List<MenuPanelItem> Menu = new List<MenuPanelItem>();
         public static List<string> LibraryList = new List<string>();
 

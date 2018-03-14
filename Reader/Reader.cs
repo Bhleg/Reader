@@ -355,7 +355,9 @@ namespace Reader
                 Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
                 Image.EndInit();
                 Image.Freeze();
+                
                 return Image;
+                
             }
 
         }
