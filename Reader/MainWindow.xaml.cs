@@ -24,11 +24,12 @@ namespace Reader
         {
             
             InitializeComponent();
-            DataContext = currentBook;
+            
+            
             MenuPanel();
             File_Picker();
             ShowFilePicker();
-
+            
         }
 
         public static Book currentBook = new Book();
