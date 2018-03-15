@@ -11,6 +11,7 @@ using MahApps.Metro.Controls;
 using System.Windows.Controls.Primitives;
 using MupdfSharp;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Reader
 {
@@ -24,9 +25,10 @@ namespace Reader
         {
             //this.DataContext = currentBook;
             InitializeComponent();
-           
+
+           //set datacontext and itemsource
            customtest.DataContext = currentBook;
-           // cPageMini2.ItemsSource = PagesList;
+           cPageMini2.ItemsSource = PagesList;
             
             MenuPanel();
             File_Picker();
@@ -36,8 +38,8 @@ namespace Reader
 
         public static Book currentBook = new Book();
         public static Dictionary<int, byte[]> Pages = new Dictionary<int, byte[]>();
-        public static Dictionary<int, String> PagesList = new Dictionary<int, String>();
-        List<MenuPanelItem> Menu = new List<MenuPanelItem>();
+        public static Dictionary<int, BitmapImage> PagesList = new Dictionary<int, BitmapImage>();
+        static List<MenuPanelItem> Menu = new List<MenuPanelItem>();
         public static List<string> LibraryList = new List<string>();
 
         public void MenuPanel()
@@ -123,6 +125,8 @@ namespace Reader
                 RightPage.HorizontalAlignment = HorizontalAlignment.Left;
                 LeftPage.SetValue(Grid.ColumnProperty, 0);
                 RightPage.SetValue(Grid.ColumnProperty, 1);
+                cPageMini2.FlowDirection = FlowDirection.LeftToRight;
+                tbReadingDirection.Content = "Current : " + "Left to Right";
             }
             else if (t == "RtL")
             {
@@ -132,6 +136,8 @@ namespace Reader
                 RightPage.HorizontalAlignment = HorizontalAlignment.Right;
                 LeftPage.SetValue(Grid.ColumnProperty, 1);
                 RightPage.SetValue(Grid.ColumnProperty, 0);
+                cPageMini2.FlowDirection = FlowDirection.RightToLeft;
+                tbReadingDirection.Content = "Current : " + "Right to Left";
             }
         }
         ////////////////////////////EVENT//////////////////////////////  
@@ -181,7 +187,7 @@ namespace Reader
 
         private void SwitchReadingDirection_Event(object sender, RoutedEventArgs e)
         {
-            if (readingDirection == "Left to Right")
+            if (readingDirection == "LtR")
             {
                 readingDirection = "Right to Left";
                 SetMetadata(currentBook.Path, "ReadDirection", "RtL");
@@ -189,7 +195,7 @@ namespace Reader
             }
             else
             {
-                readingDirection = "Left to Right";
+                readingDirection = "RtL";
                 SetMetadata(currentBook.Path, "ReadwDirection", "LtR");
                 SetDirection("LtR");
             }

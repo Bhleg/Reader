@@ -171,12 +171,31 @@ namespace Reader
 
 
             Viewer("Start");
-            tbReadingDirection.Content = "Current : " + readingDirection;
+            
             
             GC.Collect();
-          //  CreateThumbnail(FilePath);
+          
             ShowReader();
+            PagesList.Clear();
+            GenerateMiniPage();
+            cPageMini2.SelectedItem = 3;
             
+
+
+            void GenerateMiniPage()
+            {
+                int i = 0;
+                foreach (KeyValuePair<int, byte[]> entry in Pages)
+                {
+                    
+                    // do something with entry.Value or entry.Key
+                    PagesList.Add(entry.Key,CreatePage(entry.Key,"Mini"));
+
+                }
+            }
+            
+
+
             void ArchiveLoader(string Path)
             {
                 int i = 0;
@@ -196,9 +215,12 @@ namespace Reader
                             MemStream.Seek(0, SeekOrigin.Begin);
                             byte[] bytes = MemStream.ToArray(); 
                             Pages.Add(i, bytes);
-                            bytes = null;
-                            PagesList.Add(i, "Test");
                             
+
+                           
+                            bytes = null;
+
+
 
                         }
 
@@ -315,6 +337,7 @@ namespace Reader
             //image2.Source = image;
             return image;
         }
+
        
 
 

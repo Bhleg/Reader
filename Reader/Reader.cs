@@ -342,9 +342,18 @@ namespace Reader
             Image = null;
         }
 
-        BitmapImage CreatePage(int p)
+        BitmapImage CreatePage(int p, string t = "Full")
         {
-
+            int i;
+            if (t == "Mini")
+            {
+                
+                i = 100;
+            }
+            else
+            {
+                i = Convert.ToInt32(FilePickerT.ActualWidth);
+            }
             using (var memoryStream = new MemoryStream(Pages[p]))
             using (WrappingStream wrapper = new WrappingStream(memoryStream))
             {
@@ -352,7 +361,7 @@ namespace Reader
                 Image.BeginInit();
                 Image.StreamSource = wrapper;
                 Image.CacheOption = BitmapCacheOption.OnLoad;
-                Image.DecodePixelWidth = Convert.ToInt32(FilePickerT.ActualWidth);
+                Image.DecodePixelWidth = i;
                 Image.EndInit();
                 Image.Freeze();
                 

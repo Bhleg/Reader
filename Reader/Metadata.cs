@@ -58,12 +58,6 @@ namespace Reader
             }
                 
                 
-                          
-
-
-
-            
-
 
         }
         public string ReadMetadata(string path, string propertie)

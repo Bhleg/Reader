@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Reader"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="Reader.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" DataContext="{Binding RelativeSource={RelativeSource Self}}" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" ResizeMode="CanResizeWithGrip" WindowState="Maximized" IsCloseButtonEnabled="False" ShowCloseButton="False">
+        Title="MainWindow" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" ResizeMode="CanResizeWithGrip" WindowState="Maximized" IsCloseButtonEnabled="False" ShowCloseButton="False">
 
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
@@ -206,21 +206,29 @@
 
                 </StackPanel>
 
-                <ItemsControl x:Name="cPageMini2"  Margin="20" Grid.Row="1" ItemsSource="{Binding PagesList}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Value, Mode=OneWay}" Margin="0,0,5,5" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                <ScrollViewer Margin="20" Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
+                    <ListBox x:Name="cPageMini2" ScrollViewer.CanContentScroll="False" SelectedIndex="3">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" ScrollViewer.CanContentScroll="True" CanHorizontallyScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="70">
+                                    <StackPanel>
+                                        <Image Source="{Binding Value}" MaxWidth="70"/>
+                                        <TextBlock Text="{Binding Key}" HorizontalAlignment="Center" FontFamily="Segoe UI Semibold"></TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
 
-                    
 
-                </ItemsControl>
+
+                    </ListBox>
+                </ScrollViewer>
+               
             </Grid>
             <Grid Margin="0" VerticalAlignment="Top" Opacity="0.9">
                 <Grid.Effect>
