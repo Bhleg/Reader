@@ -177,9 +177,15 @@ namespace Reader
           
             ShowReader();
             PagesList.Clear();
-            GenerateMiniPage();
-            cPageMini2.SelectedItem = 3;
+            cPageMini2.ItemsSource = null;
             
+            GenerateMiniPage();
+            cPageMini2.ItemsSource = PagesList;
+            cPageMini2.UpdateLayout();
+            cPageMini2.SelectedIndex = 3;
+            
+
+
 
 
             void GenerateMiniPage()

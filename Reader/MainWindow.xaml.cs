@@ -28,7 +28,7 @@ namespace Reader
 
            //set datacontext and itemsource
            customtest.DataContext = currentBook;
-           cPageMini2.ItemsSource = PagesList;
+           
             
             MenuPanel();
             File_Picker();
@@ -189,17 +189,17 @@ namespace Reader
         {
             if (readingDirection == "LtR")
             {
-                readingDirection = "Right to Left";
+                readingDirection = "RtL";
                 SetMetadata(currentBook.Path, "ReadDirection", "RtL");
                 SetDirection("RtL");
             }
             else
             {
-                readingDirection = "RtL";
+                readingDirection = "LtR";
                 SetMetadata(currentBook.Path, "ReadwDirection", "LtR");
                 SetDirection("LtR");
             }
-            tbReadingDirection.Content = "Current : "+readingDirection;           
+            //tbReadingDirection.Content = "Current : "+readingDirection;           
             //Viewer("Start", currentBook.CurrentPage);
         }
 
