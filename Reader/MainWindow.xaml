@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:Reader"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow1" x:Class="Reader.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" DataContext="{Binding MainWindow}" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" ResizeMode="CanResizeWithGrip" WindowState="Maximized" IsCloseButtonEnabled="False" ShowCloseButton="False">
+        Title="MainWindow" DataContext="{Binding RelativeSource={RelativeSource Self}}" ShowTitleBar="False" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" WindowStyle="None" ResizeMode="CanResizeWithGrip" WindowState="Maximized" IsCloseButtonEnabled="False" ShowCloseButton="False">
 
     <Grid Grid.IsSharedSizeScope="True">
         <Grid.RowDefinitions>
@@ -194,7 +194,7 @@
                     <StackPanel.Background>
                         <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                     </StackPanel.Background>
-                    <TextBlock x:Name="customtest" DataContext="{Binding currentBook}" Text="{Binding CurrentPage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" MinWidth="10" MinHeight="50" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="customtest"  Text="{Binding CurrentPage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" MinWidth="10" MinHeight="50" VerticalAlignment="Center" DataContext="{Binding currentBook, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
                     <Button Content="{Binding readingDirection}" x:Name="tbReadingDirection" Margin="0,0,0,0" HorizontalContentAlignment="Center" Click="SwitchReadingDirection_Event" Background="Aquamarine" VerticalAlignment="Center" HorizontalAlignment="Left" MinHeight="50"/>
                     <ComboBox x:Name="cbViewModeSwitch" SelectionChanged="SwitchViewingMode_Event" SelectedValuePath="Tag" VerticalAlignment="Center" Height="50" FontSize="22" HorizontalAlignment="Left" MinHeight="50">
                         <ComboBoxItem x:Name="DPdc" Tag="DPdc" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="50" FontSize="22" Content="Double Page (Double cover)"/>
@@ -206,7 +206,7 @@
 
                 </StackPanel>
 
-                <ItemsControl x:Name="cPageMini2"  Margin="20" Grid.Row="1" ItemsSource="{Binding Path=PagesList, Mode=OneWay}">
+                <ItemsControl x:Name="cPageMini2"  Margin="20" Grid.Row="1" ItemsSource="{Binding PagesList}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />
@@ -214,7 +214,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Text, Mode=OneWay}" Margin="0,0,5,5" />
+                            <TextBlock Text="{Binding Value, Mode=OneWay}" Margin="0,0,5,5" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 

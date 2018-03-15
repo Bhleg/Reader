@@ -99,8 +99,7 @@ namespace Reader
                     {
                        BitmapImage t = GetThumbFromFile(Thumb);
                         string FileName = System.IO.Path.GetFileName(FilePath);
-                        cPageMini2.Items.Add(t);
-                        
+                       
                         Items.Add(new Item() { Name = FileName, Path = FilePath, Type = "File", Status = ReadState, FontWeight = Font, Thumb = t });
                     }
                     else

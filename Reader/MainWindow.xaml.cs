@@ -22,9 +22,11 @@ namespace Reader
         
         public MainWindow()
         {
-            
+            //this.DataContext = currentBook;
             InitializeComponent();
-            
+           
+           customtest.DataContext = currentBook;
+           // cPageMini2.ItemsSource = PagesList;
             
             MenuPanel();
             File_Picker();
