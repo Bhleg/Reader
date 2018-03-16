@@ -117,6 +117,7 @@
     <Compile Include="PDF\Program.cs" />
     <Compile Include="PDF\Structures.cs" />
     <Compile Include="Reader.cs" />
+    <Compile Include="ScrollCenter.cs" />
     <Compile Include="SettingView.cs" />
     <Compile Include="StreamWrapperClass.cs" />
     <Page Include="MainWindow.xaml">

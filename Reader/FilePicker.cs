@@ -182,8 +182,9 @@ namespace Reader
             GenerateMiniPage();
             cPageMini2.ItemsSource = PagesList;
             cPageMini2.UpdateLayout();
-            cPageMini2.SelectedIndex = 3;
-            
+            cPageMini2.SelectedIndex = 12;
+            //ScrollToCenterOfView(cPageMini2.SelectedItem);
+
 
 
 
