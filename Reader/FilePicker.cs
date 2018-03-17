@@ -183,7 +183,7 @@ namespace Reader
             cPageMini2.ItemsSource = PagesList;
             cPageMini2.UpdateLayout();
             cPageMini2.SelectedIndex = 12;
-            //ScrollToCenterOfView(cPageMini2.SelectedItem);
+            cPageMini2.ScrollToCenterOfView(cPageMini2.SelectedIndex);
 
 
 

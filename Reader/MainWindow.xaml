@@ -206,7 +206,7 @@
 
                 </StackPanel>
 
-                <ScrollViewer Margin="20" Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
+                <ScrollViewer x:Name="cScroll" Margin="20" Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
                     <ListBox x:Name="cPageMini2" ScrollViewer.CanContentScroll="False" SelectionMode="Multiple">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
